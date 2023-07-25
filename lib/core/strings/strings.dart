@@ -1,0 +1,1 @@
+const String LOGIN_TEXT = 'تسجيل دخول';

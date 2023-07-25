@@ -1,16 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:store_app/core/constance.dart';
-import 'package:store_app/splash_view.dart';
 
 import 'core/layouts/theme/app_theme.dart';
 import 'core/network/local/cache_helper.dart';
 import 'core/routes.dart';
 import 'core/strings/routes.dart';
-import 'features/home/presentation/views/home_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   await CacheHelper.init();
   //
   String initialRoute;
