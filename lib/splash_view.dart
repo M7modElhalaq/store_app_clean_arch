@@ -59,7 +59,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                 height: 150,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("images/globe.png"),
+                    image: AssetImage("images/RRR-SPLASH.png"),
                     fit: BoxFit.cover,
                   ),
                 ),

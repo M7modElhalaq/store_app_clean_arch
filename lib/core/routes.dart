@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/core/strings/routes.dart';
+import 'package:store_app/features/auth/presentation/views/otp_view.dart';
 import 'package:store_app/features/home/presentation/views/home_view.dart';
 
 import '../features/auth/presentation/views/login_view.dart';

@@ -23,10 +23,10 @@ void main() async {
   if (splash == null) {
     initialRoute = Routes.SPLASH_VIEW;
   } else {
-    if(uId != null) {
-      initialRoute = Routes.HOME_VIEW;
-    } else {
+    if(uId == null || uId == '') {
       initialRoute = Routes.LOGIN_VIEW;
+    } else {
+      initialRoute = Routes.HOME_VIEW;
     }
   }
 
