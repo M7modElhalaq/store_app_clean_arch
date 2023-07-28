@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:store_app/core/layouts/style.dart';
 import 'package:store_app/core/widgets/custom_widget.dart';
 
@@ -15,34 +14,33 @@ class OtpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: backgroundColor,
-          actions: [IconButton(
-            onPressed: (){
-              Navigator.pop(context);
-            },
-            icon:Icon(Icons.arrow_forward_ios),
-            //replace with our own icon data.
-          ),]
-      ),
+          automaticallyImplyLeading: false,
+          backgroundColor: backgroundColor,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_forward_ios),
+              //replace with our own icon data.
+            ),
+          ]),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               width: 130,
               height: 180,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("images/otp_image.png"),
                   fit: BoxFit.fill,
                 ),
               ),
             ),
-            SizedBoxWidget(
-              higth: 24
-            ),
+            SizedBoxWidget(higth: 24),
             RichTextWidget(
               text: OTP_TEXT1,
               textChildren: <TextSpan>[
@@ -60,10 +58,9 @@ class OtpView extends StatelessWidget {
                     color: defaultAppColor,
                   ),
                 ),
-              ],),
-            SizedBoxWidget(
-              higth: 48
+              ],
             ),
+            SizedBoxWidget(higth: 48),
             OtpTextField(
               mainAxisAlignment: MainAxisAlignment.center,
               numberOfFields: 4,
@@ -74,11 +71,11 @@ class OtpView extends StatelessWidget {
             ),
             SizedBoxWidget(higth: 48),
             TextButtonWidget(
-                buttonWidth: double.infinity,
-                onPressed: () {
-                  // Navigator.pushNamed(context, Routes.OTP_VIEW);
-                },
-                text: OTP_BUTTON_TEXT,
+              buttonWidth: double.infinity,
+              onPressed: () {
+                // Navigator.pushNamed(context, Routes.OTP_VIEW);
+              },
+              text: OTP_BUTTON_TEXT,
             ),
           ],
         ),
