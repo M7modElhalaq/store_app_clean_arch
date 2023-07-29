@@ -1,39 +1,27 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:store_app/core/constance.dart';
-import 'package:store_app/features/main_app/presentation/manager/drawer_cubit.dart';
+import 'package:store_app/features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:store_app/features/auth/presentation/bloc/auth/auth_event.dart';
+import 'features/auth/presentation/bloc/login/login_bloc.dart';
+import 'features/main_app/presentation/manager/drawer_cubit.dart';
+import 'firebase_options.dart';
+import 'package:flutter/material.dart';
 
 import 'core/layouts/theme/app_theme.dart';
-import 'core/network/local/cache_helper.dart';
 import 'core/routes.dart';
 import 'core/strings/routes.dart';
-import 'firebase_options.dart';
+
+import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await CacheHelper.init();
-  //
-  String initialRoute;
-  //
-  var splash = CacheHelper.getData(key: 'splash');
-  uId = CacheHelper.getData(key: 'UID');
-  if (splash == null) {
-    initialRoute = Routes.SPLASH_VIEW;
-  } else {
-    if (uId == null || uId == '') {
-      initialRoute = Routes.MAIN_APP_VIEW;
-    } else {
-      initialRoute = Routes.HOME_VIEW;
-    }
-  }
-
   runApp(MyApp(
-    initialRoute: initialRoute,
+    initialRoute: Routes.LOGIN_VIEW,
   ));
 }
 
@@ -44,15 +32,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DrawerCubit(),
-      child: MaterialApp(
-        title: 'Store App',
-        debugShowCheckedModeBanner: false,
-        theme: appTheme,
-        routes: routes(),
-        initialRoute: initialRoute,
-      ),
-    );
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+              create: (_) => di.sl<AuthBloc>()..add(CheckAuthEvent())),
+          BlocProvider(
+              create: (_) => di.sl<LoginBloc>()),
+        ],
+        child: MaterialApp(
+          title: 'Store App',
+          debugShowCheckedModeBanner: false,
+          theme: appTheme,
+          home: Scaffold(),
+          routes: routes(),
+          initialRoute: initialRoute,
+        ));
   }
 }

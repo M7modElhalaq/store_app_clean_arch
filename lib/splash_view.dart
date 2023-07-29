@@ -25,17 +25,12 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _savaData();
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushReplacementNamed(
         context,
-        Routes.HOME_VIEW
+        Routes.LOGIN_VIEW
       );
     });
-  }
-
-  void _savaData() async {
-    await CacheHelper.saveData(key: 'splash', value: true);
   }
 
   @override
