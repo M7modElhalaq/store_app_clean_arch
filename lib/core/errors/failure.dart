@@ -32,6 +32,12 @@ class NotRegisteredFailure extends Failure{
   List<Object?> get props => [];
 }
 
+class SendVerifyCodeFailure extends Failure{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
 class NotVerifiedFailure extends Failure{
   @override
   // TODO: implement props

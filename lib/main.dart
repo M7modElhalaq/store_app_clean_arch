@@ -21,7 +21,7 @@ void main() async {
   );
 
   runApp(MyApp(
-    initialRoute: Routes.LOGIN_VIEW,
+    initialRoute: Routes.SPLASH_VIEW,
   ));
 }
 

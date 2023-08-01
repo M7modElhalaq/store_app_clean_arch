@@ -16,12 +16,11 @@ class CheckCustomerAccountEvent extends LoginEvent{
 }
 
 class VerifyPhoneNumberEvent extends LoginEvent{
-  final bool account;
   final int phoneNumber;
 
-  VerifyPhoneNumberEvent({required this.account, required this.phoneNumber});
+  VerifyPhoneNumberEvent({required this.phoneNumber});
 
-  List<Object?> get props => [account, phoneNumber];
+  List<Object?> get props => [phoneNumber];
 }
 
 class RegisterNewCustomerEvent extends LoginEvent{

@@ -27,6 +27,7 @@ class LocalDataSourceImpl implements LocalDataSource {
       profileImage: customer.profileImage ?? '',
       dateOfBirth: customer.dateOfBirth ?? '',
       gender: customer.gender ?? '',
+      idNumber: customer.idNumber ?? 0,
       lang: customer.lang ?? '',
       token: customer.token ?? '',
     );
@@ -38,11 +39,12 @@ class LocalDataSourceImpl implements LocalDataSource {
 
   @override
   Future<CustomerModel> getCachedCustomer() {
+    sharedPreferences.remove(CACHED_CUSTOMER);
     final jsonString = sharedPreferences.getString(CACHED_CUSTOMER);
 
     if(jsonString != null) {
-      CustomerModel customer = json.decode(jsonString);
-      return Future.value(customer);
+      CustomerModel jsonToCustomerModel = CustomerModel.fromJson(json.decode(jsonString));
+      return Future.value(jsonToCustomerModel);
     } else {
       throw EmptyCacheException();
     }

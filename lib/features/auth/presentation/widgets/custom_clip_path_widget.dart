@@ -19,7 +19,7 @@ class CustomClipPathWidget extends StatelessWidget {
           opacity: 0.6,
           child: SafeArea(
             child: Image.asset(
-              'images/hand.png',
+              'assets/images/hand.png',
               scale: 2.5,
             ),
           ),

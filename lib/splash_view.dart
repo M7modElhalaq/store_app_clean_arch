@@ -25,7 +25,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(
         context,
         Routes.LOGIN_VIEW
@@ -54,7 +54,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                 height: 150,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("images/RRR-SPLASH.png"),
+                    image: AssetImage("assets/images/RRR-SPLASH.png"),
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -5,6 +5,7 @@ class Customer extends Equatable {
   final String email;
   final int phoneNumber;
   final String profileImage;
+  final int idNumber;
   final String dateOfBirth;
   final String gender;
   final String lang;
@@ -14,6 +15,7 @@ class Customer extends Equatable {
     required this.name,
     required this.email,
     required this.phoneNumber,
+    required this.idNumber,
     required this.profileImage,
     required this.dateOfBirth,
     required this.gender,
@@ -27,6 +29,7 @@ class Customer extends Equatable {
         email,
         phoneNumber,
         profileImage,
+        idNumber,
         dateOfBirth,
         gender,
         lang,

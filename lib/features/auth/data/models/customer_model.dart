@@ -6,6 +6,7 @@ class CustomerModel extends Customer {
     required super.email,
     required super.phoneNumber,
     required super.profileImage,
+    required super.idNumber,
     required super.dateOfBirth,
     required super.gender,
     required super.lang,
@@ -16,12 +17,13 @@ class CustomerModel extends Customer {
     return CustomerModel(
       name: json['name'],
       email: json['email'],
-      phoneNumber: json['phoneNumber'],
-      profileImage: json['profileImage'],
-      dateOfBirth: json['dateOfBirth'],
-      gender: json['gender'],
-      lang: json['lang'],
-      token: json['token'],
+      phoneNumber: json['phone_number'] ?? 0,
+      profileImage: json['profile_image'] ?? '',
+      idNumber: json['id_number'] ?? 0,
+      dateOfBirth: json['date_of_birth'] ?? '',
+      gender: json['gender'] ?? '',
+      lang: json['lang'] ?? '',
+      token: json['token'] ?? '',
     );
   }
 
@@ -31,6 +33,7 @@ class CustomerModel extends Customer {
       'email': email,
       'phoneNumber': phoneNumber,
       'profileImage': profileImage,
+      'idNumber': idNumber,
       'dateOfBirth': dateOfBirth,
       'gender': gender,
       'lang': lang,

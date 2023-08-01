@@ -36,9 +36,15 @@ class CustomerRepoImpl implements CustomerRep {
       try {
         CustomerModel customer = await remoteDataSource.login(phoneNumber);
         localDataSource.cacheCustomer(customer);
+        String verifiyId = await remoteDataSource.verifyPhone(phoneNumber);
+        print(verifiyId);
         return Right(customer);
       } on NotRegisteredException {
+        print('NotRegisteredException');
+        String verifiyId = await remoteDataSource.verifyPhone(phoneNumber);
         return Left(NotRegisteredFailure());
+      } on ServerException {
+        return Left(ServerFailure());
       }
     } else {
       return Left(OfflineFailure());
@@ -46,13 +52,13 @@ class CustomerRepoImpl implements CustomerRep {
   }
 
   @override
-  Future<Either<Failure, Unit>> verifyPhone(int phoneNumber) async {
+  Future<Either<Failure, String>> verifyPhone(int phoneNumber) async {
     if (await networkInfo.isConnected) {
       try {
-        await remoteDataSource.verifyPhone(phoneNumber);
-        return Right(unit);
-      } on NotVerifiedException {
-        return Left(NotVerifiedFailure());
+        String verifyId = await remoteDataSource.verifyPhone(phoneNumber);
+        return Right(verifyId);
+      } catch(e) {
+        return Left(SendVerifyCodeFailure());
       }
     } else {
       return Left(OfflineFailure());
@@ -67,6 +73,7 @@ class CustomerRepoImpl implements CustomerRep {
       phoneNumber: customer.phoneNumber,
       profileImage: customer.profileImage ?? '',
       dateOfBirth: customer.dateOfBirth ?? '',
+      idNumber: customer.idNumber ?? 0,
       gender: customer.gender ?? '',
       lang: customer.lang ?? '',
       token: customer.token ?? '',

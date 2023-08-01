@@ -23,14 +23,13 @@ Future<void> init() async {
 // Bloc
 
   sl.registerFactory(() => AuthBloc(checkAuth: sl()));
-  sl.registerFactory(() => LoginBloc(login: sl(), verifyPhone: sl(), register: sl()));
+  sl.registerFactory(() => LoginBloc(login: sl(), register: sl()));
 
 // Usecases
 
   sl.registerLazySingleton(() => CheckAuthUseCase(sl()));
 
   sl.registerLazySingleton(() => LoginUseCase(sl()));
-  sl.registerLazySingleton(() => VerifyPhoneUseCase(sl()));
   sl.registerLazySingleton(() => RegisterProfileUseCase(sl()));
 
 // Repository

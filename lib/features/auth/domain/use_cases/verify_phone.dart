@@ -9,7 +9,7 @@ class VerifyPhoneUseCase {
 
   VerifyPhoneUseCase(this.repo);
 
-  Future<Either<Failure, Unit>> call(int phoneNumber) async {
+  Future<Either<Failure, String>> call(int phoneNumber) async {
   return await repo.verifyPhone(phoneNumber);
   }
 }
