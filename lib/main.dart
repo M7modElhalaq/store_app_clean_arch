@@ -38,6 +38,8 @@ class MyApp extends StatelessWidget {
               create: (_) => di.sl<AuthBloc>()..add(CheckAuthEvent())),
           BlocProvider(
               create: (_) => di.sl<LoginBloc>()),
+          BlocProvider(
+              create: (_) => di.sl<DrawerCubit>()),
         ],
         child: MaterialApp(
           title: 'Store App',
