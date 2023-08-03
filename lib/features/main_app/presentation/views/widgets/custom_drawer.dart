@@ -10,7 +10,10 @@ class CustomDrawer extends StatelessWidget {
     return const Drawer(
       child: SingleChildScrollView(
         child: Column(
-          children: [HeaderDrawer(), CustomDrawerList()],
+          children: [
+            HeaderDrawer(),
+            CustomDrawerList(),
+          ],
         ),
       ),
     );

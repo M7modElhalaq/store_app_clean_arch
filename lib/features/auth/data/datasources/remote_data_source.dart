@@ -46,7 +46,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     String? verifyId;
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '+970 599-187-654',
+        phoneNumber: phoneNumber.toString().trim(),
         verificationCompleted: (PhoneAuthCredential credential) {},
         verificationFailed: (e) {
           throw Exception(e.message);

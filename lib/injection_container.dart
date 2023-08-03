@@ -14,6 +14,7 @@ import 'features/auth/domain/repos/customer_reps.dart';
 import 'features/auth/domain/use_cases/login.dart';
 import 'features/auth/domain/use_cases/register_profile.dart';
 import 'features/auth/presentation/bloc/login/login_bloc.dart';
+import 'features/main_app/presentation/manager/drawer_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -24,6 +25,7 @@ Future<void> init() async {
 
   sl.registerFactory(() => AuthBloc(checkAuth: sl()));
   sl.registerFactory(() => LoginBloc(login: sl(), register: sl()));
+  sl.registerFactory(() => DrawerCubit());
 
 // Usecases
 

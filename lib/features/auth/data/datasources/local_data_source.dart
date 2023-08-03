@@ -39,7 +39,7 @@ class LocalDataSourceImpl implements LocalDataSource {
 
   @override
   Future<CustomerModel> getCachedCustomer() {
-    sharedPreferences.remove(CACHED_CUSTOMER);
+    // sharedPreferences.remove(CACHED_CUSTOMER);
     final jsonString = sharedPreferences.getString(CACHED_CUSTOMER);
 
     if(jsonString != null) {
