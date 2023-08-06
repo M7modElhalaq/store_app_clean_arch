@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/features/main_app/presentation/manager/drawer_cubit.dart';
 
 class DrawerItem extends StatelessWidget {
@@ -21,7 +22,7 @@ class DrawerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: selected ? Colors.grey.shade300 : Colors.transparent,
+      color: selected ? ManagerColors.grey : Colors.transparent,
       child: InkWell(
         onTap: () async {
           Navigator.pop(context);
@@ -43,13 +44,13 @@ class DrawerItem extends StatelessWidget {
                   child: Icon(
                 icon,
                 size: 20,
-                color: Colors.black,
+                color: ManagerColors.white,
               )),
               Expanded(
                   flex: 4,
                   child: Text(
                     title,
-                    style: const TextStyle(fontSize: 15.0, color: Colors.black),
+                    style: TextStyle(fontSize: 15.0, color: ManagerColors.white),
                   )),
               Expanded(
                   flex: 1,

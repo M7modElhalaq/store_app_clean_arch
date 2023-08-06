@@ -13,5 +13,10 @@ class ManagerWidth {
   static const double w40 = 40;
   static const double w60 = 60;
   static const double w100 = 100;
+  static const double w110 = 110;
+  static const double w120 = 120;
+  static const double w140 = 140;
+  static const double w150 = 150;
+  static const double w180 = 180;
   static const double w200 = 200;
 }

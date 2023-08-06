@@ -10,9 +10,14 @@ import 'package:store_app/core/resources/manager_height.dart';
 import 'package:store_app/core/resources/manager_icon_sizes.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
+import 'package:store_app/core/strings/routes.dart';
+import 'package:store_app/features/cart/presentation/views/cart_view.dart';
+import 'package:store_app/features/favourites/presentation/views/favorites_view.dart';
 import 'package:store_app/features/home/presentation/views/home_view.dart';
 import 'package:store_app/features/main_app/presentation/manager/drawer_cubit.dart';
 import 'package:store_app/features/main_app/presentation/views/widgets/custom_drawer.dart';
+import 'package:store_app/features/profile/presentation/views/profile_view.dart';
+import 'package:store_app/features/shopping_bag/presentation/views/shopping_bag_view.dart';
 
 class MainAppView extends StatefulWidget {
   const MainAppView({super.key});
@@ -22,23 +27,83 @@ class MainAppView extends StatefulWidget {
 }
 
 class _MainAppViewState extends State<MainAppView> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
+
   int _selectedIndex = 0;
+
+  List<Widget> _pages = [
+    HomeView(),
+    FavouritesView(),
+    CartView(),
+    ShoppingBagView(),
+    ProfileView()
+  ];
+
+  List<String> _pagesTitles = [
+    'أهلا وسهلا',
+    'المفضلة',
+    'سلة المشتريات',
+    'طلباتي',
+    'حسابي',
+  ];
 
   @override
   Widget build(BuildContext context) {
-    Widget body = const HomeView();
+    Widget body = HomeView();
 
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(
-        title: const Text('ss'),
+        elevation: Constance.appBarElevation,
+        backgroundColor: ManagerColors.white,
+        leading: Padding(
+          padding: const EdgeInsetsDirectional.only(start: ManagerWidth.w20),
+          child: IconButton(
+            icon: Stack(
+              children: [
+                const HeroIcon(
+                  HeroIcons.bellAlert,
+                ),
+                Positioned(
+                  // draw a red marble
+                  top: 0.0,
+                  right: 0.0,
+                  child: Container(
+                    height: ManagerHeights.h8,
+                    width: ManagerWidth.w8,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: ManagerColors.red,
+                      borderRadius: BorderRadius.circular(ManagerRadius.r12),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            onPressed: () {},
+          ),
+        ),
+        title: Center(
+          child: Text(_pagesTitles[_selectedIndex]),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsetsDirectional.only(end: ManagerWidth.w20),
+            child: InkWell(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: const HeroIcon(
+                HeroIcons.listBullet,
+              ),
+            ),
+          )
+        ],
       ),
       body: BlocBuilder<DrawerCubit, DrawerState>(
         builder: (context, state) {
           if (state is DrawerNavigated) {
             return body;
           }
-          return const HomeView();
+          return _pages[_selectedIndex];
         },
       ),
       bottomNavigationBar: Container(

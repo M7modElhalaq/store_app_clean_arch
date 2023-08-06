@@ -29,4 +29,10 @@ class ManagerStrings {
   static const String hintTextDayOfBirth = 'ادخل تاريخ ميلادك';
 
   static const String genderLabel = 'إختر الجنس';
+
+  static const String searchHint = 'ابحث عن قمصان, تيشرتات...';
+
+  static const String sliderTitle = 'عروض دمار لارخص الأسعار';
+  static const String sliderSubTitle = 'حملة تخفيضات الصيف';
+
 }

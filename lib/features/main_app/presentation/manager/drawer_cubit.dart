@@ -13,7 +13,7 @@ class DrawerCubit extends Cubit<DrawerState> {
   void navigateToScreen({required DrawerSections screen}) {
     currentSection = screen;
     if (screen == DrawerSections.home) {
-      emit(DrawerNavigated(const HomeView()));
+      emit(DrawerNavigated(HomeView()));
     } else if (screen == DrawerSections.login) {
       emit(DrawerNavigated(const LoginView()));
     }

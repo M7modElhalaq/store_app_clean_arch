@@ -17,7 +17,7 @@ Map<String, Widget Function(BuildContext)> routes() {
     Routes.LOGIN_VIEW: (context) => const LoginView(),
     // Routes.COMPLETE_PROFILE_VIEW: (context) => CompleteProfileView(phoneNumber: null,),
     Routes.MAIN_APP_VIEW: (context) => const MainAppView(),
-    Routes.HOME_VIEW: (context) => const HomeView(),
+    Routes.HOME_VIEW: (context) => HomeView(),
     Routes.FAVOURITES_VIEW: (context) => const FavouritesView(),
     Routes.CART_VIEW: (context) => const CartView(),
     Routes.SHOPPINGBAG_VIEW: (context) => const ShoppingBagView(),

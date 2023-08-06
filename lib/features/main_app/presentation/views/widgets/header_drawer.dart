@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/core/layouts/style.dart';
+import 'package:store_app/core/resources/manager_colors.dart';
 
 class HeaderDrawer extends StatelessWidget {
   const HeaderDrawer({Key? key}) : super(key: key);
@@ -7,7 +8,7 @@ class HeaderDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Ink(
-      decoration: const BoxDecoration(color: defaultAppColor),
+      decoration: BoxDecoration(color: ManagerColors.drawerBackgroundColor,),
       child: InkWell(
         onTap: () {},
         child: Container(
