@@ -10,6 +10,8 @@ TextFormField textFormField({
   String? hintText,
   double? hintFontSize,
   Widget? prefixIcon,
+  void Function()? onTap,
+  bool readOnly = false,
   String? Function(String?)? validator
 }) {
   return TextFormField(
@@ -18,6 +20,8 @@ TextFormField textFormField({
     ),
     controller: controller,
     validator: validator,
+    onTap: onTap,
+    readOnly: readOnly,
     decoration: InputDecoration(
       prefixIcon: prefixIcon ?? HeroIcon(
         HeroIcons.user,

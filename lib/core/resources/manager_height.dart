@@ -7,8 +7,10 @@ class ManagerHeights {
   static const double h12 = 12;
   static const double h16 = 16;
   static const double h24 = 24;
+  static const double h20 = 20;
   static const double h30 = 30;
   static const double h35 = 35;
+  static const double h36 = 36;
   static const double h40 = 40;
   static const double h50 = 50;
   static const double h60 = 60;
@@ -16,6 +18,9 @@ class ManagerHeights {
   static const double h70 = 70;
   static const double h75 = 75;
   static const double h80 = 80;
+  static const double h85 = 85;
+  static const double h90 = 90;
+  static const double h95 = 95;
   static const double h100 = 100;
   static const double h110 = 110;
   static const double h120 = 120;
@@ -23,5 +28,7 @@ class ManagerHeights {
   static const double h180 = 180;
   static const double h200 = 200;
   static const double h220 = 220;
+  static const double h222 = 222;
+  static const double h230 = 230;
   static const double h240 = 240;
 }

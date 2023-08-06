@@ -3,4 +3,8 @@ class ManagerAssets {
   static const String celebrationImage = 'assets/images/celebration.png';
 
   static const String sliderImage1 = 'assets/images/slider/slider1.png';
+
+  static const String productImage = 'assets/images/products/product-1.png';
+  static const String productFlame = 'assets/images/products/flame.png';
+  static const String productStar = 'assets/images/products/star.png';
 }

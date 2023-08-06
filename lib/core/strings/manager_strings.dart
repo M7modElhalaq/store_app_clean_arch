@@ -35,4 +35,10 @@ class ManagerStrings {
   static const String sliderTitle = 'عروض دمار لارخص الأسعار';
   static const String sliderSubTitle = 'حملة تخفيضات الصيف';
 
+  static const String trend = 'تريند';
+  static const String newProduct = 'جديد';
+  static const String soon = 'قريبا';
+
+  static const String productTitle = 'حذاء رياضي';
+  static const String productCategory = 'كاب';
 }

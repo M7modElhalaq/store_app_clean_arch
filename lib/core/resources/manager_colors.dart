@@ -10,6 +10,10 @@ class ManagerColors {
   static Color iconsColor = const Color(0xFF909090);
   static Color drawerBackgroundColor = const Color(0xFF474340);
   static Color sliderBackgroundColor = const Color(0xFFB6853C);
+  static Color productImageBackgroundColor = const Color(0x7FF4DDC7);
+  static Color discountColor = const Color(0xFFCE2621);
+  static Color newProductColor = const Color(0xFF00AE3B);
+  static Color yellow = const Color(0xFFFFF500);
   static Color brown200 = Colors.brown.shade300;
   static Color transparent = Colors.transparent;
   static Color white70 = Colors.white70;
