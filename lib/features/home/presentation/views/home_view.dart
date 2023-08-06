@@ -203,9 +203,9 @@ class _HomeViewState extends State<HomeView> {
               GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                      mainAxisExtent: 230,
+                      mainAxisExtent: 222,
                     mainAxisSpacing: 10,
-                    crossAxisSpacing: 5,
+                    crossAxisSpacing: 10,
                   ),
                   itemCount: 20,
                   shrinkWrap: true,
