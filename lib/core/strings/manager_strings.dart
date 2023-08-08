@@ -14,6 +14,8 @@ class ManagerStrings {
   static const String male = 'ذكر';
   static const String female = 'إنثي';
 
+  static const String phoneNumberLabel = 'رقم الهاتف';
+
   static const String userNameLabel = 'اسمك';
   static const String hintTextUserName = 'ادخل اسمك';
   static const String usernameValidationMessage = 'الاسم مطلوب';
@@ -30,6 +32,7 @@ class ManagerStrings {
 
   static const String genderLabel = 'إختر الجنس';
 
+  static const String homePageTitle = 'أهلا وسهلا';
   static const String searchHint = 'ابحث عن قمصان, تيشرتات...';
 
   static const String sliderTitle = 'عروض دمار لارخص الأسعار';
@@ -41,4 +44,12 @@ class ManagerStrings {
 
   static const String productTitle = 'حذاء رياضي';
   static const String productCategory = 'كاب';
+
+  static const String profilePageTitle = 'حسابي';
+  static const String profilePersonalInfoPageTitle = 'الصفحة الشخصية';
+  static const String profileShareApp = 'مشاركة التطبيق';
+  static const String profileSupport = 'الدعم الفني';
+  static const String profileSettings = 'الإعدادات';
+  static const String profileLogout = 'تسجل خروج';
+  static const String profileDeleteAccount = 'حذف الحساب';
 }

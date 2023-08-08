@@ -10,4 +10,5 @@ class ManagerRadius {
   static const double r30 = 30;
   static const double r50 = 50;
   static const double r64 = 64;
+  static const double r80 = 80;
 }

@@ -1,20 +1,16 @@
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:store_app/core/errors/failure.dart';
 import 'package:store_app/core/strings/failures.dart';
-import 'package:store_app/core/strings/messages.dart';
 import 'package:store_app/core/strings/routes.dart';
 import 'package:store_app/core/widgets/navigate_push.dart';
-import 'package:store_app/core/widgets/navigator_push_name_widget.dart';
 import 'package:store_app/features/auth/domain/entities/customer.dart';
 import 'package:store_app/features/auth/domain/use_cases/login.dart';
 import 'package:store_app/features/auth/domain/use_cases/register_profile.dart';
-import 'package:store_app/features/auth/domain/use_cases/verify_phone.dart';
 import 'package:store_app/features/auth/presentation/views/otp_view.dart';
 
-import '../../views/complete_profile_view.dart';
+import '../../../../../core/views/complete_profile_view.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
@@ -154,7 +150,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
           // navigatePushNameWidget(route: Routes.MAIN_APP_VIEW, context: context);
           emit(VerifyPhoneNumberSuccessState());
         } else {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => CompleteProfileView(

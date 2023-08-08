@@ -53,51 +53,6 @@ class _MainAppViewState extends State<MainAppView> {
 
     return Scaffold(
       drawer: const CustomDrawer(),
-      appBar: AppBar(
-        elevation: Constance.appBarElevation,
-        backgroundColor: ManagerColors.white,
-        leading: Padding(
-          padding: const EdgeInsetsDirectional.only(start: ManagerWidth.w20),
-          child: IconButton(
-            icon: Stack(
-              children: [
-                const HeroIcon(
-                  HeroIcons.bellAlert,
-                ),
-                Positioned(
-                  // draw a red marble
-                  top: 0.0,
-                  right: 0.0,
-                  child: Container(
-                    height: ManagerHeights.h8,
-                    width: ManagerWidth.w8,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: ManagerColors.red,
-                      borderRadius: BorderRadius.circular(ManagerRadius.r12),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            onPressed: () {},
-          ),
-        ),
-        title: Center(
-          child: Text(_pagesTitles[_selectedIndex]),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsetsDirectional.only(end: ManagerWidth.w20),
-            child: InkWell(
-              onTap: () => Scaffold.of(context).openDrawer(),
-              child: const HeroIcon(
-                HeroIcons.listBullet,
-              ),
-            ),
-          )
-        ],
-      ),
       body: BlocBuilder<DrawerCubit, DrawerState>(
         builder: (context, state) {
           if (state is DrawerNavigated) {
@@ -124,6 +79,7 @@ class _MainAppViewState extends State<MainAppView> {
               // elevation: Constance.appBarElevation,
               showSelectedLabels: false,
               showUnselectedLabels: false,
+
               unselectedIconTheme: IconThemeData(
                 color: ManagerColors.iconsColor,
                 size: ManagerIconSizes.s30,

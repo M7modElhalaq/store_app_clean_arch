@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:store_app/core/layouts/style.dart';
-import 'package:store_app/core/strings/routes.dart';
 import 'package:store_app/core/widgets/custom_widget.dart';
 import 'package:store_app/core/widgets/loading_widget.dart';
-import 'package:store_app/core/widgets/navigator_push_name_widget.dart';
 import 'package:store_app/core/widgets/welcome_back_widget.dart';
 import 'package:store_app/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:store_app/features/auth/presentation/bloc/login/login_state.dart';
-import 'package:store_app/features/auth/presentation/views/complete_profile_view.dart';
 
 import '../../../../core/strings/strings.dart';
-import '../../../../core/widgets/alert_dialog_widget.dart';
 import '../../../../core/widgets/text_button_widget.dart';
 import '../widgets/rich_text_widget.dart';
 
@@ -35,11 +31,11 @@ class OtpView extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginStates>(
       builder: (context, state) {
         if (state is LoginLoadingState) {
-          return Scaffold(
+          return const Scaffold(
             body: LoadingWidget(),
           );
         } else if (state is VerifyPhoneNumberSuccessState) {
-          return WelcomeBackWidget();
+          return const WelcomeBackWidget();
         } else {
           return Scaffold(
             appBar: AppBar(

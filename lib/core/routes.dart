@@ -7,7 +7,7 @@ import 'package:store_app/features/main_app/presentation/views/main_app_view.dar
 import 'package:store_app/features/profile/presentation/views/profile_view.dart';
 import 'package:store_app/features/shopping_bag/presentation/views/shopping_bag_view.dart';
 
-import '../features/auth/presentation/views/complete_profile_view.dart';
+import 'views/complete_profile_view.dart';
 import '../features/auth/presentation/views/login_view.dart';
 import '../splash_view.dart';
 

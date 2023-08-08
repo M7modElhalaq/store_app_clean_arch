@@ -3,7 +3,6 @@ import 'package:heroicons/heroicons.dart';
 import 'package:store_app/core/resources/manager_font_sizes.dart';
 
 import '../resources/manager_colors.dart';
-import '../resources/manager_strings.dart';
 
 TextFormField textFormField({
   required TextEditingController controller,
