@@ -6,4 +6,4 @@ class AuthEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class CheckAuthEvent extends AuthEvent{}
+// class CheckAuthEvent extends AuthEvent{}

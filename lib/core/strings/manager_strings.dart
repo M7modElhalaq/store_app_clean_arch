@@ -1,6 +1,11 @@
 class ManagerStrings {
   static const String completeProfileAppBarTitle = 'إكمال بيانات الملف الشخصي';
 
+  static const String nullValue = 'لا يوجد بيانات';
+  static const String confirmLogoutDialogMessage = 'هل أنت متاكد من انك تريد تسجيل الخروج؟';
+  static const String confirmLogout = 'نعم متأكد؟';
+  static const String cancel = 'الغاء';
+
   static const String congrats = 'تهانيا';
   static const String greatJob = 'لقد قمت بعمل رائع';
   static const String dataSaved = 'تمت حفظ البيانات بنجاح';
@@ -45,6 +50,9 @@ class ManagerStrings {
   static const String productTitle = 'حذاء رياضي';
   static const String productCategory = 'كاب';
 
+  static const String completeProfileUpdateSuccess = 'تم تعديل الحساب بنجاح';
+  static const String completeProfileUpdateFailed = 'فشلت عملية التعديل';
+
   static const String profilePageTitle = 'حسابي';
   static const String profilePersonalInfoPageTitle = 'الصفحة الشخصية';
   static const String profileShareApp = 'مشاركة التطبيق';
@@ -52,4 +60,7 @@ class ManagerStrings {
   static const String profileSettings = 'الإعدادات';
   static const String profileLogout = 'تسجل خروج';
   static const String profileDeleteAccount = 'حذف الحساب';
+
+  static const String supportSheetTopText = 'يمكنكم التواصل معنا عبر وسائل التواصل الاجتماعي او ارقام الهاتف';
+  static const String supportSheetBottomText = 'يتم الرد على استفساراتكم عبر منصات التواصل الاجتماعي في مواعيد العمل الرسمية بمعدل رد اقل من ساعة';
 }

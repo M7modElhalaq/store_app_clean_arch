@@ -12,6 +12,17 @@ class LoginInitialState extends LoginStates {}
 
 class LoginLoadingState extends LoginStates {}
 
+// Check Auth
+class AuthSuccessState extends LoginStates {}
+
+class AuthFailedState extends LoginStates {
+  final String message;
+
+  AuthFailedState({required this.message});
+
+  List<Object?> get props => [message];
+}
+
 // Check if customer already registered
 
 class CheckCustomerAccountState extends LoginStates {}
@@ -55,5 +66,14 @@ class RegisterAccountErrorState extends LoginStates {
   final String message;
 
   RegisterAccountErrorState({required this.message});
+  List<Object?> get props => [message];
+}
+
+class UpdateAccountSuccessState extends LoginStates {}
+
+class UpdateAccountErrorState extends LoginStates {
+  final String message;
+
+  UpdateAccountErrorState({required this.message});
   List<Object?> get props => [message];
 }

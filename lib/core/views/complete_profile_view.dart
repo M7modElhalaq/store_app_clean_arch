@@ -11,6 +11,7 @@ import 'package:store_app/core/resources/manager_width.dart';
 import 'package:store_app/core/strings/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 import 'package:store_app/core/widgets/failed_widget.dart';
+import 'package:store_app/core/widgets/helpers.dart';
 import 'package:store_app/core/widgets/loading_widget.dart';
 import 'package:store_app/core/widgets/profile_avatar_image_widget.dart';
 import 'package:store_app/core/widgets/profile_text_form_field_widget.dart';
@@ -29,14 +30,14 @@ import '../../features/auth/presentation/bloc/login/login_state.dart';
 
 class CompleteProfileView extends StatefulWidget {
   final int phoneNumber;
-
-  CompleteProfileView({Key? key, required this.phoneNumber}) : super(key: key);
+  bool isUpdate;
+  CompleteProfileView({Key? key, required this.phoneNumber, this.isUpdate = false,}) : super(key: key);
 
   @override
   State<CompleteProfileView> createState() => _CompleteProfileViewState();
 }
 
-class _CompleteProfileViewState extends State<CompleteProfileView> {
+class _CompleteProfileViewState extends State<CompleteProfileView> with Helpers {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController userNameController = TextEditingController();
@@ -44,11 +45,26 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
   TextEditingController idController = TextEditingController();
   TextEditingController dayOfBirthController = TextEditingController();
 
-  String gender = "";
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginStates>(builder: (context, state) {
+      String gender = "";
+      if(widget.isUpdate) {
+        var customer = BlocProvider.of<LoginBloc>(context).customer;
+        gender = customer!.gender == 'Male' ? 'male' : 'female';
+        if(customer.name != '') {
+          userNameController.text = customer.name;
+        }
+        if(customer.email != '') {
+          emailController.text = customer.email;
+        }
+        if(customer.idNumber != 0) {
+          idController.text = customer.idNumber.toString();
+        }
+        if(customer.dateOfBirth != '') {
+          dayOfBirthController.text = customer.dateOfBirth;
+        }
+      }
       if (state is LoginLoadingState) {
         return const Scaffold(
           body: LoadingWidget(),
@@ -58,11 +74,6 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
           body: successWidget(),
         );
       }
-      // else if(state is RegisterAccountErrorState) {
-      //   return Scaffold(
-      //     body: failedWidget(),
-      //   );
-      // }
       return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -232,6 +243,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                                     color: ManagerColors.grey,
                                   ),
                                   onChanged: (value) {
+                                    print(value);
                                     setState(() {
                                       gender = value.toString();
                                     });
@@ -246,6 +258,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                                   color: ManagerColors.grey,
                                 ),
                                 onChanged: (value) {
+                                  print(value);
                                   setState(() {
                                     gender = value.toString();
                                   });
@@ -258,19 +271,43 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                         textButtonWidget(
                             buttonWidth: double.infinity,
                             text: ManagerStrings.save,
-                            onPressed: () {
-                              print('Save Profile Data: ${widget.phoneNumber}');
-                              if (_formKey.currentState!.validate()) {
-                                BlocProvider.of<LoginBloc>(context)
-                                    .registerCustomer(
-                                  phoneNumber: widget.phoneNumber!,
-                                  profileImage: '',
-                                  userName: userNameController.text,
-                                  email: emailController.text,
-                                  idNumber: int.parse(idController.text) ?? 0,
-                                  dayOfBirth: dayOfBirthController.text,
-                                  gender: gender,
-                                );
+                            onPressed: () async {
+                              if(widget.isUpdate) {
+                                print('Update Profile Data: ${widget.phoneNumber}');
+                                if (_formKey.currentState!.validate()) {
+                                  bool update = await BlocProvider.of<LoginBloc>(context)
+                                      .updateCustomer(
+                                    context,
+                                    phoneNumber: widget.phoneNumber!,
+                                    profileImage: '',
+                                    userName: userNameController.text,
+                                    email: emailController.text,
+                                    idNumber: idController.text != '' ? int.parse(idController.text) : 0,
+                                    dayOfBirth: dayOfBirthController.text,
+                                    gender: gender,
+                                  );
+
+                                  if(update) {
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProfilePersonalInfoView()),);
+                                    showSnackBar(context: context, message: ManagerStrings.completeProfileUpdateSuccess);
+                                  } else {
+                                    showSnackBar(context: context, message: ManagerStrings.completeProfileUpdateFailed, error: true);
+                                  }
+                                }
+                              } else {
+                                print('Register Profile Data: ${widget.phoneNumber}');
+                                if (_formKey.currentState!.validate()) {
+                                  BlocProvider.of<LoginBloc>(context)
+                                      .registerCustomer(
+                                    phoneNumber: widget.phoneNumber!,
+                                    profileImage: '',
+                                    userName: userNameController.text,
+                                    email: emailController.text,
+                                    idNumber: int.parse(idController.text),
+                                    dayOfBirth: dayOfBirthController.text,
+                                    gender: gender,
+                                  );
+                                }
                               }
                             }),
                       ],

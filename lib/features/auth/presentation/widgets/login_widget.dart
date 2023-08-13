@@ -108,43 +108,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 context,
                                 phoneNumber!,
                               );
-                              // if (state is CheckCustomerAccountSuccessState) {
-                              //   print('CheckCustomerAccountSuccessState');
-                              //   navigatePushWidget(
-                              //     context: context,
-                              //     otpView: OtpView(
-                              //       phoneNumber: phoneNumber!,
-                              //       isRegistered: true,
-                              //     ),
-                              //   );
-                              // } else {
-                              //   print('CheckCustomerAccountError');
-                              //   navigatePushWidget(
-                              //     context: context,
-                              //     otpView: OtpView(
-                              //       phoneNumber: phoneNumber!,
-                              //       isRegistered: false,
-                              //     ),
-                              //   );
-                              //   Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //       builder: (context) => OtpView(
-                              //         phoneNumber: phoneNumber!,
-                              //         isRegistered: false,
-                              //       ),
-                              //     ),
-                              //   );
-                              // }
-                              // print('Phone Number: $phoneNumber');
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => OtpView(
-                              //       phoneNumber: phoneNumber!,
-                              //     ),
-                              //   ),
-                              // );
                             }),
                       ],
                     ),

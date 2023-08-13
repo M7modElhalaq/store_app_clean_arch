@@ -8,8 +8,8 @@ import 'package:store_app/features/auth/data/models/customer_model.dart';
 
 abstract class LocalDataSource {
   Future<CustomerModel> getCachedCustomer();
-
   Future<Unit> cacheCustomer(CustomerModel customer);
+  Future<Unit> clearCache();
 }
 
 const String CACHED_CUSTOMER = "CACHED_CUSTOMER";
@@ -20,6 +20,8 @@ class LocalDataSourceImpl implements LocalDataSource {
   LocalDataSourceImpl({required this.sharedPreferences});
   @override
   Future<Unit> cacheCustomer(CustomerModel customer) {
+    // print('From Local Cache');
+    // print(customer);
     CustomerModel customerModelToJson = CustomerModel(
       name: customer.name,
       email: customer.email,
@@ -32,6 +34,9 @@ class LocalDataSourceImpl implements LocalDataSource {
       token: customer.token ?? '',
     );
 
+    // print('From Local Cache');
+    // print(customerModelToJson);
+
     sharedPreferences.setString(CACHED_CUSTOMER, json.encode(customerModelToJson));
 
     return Future.value(unit);
@@ -39,12 +44,23 @@ class LocalDataSourceImpl implements LocalDataSource {
 
   @override
   Future<CustomerModel> getCachedCustomer() {
-    // sharedPreferences.remove(CACHED_CUSTOMER);
     final jsonString = sharedPreferences.getString(CACHED_CUSTOMER);
 
     if(jsonString != null) {
       CustomerModel jsonToCustomerModel = CustomerModel.fromJson(json.decode(jsonString));
       return Future.value(jsonToCustomerModel);
+    } else {
+      throw EmptyCacheException();
+    }
+  }
+
+  Future<Unit> clearCache() {
+    final jsonString = sharedPreferences.getString(CACHED_CUSTOMER);
+
+    if(jsonString != null) {
+      print('Remove');
+      sharedPreferences.remove(CACHED_CUSTOMER);
+      return Future.value(unit);
     } else {
       throw EmptyCacheException();
     }

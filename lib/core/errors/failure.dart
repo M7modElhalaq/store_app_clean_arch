@@ -49,3 +49,9 @@ class RegisterFailure extends Failure{
   // TODO: implement props
   List<Object?> get props => [];
 }
+
+class UpdateProfileFailure extends Failure{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/core/constance.dart';
 import 'package:store_app/core/widgets/text_button_widget.dart';
 
 import '../../features/main_app/presentation/views/main_app_view.dart';
@@ -21,7 +22,7 @@ class _WelcomeBackWidgetState extends State<WelcomeBackWidget> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: Constance.welcomeMessageTime), () {
       navigatePushWidget(
         context,
         materialPageRoute: MaterialPageRoute(

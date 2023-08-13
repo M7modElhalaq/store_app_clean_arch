@@ -15,7 +15,7 @@ class ProfileAvatarImageWidget extends StatelessWidget {
     return CircleAvatar(
       radius: radius ?? ManagerRadius.r64,
       backgroundColor: ManagerColors.white,
-      backgroundImage: AssetImage(image ?? ManagerAssets.defaultProfileImage),
+      backgroundImage: NetworkImage(image ?? ManagerAssets.defaultProfileNetworkImage),
     );
   }
 }

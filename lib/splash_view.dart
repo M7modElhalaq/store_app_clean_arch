@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_app/core/strings/routes.dart';
 import 'package:store_app/features/home/presentation/views/home_view.dart';
 
 import 'core/network/local/cache_helper.dart';
+import 'features/auth/presentation/bloc/login/login_bloc.dart';
+import 'features/auth/presentation/bloc/login/login_state.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -26,10 +29,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(
-        context,
-        Routes.LOGIN_VIEW
-      );
+      Navigator.pushReplacementNamed(context, Routes.LOGIN_VIEW);
     });
   }
 

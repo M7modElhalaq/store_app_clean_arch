@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
-VerticalDivider verticalDivider() {
-  return const VerticalDivider(
-    thickness: 0.15,
+VerticalDivider verticalDivider({
+  double? thickness,
+  Color? color,
+}) {
+  return VerticalDivider(
+    thickness: thickness ?? 0.15,
     indent: 0,
     endIndent: 0,
-    color: Colors.grey,
+    color: color ?? Colors.grey,
   );
 }

@@ -13,3 +13,5 @@ class SendVerifyCodeException implements Exception {}
 class NotVerifiedException implements Exception {}
 
 class RegisterException implements Exception {}
+
+class UpdateProfileException implements Exception {}

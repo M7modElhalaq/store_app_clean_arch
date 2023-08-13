@@ -9,7 +9,7 @@ class CheckAuthUseCase {
 
   CheckAuthUseCase(this.repo);
 
-  Future<Either<Failure, Unit>> call() async {
+  Future<Either<Failure, Customer>> call() async {
     return await repo.checkAuth();
   }
 }

@@ -6,6 +6,8 @@ import 'package:store_app/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:store_app/features/auth/presentation/widgets/login_widget.dart';
 import 'package:store_app/features/main_app/presentation/views/main_app_view.dart';
 import '../bloc/auth/auth_state.dart';
+import '../bloc/login/login_bloc.dart';
+import '../bloc/login/login_state.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -30,7 +32,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Widget _buildApp() {
-    return BlocBuilder<AuthBloc, AuthStates>(
+    return BlocBuilder<LoginBloc, LoginStates>(
       builder: (context, state) {
         if(state is AuthLoadingState) {
           print('AuthLoadingState');

@@ -10,12 +10,12 @@ class AuthInitialState extends AuthStates {}
 
 class AuthLoadingState extends AuthStates {}
 
-class AuthSuccessState extends AuthStates {}
-
-class AuthFailedState extends AuthStates {
-  final String message;
-
-  AuthFailedState({required this.message});
-
-  List<Object?> get props => [message];
-}
+// class AuthSuccessState extends AuthStates {}
+//
+// class AuthFailedState extends AuthStates {
+//   final String message;
+//
+//   AuthFailedState({required this.message});
+//
+//   List<Object?> get props => [message];
+// }

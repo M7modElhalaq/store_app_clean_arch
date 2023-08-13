@@ -2,20 +2,31 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:store_app/core/errors/failure.dart';
+import 'package:store_app/core/extensions/dartz_x.dart';
 import 'package:store_app/core/strings/failures.dart';
 import 'package:store_app/core/strings/routes.dart';
 import 'package:store_app/core/widgets/navigate_push.dart';
 import 'package:store_app/features/auth/domain/entities/customer.dart';
 import 'package:store_app/features/auth/domain/use_cases/login.dart';
+import 'package:store_app/features/auth/domain/use_cases/logout.dart';
 import 'package:store_app/features/auth/domain/use_cases/register_profile.dart';
+import 'package:store_app/features/auth/domain/use_cases/update_profile.dart';
+import 'package:store_app/features/auth/presentation/views/login_view.dart';
 import 'package:store_app/features/auth/presentation/views/otp_view.dart';
+import 'package:store_app/features/profile/presentation/views/profile_personal_info_view.dart';
 
 import '../../../../../core/views/complete_profile_view.dart';
+import '../../../domain/use_cases/check_auth.dart';
+import '../auth/auth_event.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginStates> {
   final LoginUseCase login;
+  final CheckAuthUseCase checkAuth;
+  final UpdateProfileUseCase updateProfile;
+  final LogoutUseCase logoutUseCase;
+  Customer? customer;
 
   // final VerifyPhoneUseCase verifyPhone;
   final RegisterProfileUseCase register;
@@ -25,9 +36,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
     required this.login,
     // required this.verifyPhone,
     required this.register,
+    required this.checkAuth,
+    required this.updateProfile,
+    required this.logoutUseCase,
   }) : super(LoginInitialState()) {
     on<LoginEvent>((event, emit) async {
-      if (event is CheckCustomerAccountEvent) {
+      if (event is CheckAuthEvent) {
+        emit(LoginLoadingState());
+        final auth = await checkAuth();
+        auth.fold(
+          (failure) {
+            emit(AuthFailedState(message: _mapFailureToMessage(failure)));
+          },
+          (cust) {
+            customer = cust;
+            emit(AuthSuccessState());
+          },
+        );
+      } else if (event is CheckCustomerAccountEvent) {
         emit(LoginLoadingState());
         print('LoginLoadingState');
         final checkAccount = await login(event.phoneNumber);
@@ -36,8 +62,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
             emit(CheckCustomerAccountErrorState(
                 message: _mapFailureToMessage(failure)));
           },
-          (customer) {
-            emit(CheckCustomerAccountSuccessState(customer: customer));
+          (cust) {
+            customer = cust;
+            emit(CheckCustomerAccountSuccessState(customer: cust));
           },
         );
       } else if (event is VerifyPhoneNumberEvent) {
@@ -60,7 +87,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
             emit(RegisterAccountErrorState(
                 message: _mapFailureToMessage(failure)));
           },
-          (customer) {
+          (cust) {
+            customer = cust;
             emit(RegisterAccountSuccessState());
           },
         );
@@ -90,18 +118,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
   }
 
   void signInWithPhone(BuildContext context, String phoneNumber) async {
-    emit(LoginLoadingState());
+    // emit(LoginLoadingState());
     final checkAccount = await login(int.parse(phoneNumber));
     print('Phone Number: $phoneNumber');
     await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phoneNumber.trim(),
+      phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) {},
       verificationFailed: (e) {
-        print(e.message);
+        print('verificationFailed');
+        navigatePushWidget(
+          context,
+          materialPageRoute: MaterialPageRoute(
+            builder: (context) => LoginView(),
+          ),
+        );
       },
       codeSent: (String verificationId, int? resendToken) async {
         // emit(CheckCustomerAccountErrorState(message: 'Not Registered'));
         checkAccount.fold((failure) {
+          print('Not Registered');
           navigatePushWidget(
             context,
             materialPageRoute: MaterialPageRoute(
@@ -113,18 +148,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
           );
           emit(CheckCustomerAccountErrorState(
               message: _mapFailureToMessage(failure)));
-        }, (customer) {
-          navigatePushWidget(
-            context,
-            materialPageRoute: MaterialPageRoute(
-              builder: (context) => OtpView(
+        }, (cust) {
+          print('Registered');
+          customer = cust;
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OtpView(
                   phoneNumber: phoneNumber,
                   isRegistered: true,
-                  verificationId: verificationId),
-            ),
-          );
+                  verificationId: verificationId,
+                ),
+              ));
 
-          emit(CheckCustomerAccountSuccessState(customer: customer));
+          emit(CheckCustomerAccountSuccessState(customer: cust));
         });
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
@@ -171,6 +208,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
     }
   }
 
+
+
   void registerCustomer({
     required int phoneNumber,
     String? profileImage,
@@ -205,5 +244,58 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
         emit(RegisterAccountSuccessState());
       },
     );
+  }
+
+  Future<bool> updateCustomer(
+      BuildContext context,
+      {
+    required int phoneNumber,
+    String? profileImage,
+    String? userName,
+    String? email,
+    int? idNumber,
+    String? dayOfBirth,
+    String? gender,
+  }) async {
+    Customer customer = Customer(
+      name: userName ?? '',
+      email: email ?? '',
+      phoneNumber: phoneNumber,
+      idNumber: idNumber ?? 0,
+      profileImage: profileImage ?? '',
+      dateOfBirth: dayOfBirth ?? '',
+      gender: gender ?? '',
+      lang: 'ar',
+      token: '',
+    );
+
+    emit(LoginLoadingState());
+    final verify = await updateProfile(customer);
+    bool success = false;
+    verify.fold(
+          (failure) {
+        print(failure);
+        emit(UpdateAccountErrorState(message: _mapFailureToMessage(failure)));
+        success = false;
+      },
+          (cust) {
+            this.customer = cust;
+        emit(UpdateAccountSuccessState());
+            success = true;
+      },
+    );
+    return success;
+  }
+
+  void logout(BuildContext context) async {
+    print('Logout From Bloc');
+    final logout = await logoutUseCase();
+    print(logout);
+    logout.fold((l) {
+      print('failed');
+    }, (r) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView()));
+      emit(AuthFailedState(message: 'تم تسجيل الخروج بنجاح'));
+    });
   }
 }

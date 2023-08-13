@@ -4,12 +4,12 @@ import 'package:store_app/core/errors/failure.dart';
 import '../entities/customer.dart';
 import '../repos/customer_reps.dart';
 
-class RegisterProfileUseCase {
+class LogoutUseCase {
   final CustomerRep repo;
 
-  RegisterProfileUseCase(this.repo);
+  LogoutUseCase(this.repo);
 
-  Future<Either<Failure, Customer>> call(Customer customer) async {
-    return await repo.register(customer);
+  Future<Either<Failure, Unit>> call() async {
+    return await repo.logout();
   }
 }
