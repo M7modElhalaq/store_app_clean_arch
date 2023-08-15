@@ -3,11 +3,14 @@ import 'package:heroicons/heroicons.dart';
 import 'package:store_app/core/constance.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_height.dart';
+import 'package:store_app/core/resources/manager_icon_sizes.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
 import 'package:store_app/core/strings/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 import 'package:store_app/core/widgets/product_widget.dart';
+import 'package:store_app/features/home/presentation/views/widgets/products_types_bar.dart';
+import 'package:store_app/features/home/presentation/views/widgets/search_text_field.dart';
 import '../../../../core/resources/manager_font_sizes.dart';
 
 import 'widgets/slider_widget.dart';
@@ -23,7 +26,6 @@ class _HomeViewState extends State<HomeView> {
   TextEditingController searchController = TextEditingController();
   late PageController _pageController;
   int _initialPage = 0;
-  int _productTypeIndex = 0;
 
   @override
   void initState() {
@@ -70,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
             onPressed: () {},
           ),
         ),
-        title: Center(
+        title: const Center(
           child: Text(ManagerStrings.homePageTitle),
         ),
         actions: [
@@ -97,29 +99,8 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               children: [
                 // Search Text Field
-                TextFormField(
-                  style: TextStyle(
-                    color: ManagerColors.black,
-                  ),
+                SearchTextField(
                   controller: searchController,
-                  decoration: InputDecoration(
-                    prefixIcon: HeroIcon(
-                      HeroIcons.magnifyingGlass,
-                      color: ManagerColors.iconsColor,
-                    ),
-                    hintText: ManagerStrings.searchHint,
-                    hintStyle: TextStyle(
-                      color: ManagerColors.grey,
-                      fontSize: ManagerFontSizes.s14,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: ManagerColors.primaryColor),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: ManagerColors.borderColor),
-                      borderRadius: BorderRadius.circular(ManagerRadius.r30),
-                    ),
-                  ),
                 ),
                 const SizedBox(
                   height: ManagerHeights.h24,
@@ -150,99 +131,7 @@ class _HomeViewState extends State<HomeView> {
                 const SizedBox(
                   height: ManagerHeights.h24,
                 ),
-                Container(
-                  height: ManagerHeights.h50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(ManagerRadius.r20),
-                    border: Border.all(
-                      color: ManagerColors.borderColor,
-                      width: 1,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 90,
-                        alignment: Alignment.center,
-                        decoration: ShapeDecoration(
-                          color: _productTypeIndex == 0
-                              ? ManagerColors.primaryColor
-                              : ManagerColors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(35),
-                          ),
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              _productTypeIndex = 0;
-                            });
-                          },
-                          child: baseText(
-                            name: 'العروض',
-                            color: _productTypeIndex == 0
-                                ? ManagerColors.white
-                                : ManagerColors.textColor,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        width: 90,
-                        alignment: Alignment.center,
-                        decoration: ShapeDecoration(
-                          color: _productTypeIndex == 1
-                              ? ManagerColors.primaryColor
-                              : ManagerColors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(35),
-                          ),
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              _productTypeIndex = 1;
-                            });
-                          },
-                          child: baseText(
-                            name: 'الأكثر مبيعا',
-                            color: _productTypeIndex == 1
-                                ? ManagerColors.white
-                                : ManagerColors.textColor,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        width: 90,
-                        alignment: Alignment.center,
-                        decoration: ShapeDecoration(
-                          color: _productTypeIndex == 2
-                              ? ManagerColors.primaryColor
-                              : ManagerColors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(35),
-                          ),
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              _productTypeIndex = 2;
-                            });
-                          },
-                          child: baseText(
-                            name: 'وصل حديثا',
-                            color: _productTypeIndex == 2
-                                ? ManagerColors.white
-                                : ManagerColors.textColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                ProductsTypesBar(),
                 // Products
                 const SizedBox(
                   height: ManagerHeights.h24,
