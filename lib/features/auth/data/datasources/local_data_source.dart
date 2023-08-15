@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:store_app/core/constance.dart';
 import 'package:store_app/core/errors/exceptions.dart';
 import 'package:store_app/core/errors/failure.dart';
 import 'package:store_app/features/auth/data/models/customer_model.dart';
@@ -11,8 +12,6 @@ abstract class LocalDataSource {
   Future<Unit> cacheCustomer(CustomerModel customer);
   Future<Unit> clearCache();
 }
-
-const String CACHED_CUSTOMER = "CACHED_CUSTOMER";
 
 class LocalDataSourceImpl implements LocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -37,14 +36,14 @@ class LocalDataSourceImpl implements LocalDataSource {
     // print('From Local Cache');
     // print(customerModelToJson);
 
-    sharedPreferences.setString(CACHED_CUSTOMER, json.encode(customerModelToJson));
+    sharedPreferences.setString(Constance.CACHED_CUSTOMER, json.encode(customerModelToJson));
 
     return Future.value(unit);
   }
 
   @override
   Future<CustomerModel> getCachedCustomer() {
-    final jsonString = sharedPreferences.getString(CACHED_CUSTOMER);
+    final jsonString = sharedPreferences.getString(Constance.CACHED_CUSTOMER);
 
     if(jsonString != null) {
       CustomerModel jsonToCustomerModel = CustomerModel.fromJson(json.decode(jsonString));
@@ -55,11 +54,11 @@ class LocalDataSourceImpl implements LocalDataSource {
   }
 
   Future<Unit> clearCache() {
-    final jsonString = sharedPreferences.getString(CACHED_CUSTOMER);
+    final jsonString = sharedPreferences.getString(Constance.CACHED_CUSTOMER);
 
     if(jsonString != null) {
       print('Remove');
-      sharedPreferences.remove(CACHED_CUSTOMER);
+      sharedPreferences.remove(Constance.CACHED_CUSTOMER);
       return Future.value(unit);
     } else {
       throw EmptyCacheException();

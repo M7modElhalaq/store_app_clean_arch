@@ -15,3 +15,7 @@ class NotVerifiedException implements Exception {}
 class RegisterException implements Exception {}
 
 class UpdateProfileException implements Exception {}
+
+class EmptyCacheProductException implements Exception {}
+
+class NoProductException implements Exception {}

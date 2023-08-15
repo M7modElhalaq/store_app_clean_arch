@@ -55,3 +55,15 @@ class UpdateProfileFailure extends Failure{
   // TODO: implement props
   List<Object?> get props => [];
 }
+
+class EmptyCacheProductFailure extends Failure{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class NoProductFailure extends Failure{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
