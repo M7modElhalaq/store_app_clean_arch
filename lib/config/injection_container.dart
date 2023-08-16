@@ -4,9 +4,12 @@ import 'package:store_app/features/auth/data/repos/customer_repo_impl.dart';
 import 'package:store_app/features/auth/domain/use_cases/check_auth.dart';
 import 'package:store_app/features/auth/domain/use_cases/logout.dart';
 import 'package:store_app/features/auth/domain/use_cases/update_profile.dart';
-import 'package:store_app/features/auth/domain/use_cases/verify_phone.dart';
-import 'package:store_app/features/auth/presentation/bloc/auth/auth_bloc.dart';
-import 'package:store_app/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:store_app/features/home/data/datasources/product_local_data_source.dart';
+import 'package:store_app/features/home/data/datasources/product_remote_data_source.dart';
+import 'package:store_app/features/home/data/repos/product_repo_impl.dart';
+import 'package:store_app/features/home/domain/repos/product_repo.dart';
+import 'package:store_app/features/home/domain/use_cases/get_products.dart';
+import 'package:store_app/features/home/presentation/bloc/product/product_bloc.dart';
 
 import '../core/network/network_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,14 +28,21 @@ Future<void> init() async {
 //! Features - posts
 
 // Bloc
-  sl.registerFactory(() => LoginBloc(
-        login: sl(),
-        register: sl(),
-        checkAuth: sl(),
-        updateProfile: sl(),
-        logoutUseCase: sl(),
-      ));
+  sl.registerFactory(
+    () => LoginBloc(
+      login: sl(),
+      register: sl(),
+      checkAuth: sl(),
+      updateProfile: sl(),
+      logoutUseCase: sl(),
+    ),
+  );
   sl.registerFactory(() => DrawerCubit());
+  sl.registerFactory(
+    () => ProductBloc(
+      getProducts: sl(),
+    ),
+  );
 
 // Usecases
 
@@ -43,9 +53,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateProfileUseCase(sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
 
+  sl.registerLazySingleton(() => GetProductsUseCase(sl()));
+
 // Repository
 
   sl.registerLazySingleton<CustomerRep>(() => CustomerRepoImpl(
+      remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
+
+  sl.registerLazySingleton<ProductRepo>(() => ProductRepoImp(
       remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
 
 // Datasources
@@ -54,6 +69,9 @@ Future<void> init() async {
   sl.registerLazySingleton<LocalDataSource>(
       () => LocalDataSourceImpl(sharedPreferences: sl()));
 
+  sl.registerLazySingleton<ProductRemoteDataSource>(() => ProductRemoteDataSourceImpl());
+  sl.registerLazySingleton<ProductLocalDataSource>(
+          () => ProductLocalDataSourceImpl(sharedPreferences: sl()));
 //! Core
 
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

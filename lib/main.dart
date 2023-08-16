@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_app/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:store_app/features/auth/presentation/bloc/auth/auth_event.dart';
+import 'package:store_app/features/home/presentation/bloc/product/product_bloc.dart';
+import 'package:store_app/features/home/presentation/bloc/product/product_event.dart';
 import 'features/auth/presentation/bloc/login/login_bloc.dart';
 import 'features/auth/presentation/bloc/login/login_event.dart';
 import 'features/main_app/presentation/manager/drawer_cubit.dart';
@@ -39,6 +41,8 @@ class MyApp extends StatelessWidget {
               create: (_) => di.sl<LoginBloc>()..add(CheckAuthEvent())),
           BlocProvider(
               create: (_) => di.sl<DrawerCubit>()),
+          BlocProvider(
+              create: (_) => di.sl<ProductBloc>()..add(GetProductsEvent())),
         ],
         child: MaterialApp(
           title: 'Store App',

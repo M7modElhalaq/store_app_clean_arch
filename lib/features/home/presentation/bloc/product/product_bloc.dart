@@ -7,14 +7,17 @@ import 'package:store_app/features/home/presentation/bloc/product/product_state.
 
 class ProductBloc extends Bloc<ProductEvent, ProductStates> {
   final GetProductsUseCase getProducts;
+  List<Product>? products;
   List<Product>? offerProducts;
   List<Product>? topSellingProducts;
   List<Product>? newProducts;
+  int productTypeIndex = 0;
 
   ProductBloc({required this.getProducts}) : super(ProductInitialState()) {
     on<ProductEvent>((event, emit) async {
       if (event is GetProductsEvent) {
         emit(ProductLoadingState());
+        print('ProductLoadingState');
         final offer = await getProducts(Constance.offerProducts);
         final topSelling = await getProducts(Constance.topSellingProducts);
         final newPro = await getProducts(Constance.newProducts);
@@ -23,6 +26,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductStates> {
             offerProducts = [];
           },
           (r) {
+            products = r;
             offerProducts = r;
           },
         );
@@ -45,5 +49,18 @@ class ProductBloc extends Bloc<ProductEvent, ProductStates> {
         emit(GetProductSuccessState());
       }
     });
+  }
+
+  void changeProductsBar(int index) {
+    emit(ChangeProductsLoadingState());
+    productTypeIndex = index;
+    if(index == 0) {
+      products = offerProducts;
+    } else if(index == 1) {
+      products = topSellingProducts;
+    } else if(index == 2) {
+      products = newProducts;
+    }
+    emit(GetProductSuccessState());
   }
 }

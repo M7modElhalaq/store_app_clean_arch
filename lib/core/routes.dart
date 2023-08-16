@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/core/strings/routes.dart';
+import 'package:store_app/core/views/product_view.dart';
 import 'package:store_app/features/cart/presentation/views/cart_view.dart';
 import 'package:store_app/features/favourites/presentation/views/favorites_view.dart';
 import 'package:store_app/features/home/presentation/views/home_view.dart';
@@ -22,5 +23,6 @@ Map<String, Widget Function(BuildContext)> routes() {
     Routes.CART_VIEW: (context) => const CartView(),
     Routes.SHOPPINGBAG_VIEW: (context) => const ShoppingBagView(),
     Routes.PROFILE_VIEW: (context) => const ProfileView(),
+    Routes.productView: (context) => const ProductView(),
   };
 }

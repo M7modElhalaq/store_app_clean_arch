@@ -7,16 +7,16 @@ import 'package:store_app/features/home/data/models/product_model.dart';
 
 import '../../../../core/constance.dart';
 
-abstract class LocalDataSource {
+abstract class ProductLocalDataSource {
   Future<List<ProductModel>> getCachedProducts(String type);
   Future<Unit> cacheProducts(List<ProductModel> products, String type);
   Future<Unit> clearCache();
 }
 
-class LocalDataSourceImpl extends LocalDataSource {
+class ProductLocalDataSourceImpl extends ProductLocalDataSource {
   final SharedPreferences sharedPreferences;
 
-  LocalDataSourceImpl({required this.sharedPreferences});
+  ProductLocalDataSourceImpl({required this.sharedPreferences});
 
   @override
   Future<Unit> cacheProducts(List<ProductModel> products, String type) {

@@ -19,3 +19,7 @@ class GetProductFailedState extends ProductStates {
 
   List<Object?> get props => [message];
 }
+
+class ChangeProductsBarState extends ProductStates {}
+
+class ChangeProductsLoadingState extends ProductStates {}

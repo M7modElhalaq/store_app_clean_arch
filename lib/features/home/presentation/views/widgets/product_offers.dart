@@ -16,43 +16,53 @@ class ProductOffers extends StatelessWidget {
   final double? fontSize;
   final Color? textColor;
   final FontWeight? fontWidth;
+  bool isVisible;
 
-  const ProductOffers({Key? key, this.bgColor, this.image, this.text, this.fontSize, this.textColor, this.fontWidth,}) : super(key: key);
+  ProductOffers({
+    Key? key,
+    this.bgColor,
+    this.image,
+    this.text,
+    this.fontSize,
+    this.textColor,
+    this.fontWidth,
+    this.isVisible = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: ManagerWidth.w40,
-      height: ManagerHeights.h20,
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(
-        horizontal: ManagerMargin.v4,
-      ),
-      decoration: BoxDecoration(
-        color: bgColor ?? ManagerColors.newProductColor,
-        borderRadius: BorderRadius.circular(
-            ManagerRadius.r12),
-      ),
-      child: Row(
-        mainAxisAlignment:
-        MainAxisAlignment.spaceAround,
-        crossAxisAlignment:
-        CrossAxisAlignment.center,
-        children: [
-          if(image != null)...[
-            Image.asset(
-              image!,
-              width: ManagerWidth.w10,
-              height: ManagerHeights.h8,
+    return Visibility(
+      visible: isVisible,
+      child: Container(
+        width: ManagerWidth.w40,
+        height: ManagerHeights.h20,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(
+          horizontal: ManagerMargin.v4,
+        ),
+        decoration: BoxDecoration(
+          color: bgColor ?? ManagerColors.newProductColor,
+          borderRadius: BorderRadius.circular(ManagerRadius.r12),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (image != null) ...[
+              Image.asset(
+                image!,
+                width: ManagerWidth.w10,
+                height: ManagerHeights.h8,
+              ),
+            ],
+            baseText(
+              name: text ?? '',
+              fontSize: fontSize ?? ManagerFontSizes.s8,
+              color: textColor ?? ManagerColors.white,
+              fontWeight: fontWidth ?? ManagerFontWeight.bold,
             ),
           ],
-          baseText(
-            name: text ?? '',
-            fontSize: fontSize ?? ManagerFontSizes.s8,
-            color: textColor ?? ManagerColors.white,
-            fontWeight: fontWidth ?? ManagerFontWeight.bold,
-          ),
-        ],
+        ),
       ),
     );
   }

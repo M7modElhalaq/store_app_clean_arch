@@ -4,11 +4,11 @@ import 'package:store_app/features/home/data/models/product_model.dart';
 
 import '../../../../core/constance.dart';
 
-abstract class RemoteDataSource{
+abstract class ProductRemoteDataSource{
   Future<List<ProductModel>> getProducts(String type);
 }
 
-class RemoteDataSourceImpl implements RemoteDataSource {
+class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   final dio = Dio();
   @override
   Future<List<ProductModel>> getProducts(String type) async {
@@ -19,12 +19,16 @@ class RemoteDataSourceImpl implements RemoteDataSource {
           "Content-Type": "application/json",
           "Accept-Language": "ar"
         },
-        method: 'POST',
+        method: 'GET',
       ),
     );
     if (response.data['success'] == true) {
-      final List<ProductModel> listProductModel = response.data['data'].map((row) => ProductModel.fromJson(row)).toList();
-      return listProductModel;
+      List data = response.data['data']['data'];
+      if(data.length != null) {
+        return data.map((row) => ProductModel.fromJson(row)).toList();
+      } else {
+        throw NoProductException();
+      }
     } else if (response.data['success'] == false) {
       throw NoProductException();
     } else {

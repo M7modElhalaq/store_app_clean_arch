@@ -8,21 +8,21 @@ class Product extends Equatable {
   final String productNameAr;
   final String brandEn;
   final String brandAr;
-  final int productQty;
+  final String productQty;
   final String productSize;
   final double basePrice;
   final double sellingPrice;
-  final int discount;
+  final double discount;
   final String descriptionEn;
   final String descriptionAr;
   final String productThumbnail;
-  final bool trend;
-  final bool newProduct;
-  final bool offer;
+  final int trend;
+  final int newProduct;
+  final int offer;
   final String createdAt;
   final String updatedAt;
-  final List<String> colors;
-  final List<String> multiImage;
+  final List<dynamic> colors;
+  final List<dynamic> multiImage;
 
   Product({
     required this.id,

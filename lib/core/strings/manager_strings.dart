@@ -5,6 +5,10 @@ class ManagerStrings {
   static const String confirmLogoutDialogMessage = 'هل أنت متاكد من انك تريد تسجيل الخروج؟';
   static const String confirmLogout = 'نعم متأكد؟';
   static const String cancel = 'الغاء';
+  static const String colors = 'الالوان';
+  static const String sizes = 'المقاسات';
+  static const String description = 'الوصف';
+  static const String pay = 'شراء';
 
   static const String congrats = 'تهانيا';
   static const String greatJob = 'لقد قمت بعمل رائع';
@@ -63,4 +67,13 @@ class ManagerStrings {
 
   static const String supportSheetTopText = 'يمكنكم التواصل معنا عبر وسائل التواصل الاجتماعي او ارقام الهاتف';
   static const String supportSheetBottomText = 'يتم الرد على استفساراتكم عبر منصات التواصل الاجتماعي في مواعيد العمل الرسمية بمعدل رد اقل من ساعة';
+
+  static const String offers = 'العروض';
+  static const String topSelling = 'الأكثر مبيعات';
+  static const String newProducts = 'وصل حديثا';
+  static const String emptyProducts = 'لا يوجد منتجات';
+  static const String noQty = 'نفذت الكمية';
+  static const String noSizes = 'المقاسات غير متوفرة';
+  static const String noColors = 'الالوان غير متوفرة';
+
 }
