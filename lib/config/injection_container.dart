@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:store_app/features/auth/data/repos/customer_repo_impl.dart';
-import 'package:store_app/features/auth/domain/use_cases/check_auth.dart';
 import 'package:store_app/features/auth/domain/use_cases/logout.dart';
 import 'package:store_app/features/auth/domain/use_cases/update_profile.dart';
 import 'package:store_app/features/home/data/datasources/product_local_data_source.dart';
@@ -12,9 +12,7 @@ import 'package:store_app/features/home/domain/use_cases/get_products.dart';
 import 'package:store_app/features/home/presentation/bloc/product/product_bloc.dart';
 
 import '../core/network/network_info.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../features/auth/data/datasources/local_data_source.dart';
 import '../features/auth/data/datasources/remote_data_source.dart';
 import '../features/auth/domain/repos/customer_reps.dart';
 import '../features/auth/domain/use_cases/login.dart';
@@ -32,7 +30,6 @@ Future<void> init() async {
     () => LoginBloc(
       login: sl(),
       register: sl(),
-      checkAuth: sl(),
       updateProfile: sl(),
       logoutUseCase: sl(),
     ),
@@ -46,7 +43,6 @@ Future<void> init() async {
 
 // Usecases
 
-  sl.registerLazySingleton(() => CheckAuthUseCase(sl()));
 
   sl.registerLazySingleton(() => LoginUseCase(sl()));
   sl.registerLazySingleton(() => RegisterProfileUseCase(sl()));
@@ -58,7 +54,7 @@ Future<void> init() async {
 // Repository
 
   sl.registerLazySingleton<CustomerRep>(() => CustomerRepoImpl(
-      remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
+      remoteDataSource: sl(), networkInfo: sl()));
 
   sl.registerLazySingleton<ProductRepo>(() => ProductRepoImp(
       remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
@@ -66,8 +62,6 @@ Future<void> init() async {
 // Datasources
 
   sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl());
-  sl.registerLazySingleton<LocalDataSource>(
-      () => LocalDataSourceImpl(sharedPreferences: sl()));
 
   sl.registerLazySingleton<ProductRemoteDataSource>(() => ProductRemoteDataSourceImpl());
   sl.registerLazySingleton<ProductLocalDataSource>(

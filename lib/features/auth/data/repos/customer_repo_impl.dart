@@ -2,42 +2,30 @@ import 'package:dartz/dartz.dart';
 import 'package:store_app/core/errors/exceptions.dart';
 import 'package:store_app/core/errors/failure.dart';
 import 'package:store_app/core/network/network_info.dart';
+import 'package:store_app/core/storage/local/database/shared_preferences/app_settings_shared_preferences.dart';
 import 'package:store_app/features/auth/domain/entities/customer.dart';
 import 'package:store_app/features/auth/domain/repos/customer_reps.dart';
 
-import '../datasources/local_data_source.dart';
 import '../datasources/remote_data_source.dart';
 import '../models/customer_model.dart';
 
 class CustomerRepoImpl implements CustomerRep {
   final RemoteDataSource remoteDataSource;
-  final LocalDataSource localDataSource;
   final NetworkInfo networkInfo;
+  AppSettingsSharedPreferences appSettingsSharedPreferences =
+  AppSettingsSharedPreferences();
 
   CustomerRepoImpl({
     required this.remoteDataSource,
-    required this.localDataSource,
     required this.networkInfo,
   });
-
-  @override
-  Future<Either<Failure, CustomerModel>> checkAuth() async {
-    try {
-      CustomerModel customer = await localDataSource.getCachedCustomer();
-      return Right(customer);
-    } on EmptyCacheException {
-      return Left(EmptyCacheFailure());
-    }
-  }
 
   @override
   Future<Either<Failure, Customer>> login(int phoneNumber) async {
     if (await networkInfo.isConnected) {
       try {
         CustomerModel customer = await remoteDataSource.login(phoneNumber);
-        localDataSource.cacheCustomer(customer);
-        // String verifiyId = await remoteDataSource.verifyPhone(phoneNumber);
-        // print(verifiyId);
+        print(customer.phoneNumber);
         return Right(customer);
       } on NotRegisteredException {
         print('NotRegisteredException');
@@ -82,7 +70,7 @@ class CustomerRepoImpl implements CustomerRep {
     if(await networkInfo.isConnected) {
       try {
         await remoteDataSource.register(customerModel);
-        await localDataSource.cacheCustomer(customerModel);
+        appSettingsSharedPreferences.setPhoneNumber(customerModel.phoneNumber);
         return Right(customerModel);
       } on RegisterException {
         return Left(RegisterFailure());
@@ -111,7 +99,7 @@ class CustomerRepoImpl implements CustomerRep {
     if(await networkInfo.isConnected) {
       try {
         await remoteDataSource.updateProfile(customerModel);
-        await localDataSource.cacheCustomer(customerModel);
+        appSettingsSharedPreferences.setPhoneNumber(customerModel.phoneNumber);
         return Right(customerModel);
       } on UpdateProfileException {
         return Left(UpdateProfileFailure());
@@ -126,7 +114,7 @@ class CustomerRepoImpl implements CustomerRep {
   @override
   Future<Either<Failure, Unit>> logout() async {
     try {
-      await localDataSource.clearCache();
+      await appSettingsSharedPreferences.clear();
       return Right(unit);
     } on EmptyCacheException {
       throw EmptyCacheFailure();

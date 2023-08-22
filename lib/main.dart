@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:store_app/features/auth/presentation/bloc/auth/auth_bloc.dart';
-import 'package:store_app/features/auth/presentation/bloc/auth/auth_event.dart';
+import 'package:store_app/config/locale/locale_settings.dart';
+import 'package:store_app/core/resources/manager_assets.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/features/home/presentation/bloc/product/product_bloc.dart';
 import 'package:store_app/features/home/presentation/bloc/product/product_event.dart';
 import 'features/auth/presentation/bloc/login/login_bloc.dart';
@@ -11,27 +13,31 @@ import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
 import 'core/layouts/theme/app_theme.dart';
-import 'core/routes.dart';
-import 'core/strings/routes.dart';
+import 'routes/routes.dart';
 
 import 'config/injection_container.dart' as di;
+import 'config/dependancy_injection.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  await initModule();
   await di.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp(
-    initialRoute: Routes.SPLASH_VIEW,
-  ));
+  runApp(
+    EasyLocalization(
+      supportedLocales: localeSettings.locales,
+      path: ManagerPaths.translationsPath,
+      startLocale: localeSettings.defaultLocale,
+      fallbackLocale: localeSettings.defaultLocale,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  final String initialRoute;
-
-  const MyApp({super.key, required this.initialRoute});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +45,20 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
               create: (_) => di.sl<LoginBloc>()..add(CheckAuthEvent())),
-          BlocProvider(
-              create: (_) => di.sl<DrawerCubit>()),
+          BlocProvider(create: (_) => di.sl<DrawerCubit>()),
           BlocProvider(
               create: (_) => di.sl<ProductBloc>()..add(GetProductsEvent())),
         ],
         child: MaterialApp(
-          title: 'Store App',
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          title: ManagerStrings.appName,
           debugShowCheckedModeBanner: false,
           theme: appTheme,
-          home: Scaffold(),
+          home: const Scaffold(),
           routes: routes(),
-          initialRoute: initialRoute,
+          initialRoute: Routes.splashView,
         ));
   }
 }

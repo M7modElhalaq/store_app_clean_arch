@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:store_app/core/layouts/style.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/custom_widget.dart';
 import 'package:store_app/core/widgets/loading_widget.dart';
 import 'package:store_app/core/widgets/welcome_back_widget.dart';
 import 'package:store_app/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:store_app/features/auth/presentation/bloc/login/login_state.dart';
 
-import '../../../../core/strings/strings.dart';
 import '../../../../core/widgets/text_button_widget.dart';
 import '../widgets/rich_text_widget.dart';
 
@@ -67,7 +67,7 @@ class OtpView extends StatelessWidget {
                   ),
                   SizedBoxWidget(higth: 24),
                   RichTextWidget(
-                    text: OTP_TEXT1,
+                    text: ManagerStrings.otpText1,
                     textChildren: <TextSpan>[
                       TextSpan(
                         text: phoneNumber,
@@ -76,8 +76,8 @@ class OtpView extends StatelessWidget {
                           color: textColorBlack,
                         ),
                       ),
-                      const TextSpan(
-                        text: OTP_TEXT2,
+                      TextSpan(
+                        text: ManagerStrings.otpText2,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: defaultAppColor,
@@ -112,7 +112,7 @@ class OtpView extends StatelessWidget {
                         );
                       }
                     },
-                    text: OTP_BUTTON_TEXT,
+                    text: ManagerStrings.otpButtonText,
                   ),
                 ],
               ),

@@ -8,9 +8,8 @@ import 'package:store_app/core/resources/manager_height.dart';
 import 'package:store_app/core/resources/manager_icon_sizes.dart';
 import 'package:store_app/core/resources/manager_margin.dart';
 import 'package:store_app/core/resources/manager_width.dart';
-import 'package:store_app/core/strings/manager_strings.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
-import 'package:store_app/core/widgets/failed_widget.dart';
 import 'package:store_app/core/widgets/helpers.dart';
 import 'package:store_app/core/widgets/loading_widget.dart';
 import 'package:store_app/core/widgets/profile_avatar_image_widget.dart';
@@ -19,14 +18,13 @@ import 'package:store_app/core/widgets/radio_button_widget.dart';
 import 'package:store_app/core/widgets/success_widget.dart';
 import 'package:store_app/features/profile/presentation/views/profile_personal_info_view.dart';
 
-import '../resources/manager_colors.dart';
-import '../resources/manager_fonts.dart';
-import '../resources/manager_radius.dart';
-import '../widgets/alert_dialog_widget.dart';
-import '../widgets/text_button_widget.dart';
-import '../widgets/vertical_divider_widget.dart';
-import '../../features/auth/presentation/bloc/login/login_bloc.dart';
-import '../../features/auth/presentation/bloc/login/login_state.dart';
+import '../../../../core/resources/manager_colors.dart';
+import '../../../../core/resources/manager_fonts.dart';
+import '../../../../core/resources/manager_radius.dart';
+import '../../../../core/widgets/text_button_widget.dart';
+import '../../../../core/widgets/vertical_divider_widget.dart';
+import '../../../auth/presentation/bloc/login/login_bloc.dart';
+import '../../../auth/presentation/bloc/login/login_state.dart';
 
 class CompleteProfileView extends StatefulWidget {
   final int phoneNumber;
@@ -121,7 +119,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> with Helpers 
                           width: ManagerWidth.w35,
                           height: ManagerHeights.h35,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
+                            borderRadius: const BorderRadius.all(
                                 Radius.circular(ManagerRadius.r20)),
                             color: ManagerColors.primaryColor,
                           ),

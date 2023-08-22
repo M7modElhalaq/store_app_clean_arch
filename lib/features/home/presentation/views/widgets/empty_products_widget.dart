@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_font_sizes.dart';
-import 'package:store_app/core/strings/manager_strings.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 
 class EmptyProductsWidget extends StatelessWidget {

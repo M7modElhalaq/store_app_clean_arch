@@ -49,6 +49,7 @@ dependencies:
   heroicons: ^0.9.0
   image_picker: ^1.0.2
   date_format: ^2.0.7
+  easy_localization: ^3.0.2
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,7 @@ flutter:
     - assets/images/
     - assets/images/slider/
     - assets/images/products/
+    - assets/translations/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:store_app/core/constance.dart';
-import 'package:store_app/core/layouts/style.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_font_sizes.dart';
 import 'package:store_app/core/resources/manager_font_weight.dart';
@@ -10,7 +8,6 @@ import 'package:store_app/core/resources/manager_height.dart';
 import 'package:store_app/core/resources/manager_icon_sizes.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
-import 'package:store_app/core/strings/routes.dart';
 import 'package:store_app/features/cart/presentation/views/cart_view.dart';
 import 'package:store_app/features/favourites/presentation/views/favorites_view.dart';
 import 'package:store_app/features/home/presentation/views/home_view.dart';

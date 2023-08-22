@@ -8,11 +8,12 @@ import 'package:store_app/core/resources/manager_margin.dart';
 import 'package:store_app/core/resources/manager_font_weight.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
-import 'package:store_app/core/strings/manager_strings.dart';
-import 'package:store_app/core/strings/routes.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 import 'package:store_app/features/home/domain/entities/product.dart';
 import 'package:store_app/features/home/presentation/views/widgets/product_offers.dart';
+
+import '../../routes/routes.dart';
 
 class ProductWidget extends StatelessWidget {
   Product product;
@@ -49,8 +50,8 @@ class ProductWidget extends StatelessWidget {
                 children: [
                   Align(
                     alignment: Alignment.center,
-                    child: Image.asset(
-                      ManagerAssets.productImage,
+                    child: Image.network(
+                      product.productThumbnail,
                       width: ManagerWidth.w100,
                       height: ManagerHeights.h85,
                     ),
@@ -130,6 +131,7 @@ class ProductWidget extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.only(
                         right: ManagerMargin.v8,
+                        left: ManagerMargin.v8,
                         top: ManagerMargin.h8,
                         bottom: ManagerMargin.h8,),
                     width: double.infinity,
@@ -154,8 +156,8 @@ class ProductWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(
-                          right: ManagerMargin.v8,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: ManagerMargin.v8,
                         ),
                         child: Row(
                           children: [

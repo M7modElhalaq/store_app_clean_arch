@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:store_app/core/strings/routes.dart';
-import 'package:store_app/features/home/presentation/views/home_view.dart';
-
-import 'core/network/local/cache_helper.dart';
-import 'features/auth/presentation/bloc/login/login_bloc.dart';
-import 'features/auth/presentation/bloc/login/login_state.dart';
+import 'package:store_app/core/constance.dart';
+import 'package:store_app/core/resources/manager_assets.dart';
+import 'package:store_app/core/storage/local/database/shared_preferences/app_settings_shared_preferences.dart';
+import 'package:store_app/routes/routes.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -15,6 +12,8 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
+  AppSettingsSharedPreferences appSettingsSharedPreferences = AppSettingsSharedPreferences();
+
   // double opacityLevel = .3;
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 2),
@@ -28,8 +27,12 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, Routes.LOGIN_VIEW);
+    Future.delayed(const Duration(seconds: Constance.splashTime), () {
+      print(appSettingsSharedPreferences.loggedIn);
+      String route = appSettingsSharedPreferences.loggedIn
+          ? Routes.mainAppView
+          : Routes.loginView;
+      Navigator.pushReplacementNamed(context, route);
     });
   }
 
@@ -52,9 +55,9 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
               child: Container(
                 width: 150,
                 height: 150,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/RRR-SPLASH.png"),
+                    image: AssetImage(ManagerAssets.splashImage),
                     fit: BoxFit.cover,
                   ),
                 ),

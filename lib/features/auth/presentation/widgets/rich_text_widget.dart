@@ -11,7 +11,6 @@ class RichTextWidget extends StatelessWidget {
     return RichText(
       overflow: TextOverflow.clip,
       textAlign: TextAlign.start,
-      textDirection: TextDirection.rtl,
       softWrap: true,
       maxLines: 2,
       text: TextSpan(

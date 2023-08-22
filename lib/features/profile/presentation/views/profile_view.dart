@@ -6,23 +6,19 @@ import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_font_sizes.dart';
 import 'package:store_app/core/resources/manager_font_weight.dart';
 import 'package:store_app/core/resources/manager_height.dart';
-import 'package:store_app/core/resources/manager_icon_sizes.dart';
 import 'package:store_app/core/resources/manager_margin.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
-import 'package:store_app/core/strings/manager_strings.dart';
-import 'package:store_app/core/strings/routes.dart';
-import 'package:store_app/core/views/complete_profile_view.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 import 'package:store_app/core/widgets/confirm_dialog.dart';
 import 'package:store_app/core/widgets/profile_avatar_image_widget.dart';
-import 'package:store_app/core/widgets/vertical_divider_widget.dart';
 import 'package:store_app/features/auth/presentation/bloc/login/login_bloc.dart';
 import 'package:store_app/features/auth/presentation/bloc/login/login_state.dart';
 import 'package:store_app/features/profile/presentation/widgets/share_app_bottom_sheet.dart';
-import 'package:store_app/features/profile/presentation/widgets/share_icon_widget.dart';
 import 'package:store_app/features/profile/presentation/widgets/support_app_bottom_sheet.dart';
 import 'package:store_app/features/profile/presentation/widgets/text_button_widget.dart';
+import 'package:store_app/routes/routes.dart';
 
 import '../../../../core/resources/manager_assets.dart';
 import 'profile_personal_info_view.dart';
@@ -49,7 +45,7 @@ class ProfileView extends StatelessWidget {
             padding: const EdgeInsetsDirectional.only(end: ManagerWidth.w20),
             child: InkWell(
               onTap: () =>
-                  Navigator.pushReplacementNamed(context, Routes.MAIN_APP_VIEW),
+                  Navigator.pushReplacementNamed(context, Routes.mainAppView),
               child: const HeroIcon(
                 HeroIcons.arrowRight,
               ),

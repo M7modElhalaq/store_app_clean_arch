@@ -27,7 +27,7 @@ class ProductModel extends Product {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
-    List<dynamic> colors = json['colors'];
+    List<dynamic> colors = json['colors'] ?? [];
     return ProductModel(
       id: json['id'],
       categoryId: json['category_id'],

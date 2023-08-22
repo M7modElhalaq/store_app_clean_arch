@@ -8,7 +8,7 @@ import 'package:store_app/core/resources/manager_height.dart';
 import 'package:store_app/core/resources/manager_margin.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
-import 'package:store_app/core/strings/manager_strings.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 import 'package:store_app/features/profile/presentation/widgets/share_icon_widget.dart';
 

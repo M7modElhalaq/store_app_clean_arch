@@ -7,7 +7,7 @@ import 'package:store_app/core/resources/manager_height.dart';
 import 'package:store_app/core/resources/manager_icon_sizes.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
-import 'package:store_app/core/strings/manager_strings.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 import 'package:store_app/core/widgets/loading_widget.dart';
 import 'package:store_app/core/widgets/product_widget.dart';
@@ -79,7 +79,7 @@ class _HomeViewState extends State<HomeView> {
             onPressed: () {},
           ),
         ),
-        title: const Center(
+        title: Center(
           child: Text(ManagerStrings.homePageTitle),
         ),
         actions: [
@@ -108,117 +108,114 @@ class _HomeViewState extends State<HomeView> {
             },
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: ManagerWidth.w20,
-                    vertical: ManagerHeights.h12,
-                  ),
-                  child: Column(
-                    children: [
-                      // Search Text Field
-                      SearchTextField(
-                        controller: searchController,
-                      ),
-                      const SizedBox(
-                        height: ManagerHeights.h24,
-                      ),
-                      // Slider
-                      Container(
-                        height: ManagerHeights.h150,
-                        child: PageView(
-                          scrollDirection: Axis.horizontal,
-                          controller: _pageController,
-                          children: const [
-                            SliderWidget(
-                              index: 0,
-                            ),
-                            SliderWidget(
-                              index: 1,
-                            ),
-                            SliderWidget(
-                              index: 2,
-                            ),
-                            SliderWidget(
-                              index: 3,
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Products App Bar
-                      const SizedBox(
-                        height: ManagerHeights.h24,
-                      ),
-                      Container(
-                        height: ManagerHeights.h50,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(ManagerRadius.r20),
-                          border: Border.all(
-                            color: ManagerColors.borderColor,
-                            width: 1,
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: ManagerWidth.w20,
+                  vertical: ManagerHeights.h12,
+                ),
+                child: Column(
+                  children: [
+                    // Search Text Field
+                    SearchTextField(
+                      controller: searchController,
+                    ),
+                    const SizedBox(
+                      height: ManagerHeights.h24,
+                    ),
+                    // Slider
+                    Container(
+                      height: ManagerHeights.h150,
+                      child: PageView(
+                        scrollDirection: Axis.horizontal,
+                        controller: _pageController,
+                        children: const [
+                          SliderWidget(
+                            index: 0,
                           ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ProductsTypeBar(
-                              isActive: block.productTypeIndex == 0 ? true : false,
-                              title: ManagerStrings.offers,
-                              onTap: () {
-                                setState(() {
-                                  block.changeProductsBar(0);
-                                });
-                              },
-                            ),
-                            ProductsTypeBar(
-                              isActive: block.productTypeIndex == 1 ? true : false,
-                              title: ManagerStrings.topSelling,
-                              onTap: () {
-                                setState(() {
-                                  block.changeProductsBar(1);
-                                });
-                              },
-                            ),
-                            ProductsTypeBar(
-                              isActive: block.productTypeIndex == 2 ? true : false,
-                              title: ManagerStrings.newProducts,
-                              onTap: () {
-                                setState(() {
-                                  block.changeProductsBar(2);
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Products
-                      const SizedBox(
-                        height: ManagerHeights.h24,
-                      ),
-                      GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: products!.isNotEmpty ? 2 : 1,
-                            mainAxisExtent: 222,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 5,
+                          SliderWidget(
+                            index: 1,
                           ),
-                          itemCount: products.isNotEmpty ? products.length : 1,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
-                            if(state is ChangeProductsLoadingState) {
-                              return const LoadingWidget();
-                            } else if(products.isEmpty) {
-                              return const EmptyProductsWidget();
-                            } else {
-                              return ProductWidget(product: products[index]);
-                            }
-                          }),
-                    ],
-                  ),
+                          SliderWidget(
+                            index: 2,
+                          ),
+                          SliderWidget(
+                            index: 3,
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Products App Bar
+                    const SizedBox(
+                      height: ManagerHeights.h24,
+                    ),
+                    Container(
+                      height: ManagerHeights.h50,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(ManagerRadius.r20),
+                        border: Border.all(
+                          color: ManagerColors.borderColor,
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ProductsTypeBar(
+                            isActive: block.productTypeIndex == 0 ? true : false,
+                            title: ManagerStrings.offers,
+                            onTap: () {
+                              setState(() {
+                                block.changeProductsBar(0);
+                              });
+                            },
+                          ),
+                          ProductsTypeBar(
+                            isActive: block.productTypeIndex == 1 ? true : false,
+                            title: ManagerStrings.topSelling,
+                            onTap: () {
+                              setState(() {
+                                block.changeProductsBar(1);
+                              });
+                            },
+                          ),
+                          ProductsTypeBar(
+                            isActive: block.productTypeIndex == 2 ? true : false,
+                            title: ManagerStrings.newProducts,
+                            onTap: () {
+                              setState(() {
+                                block.changeProductsBar(2);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Products
+                    const SizedBox(
+                      height: ManagerHeights.h24,
+                    ),
+                    GridView.builder(
+                        gridDelegate:
+                            SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: products!.isNotEmpty ? 2 : 1,
+                          mainAxisExtent: 222,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 5,
+                        ),
+                        itemCount: products.isNotEmpty ? products.length : 1,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          if(state is ChangeProductsLoadingState) {
+                            return const LoadingWidget();
+                          } else if(products.isEmpty) {
+                            return const EmptyProductsWidget();
+                          } else {
+                            return ProductWidget(product: products[index]);
+                          }
+                        }),
+                  ],
                 ),
               ),
             ),

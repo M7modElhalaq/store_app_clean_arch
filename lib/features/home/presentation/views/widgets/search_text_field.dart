@@ -3,7 +3,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_font_sizes.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
-import 'package:store_app/core/strings/manager_strings.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 
 class SearchTextField extends StatelessWidget {
   TextEditingController? controller;

@@ -4,7 +4,7 @@ import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_height.dart';
 import 'package:store_app/core/resources/manager_margin.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
-import 'package:store_app/core/strings/manager_strings.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 import 'package:store_app/core/widgets/vertical_divider_widget.dart';
 

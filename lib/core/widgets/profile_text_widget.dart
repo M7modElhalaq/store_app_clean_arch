@@ -7,7 +7,7 @@ import 'package:store_app/core/resources/manager_height.dart';
 import 'package:store_app/core/resources/manager_width.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 
-import '../strings/manager_strings.dart';
+import '../resources/manager_strings.dart';
 
 class ProfileTextWidget extends StatelessWidget {
   final HeroIcons icon;

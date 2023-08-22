@@ -4,7 +4,7 @@ import '../../../../../core/resources/manager_colors.dart';
 import '../../../../../core/resources/manager_font_sizes.dart';
 import '../../../../../core/resources/manager_font_weight.dart';
 import '../../../../../core/resources/manager_height.dart';
-import '../../../../../core/strings/manager_strings.dart';
+import '../../../../../core/resources/manager_strings.dart';
 import '../../../../../core/widgets/base_text_widget.dart';
 
 class SliderIndicator extends StatelessWidget {

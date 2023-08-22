@@ -1,11 +1,37 @@
-extension IntNotNull on int {
+extension IntNotNull on int? {
   int onNull() {
-    return this ?? 0;
+    if (this == null) {
+      return 0;
+    } else {
+      return this!;
+    }
   }
 }
 
-extension StringNotNull on String {
+extension NonNullString on String? {
   String onNull() {
-    return this ?? '';
+    if (this == null) {
+      return '';
+    } else {
+      return this!;
+    }
+  }
+
+  String parseLocale() {
+    if (this == null) {
+      return 'en';
+    } else {
+      return this!;
+    }
+  }
+}
+
+extension NonNullBoolean on bool? {
+  bool onNull() {
+    if (this == null) {
+      return false;
+    } else {
+      return this!;
+    }
   }
 }

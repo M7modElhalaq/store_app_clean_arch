@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../layouts/style.dart';
-import '../strings/strings.dart';
 
 Widget TextWidget({
   required String text,

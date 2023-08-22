@@ -5,7 +5,7 @@ import 'package:store_app/core/resources/manager_font_sizes.dart';
 import 'package:store_app/core/resources/manager_font_weight.dart';
 import 'package:store_app/core/resources/manager_height.dart';
 import 'package:store_app/core/resources/manager_width.dart';
-import 'package:store_app/core/strings/manager_strings.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 
 class TextButtonWidget extends StatelessWidget {

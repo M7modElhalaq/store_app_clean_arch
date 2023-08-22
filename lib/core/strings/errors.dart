@@ -1,1 +1,0 @@
-const String NO_INTERNET_ERROR_MESSAGE = 'الرجاء التحقق من اتصال الانترنت';

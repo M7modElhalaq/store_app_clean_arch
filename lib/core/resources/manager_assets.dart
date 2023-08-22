@@ -1,5 +1,6 @@
 class ManagerAssets {
   static const String azkarImage = 'assets/images/azkar.jpg';
+  static const String splashImage = "assets/images/RRR-SPLASH.png";
   static const String celebrationImage = 'assets/images/celebration.png';
 
   static const String defaultProfileImage = 'assets/images/default_profile_image.jpg';
@@ -23,4 +24,8 @@ class ManagerAssets {
   static const String twitter = 'assets/icons/twitter.png';
   static const String whatsapp = 'assets/icons/whatsapp.png';
   static const String telephone = 'assets/icons/telephone.png';
+}
+
+class ManagerPaths {
+  static const String translationsPath = 'assets/translations';
 }
