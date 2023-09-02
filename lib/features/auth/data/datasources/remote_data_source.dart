@@ -3,40 +3,71 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:store_app/core/constance.dart';
 import 'package:store_app/core/errors/exceptions.dart';
+import 'package:store_app/core/storage/local/database/shared_preferences/app_settings_shared_preferences.dart';
 import '../models/customer_model.dart';
 
 abstract class RemoteDataSource {
   Future<CustomerModel> login(int phoneNumber);
+  Future<String> sendSmsVerifyCode(int phoneNumber);
   Future<String> verifyPhone(int phoneNumber);
-  Future<Unit> register(CustomerModel customer);
-  Future<CustomerModel> updateProfile(CustomerModel customer);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
   final dio = Dio();
   FirebaseAuth auth = FirebaseAuth.instance;
+  AppSettingsSharedPreferences appSettingsSharedPreferences =
+  AppSettingsSharedPreferences();
   @override
   Future<CustomerModel> login(int phoneNumber) async {
-    final response = await dio.request(
-      "${Constance.BASE_URL}/api/customers/login",
+    final response = await dio.request(ApiRequest.apiAuthLogin,
       data: {
-        "phone_number": phoneNumber
+        ApiConstants.phoneNumber: phoneNumber
       },
       options: Options(
         headers: {
-          "Content-Type": "application/json",
-          "Accept-Language": "ar"
+          ApiConstants.contentTypeHeader: ApiConstants.contentType,
+          ApiConstants.acceptLanguage: appSettingsSharedPreferences.defaultLocale
         },
         method: 'POST',
+        validateStatus: (status) => true,
       ),
     );
+    print(response);
     if (response.data['success'] == true) {
       final CustomerModel customerModel = CustomerModel.fromJson(response.data['data']);
+      print('Login Remote');
+      print(customerModel);
+      print(ApiConstants.token);
+      appSettingsSharedPreferences.saveUserInfo(customerModel);
+      appSettingsSharedPreferences.setToken(response.data[ApiConstants.token]);
       return customerModel;
     } else if (response.data['success'] == false) {
       throw NotRegisteredException();
     } else {
       throw ServerException();
+    }
+  }
+
+  @override
+  Future<String> sendSmsVerifyCode(int phoneNumber) async {
+    print('From Login Remote Phone Nnumber: $phoneNumber');
+    String? verifyId;
+    try {
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: '+$phoneNumber',
+        verificationCompleted: (PhoneAuthCredential credential) {},
+        verificationFailed: (e) {
+          throw Exception(e.message);
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          verifyId = verificationId;
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+      print('verificationId: $verifyId');
+      return verifyId!;
+    } catch (e) {
+      return e.toString();
     }
   }
 
@@ -66,83 +97,6 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       return verifyId!;
     } catch (e) {
       return e.toString();
-    }
-  }
-
-  @override
-  Future<Unit> register(CustomerModel customer) async {
-    final body = {
-      "name": customer.name,
-      "email": customer.email,
-      "phone_number": customer.phoneNumber,
-      "id_number": '',
-      "profile_image": customer.profileImage,
-      "date_of_birth": customer.dateOfBirth,
-      "gender": customer.gender,
-      "token": customer.token,
-      "lang": customer.lang
-    };
-
-    final response = await dio.request(
-      "${Constance.BASE_URL}/api/customers/register",
-      data: body,
-      options: Options(
-        headers: {"Content-Type": "application/json"},
-        method: 'POST',
-      ),
-    );
-
-    print(response);
-
-    if (response.data['success'] == true) {
-      return Future.value(unit);
-    } else if (response.data['success'] == false) {
-      throw RegisterException();
-    } else {
-      throw ServerException();
-    }
-
-    if (response.statusCode == 200) {
-      return Future.value(unit);
-    } else {
-      throw ServerException();
-    }
-  }
-
-  @override
-  Future<CustomerModel> updateProfile(CustomerModel customer) async {
-    final body = {
-      "name": customer.name,
-      "email": customer.email,
-      "phone_number": customer.phoneNumber,
-      "id_number": customer.idNumber,
-      // "profile_image": customer.profileImage,
-      "date_of_birth": customer.dateOfBirth,
-      "gender": customer.gender,
-      // "token": customer.token,
-      "lang": customer.lang
-    };
-
-    try {
-      final response = await dio.post(
-        "${Constance.BASE_URL}/api/customers/update",
-        data: body,
-        options: Options(
-          validateStatus: (status) => true,
-            headers: {"Content-Type": "application/json"},
-        ),
-      );
-
-      if (response.data['success'] == true) {
-        return Future.value(customer);
-      } else if (response.data['success'] == false) {
-        throw UpdateProfileException();
-      } else {
-        throw ServerException();
-      }
-    } catch (e) {
-      print(e);
-      throw ServerException();
     }
   }
 }

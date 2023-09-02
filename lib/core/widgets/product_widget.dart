@@ -1,34 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:store_app/core/base_model/home_model.dart';
 import 'package:store_app/core/resources/manager_assets.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_font_sizes.dart';
 import 'package:store_app/core/resources/manager_height.dart';
+import 'package:store_app/core/resources/manager_icon_sizes.dart';
 import 'package:store_app/core/resources/manager_margin.dart';
 import 'package:store_app/core/resources/manager_font_weight.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
-import 'package:store_app/features/home/domain/entities/product.dart';
-import 'package:store_app/features/home/presentation/views/widgets/product_offers.dart';
+import 'package:store_app/core/widgets/product_offers.dart';
 
 import '../../routes/routes.dart';
 
 class ProductWidget extends StatelessWidget {
-  Product product;
-  ProductWidget({Key? key, required this.product}) : super(key: key);
+  final Products product;
+  void Function() addToFav;
+  void Function()? addToCart;
+
+  ProductWidget({
+    Key? key,
+    required this.product,
+    required this.addToFav,
+    required this.addToCart,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.pushNamed(context, Routes.productView, arguments: {
           'product': product,
         });
       },
       child: Container(
-        height: ManagerHeights.h220,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(ManagerRadius.r12),
           border: Border.all(
@@ -36,11 +44,12 @@ class ProductWidget extends StatelessWidget {
           ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               height: ManagerHeights.h120,
               decoration: BoxDecoration(
-                borderRadius: const BorderRadiusDirectional.only(
+                borderRadius: BorderRadiusDirectional.only(
                   topStart: Radius.circular(ManagerRadius.r12),
                   topEnd: Radius.circular(ManagerRadius.r12),
                 ),
@@ -51,9 +60,9 @@ class ProductWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.center,
                     child: Image.network(
-                      product.productThumbnail,
+                      product.productThumbnail.toString(),
                       width: ManagerWidth.w100,
-                      height: ManagerHeights.h85,
+                      height: ManagerHeights.h86,
                     ),
                   ),
                   Container(
@@ -62,24 +71,23 @@ class ProductWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                               width: ManagerWidth.w30,
                               height: ManagerHeights.h30,
                               decoration: BoxDecoration(
                                 color: ManagerColors.white,
-                                borderRadius: BorderRadius.circular(
-                                    ManagerRadius.r20),
+                                borderRadius:
+                                    BorderRadius.circular(ManagerRadius.r30),
                               ),
                               child: IconButton(
-                                icon: const HeroIcon(
+                                icon: HeroIcon(
                                   HeroIcons.heart,
+                                  style: product.inFavorites ? HeroIconStyle.solid : HeroIconStyle.outline,
+                                  color: product!.inFavorites ? ManagerColors.red : ManagerColors.primaryColor,
                                 ),
-                                onPressed: () {
-                                  print('Add to fav');
-                                },
+                                onPressed: addToFav,
                               ),
                             ),
                             ProductOffers(
@@ -97,14 +105,14 @@ class ProductWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             ProductOffers(
-                              isVisible: product.discount != 0 ? true : false,
-                              bgColor: ManagerColors.discountColor
-                                  .withOpacity(.7),
-                              text: '%${product.discount}',
+                              isVisible: product.discountPrice != 0 ? true : false,
+                              bgColor:
+                                  ManagerColors.discountColor.withOpacity(.7),
+                              text: '%${product.discountPrice}',
                               fontSize: ManagerFontSizes.s12,
                               textColor: ManagerColors.white,
                             ),
-                            const SizedBox(
+                            SizedBox(
                               height: ManagerHeights.h8,
                             ),
                             ProductOffers(
@@ -124,28 +132,32 @@ class ProductWidget extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: ManagerHeights.h100,
+            Container(
+              height: ManagerHeights.h130,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     padding: const EdgeInsets.only(
-                        right: ManagerMargin.v8,
-                        left: ManagerMargin.v8,
-                        top: ManagerMargin.h8,
-                        bottom: ManagerMargin.h8,),
+                      right: ManagerMargin.v8,
+                      left: ManagerMargin.v8,
+                      top: ManagerMargin.h8,
+                      bottom: ManagerMargin.h8,
+                    ),
                     width: double.infinity,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         baseText(
-                          name: product.productNameAr,
+                          name: product.productName,
                           fontSize: ManagerFontSizes.s14,
                         ),
-                        const SizedBox(height: ManagerHeights.h8,),
+                        SizedBox(
+                          height: ManagerHeights.h8,
+                        ),
                         baseText(
-                          name: product.brandAr,
+                          name: product.brand,
                           fontSize: ManagerFontSizes.s14,
                           color: ManagerColors.black,
                         ),
@@ -165,11 +177,15 @@ class ProductWidget extends StatelessWidget {
                               name: '\$${product.sellingPrice}',
                               decoration: TextDecoration.lineThrough,
                               color: ManagerColors.grey,
-                              visible: product.discount != 0 ? true : false,
+                              visible: product.discountPrice != 0 ? true : false,
                             ),
-                            const SizedBox(width: 4,),
+                            const SizedBox(
+                              width: 4,
+                            ),
                             baseText(
-                              name: product.discount != 0 ? "\$${ (product.sellingPrice - (product.sellingPrice * product.discount) / 100).round() }" : "\$${product.sellingPrice}",
+                              name: product.discountPrice != 0
+                                  ? "\$${(product.sellingPrice - (product.sellingPrice * product.discountPrice) / 100).round()}"
+                                  : "\$${product.sellingPrice}",
                               fontSize: ManagerFontSizes.s18,
                               color: ManagerColors.primaryColor,
                             ),
@@ -183,14 +199,17 @@ class ProductWidget extends StatelessWidget {
                           height: ManagerHeights.h36,
                           decoration: BoxDecoration(
                             color: ManagerColors.borderColor,
-                            borderRadius: const BorderRadius.only(
+                            borderRadius: BorderRadius.only(
                               topRight: Radius.circular(ManagerRadius.r12),
                               bottomLeft: Radius.circular(ManagerRadius.r12),
                             ),
                           ),
                           child: IconButton(
-                            icon: HeroIcon(HeroIcons.shoppingCart, color: ManagerColors.primaryColor,),
-                            onPressed: () {},
+                            icon: HeroIcon(
+                              HeroIcons.shoppingCart,
+                              color: ManagerColors.primaryColor,
+                            ),
+                            onPressed: addToCart,
                           ),
                         ),
                       ),

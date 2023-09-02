@@ -14,6 +14,12 @@ class ServerFailure extends Failure{
   List<Object?> get props => [];
 }
 
+class UserNotFoundFailure extends Failure {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
 class NotLoggedInFailure extends Failure{
   @override
   // TODO: implement props
@@ -66,4 +72,23 @@ class NoProductFailure extends Failure{
   @override
   // TODO: implement props
   List<Object?> get props => [];
+}
+
+class AddToFavFailure extends Failure{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class AddToCartFailure extends Failure{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class GetCartDataFailure extends Failure {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+
 }

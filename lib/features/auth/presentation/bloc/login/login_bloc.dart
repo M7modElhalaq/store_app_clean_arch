@@ -11,11 +11,9 @@ import 'package:store_app/core/widgets/helpers.dart';
 import 'package:store_app/core/widgets/navigate_push.dart';
 import 'package:store_app/features/auth/domain/entities/customer.dart';
 import 'package:store_app/features/auth/domain/use_cases/login.dart';
-import 'package:store_app/features/auth/domain/use_cases/logout.dart';
-import 'package:store_app/features/auth/domain/use_cases/register_profile.dart';
-import 'package:store_app/features/auth/domain/use_cases/update_profile.dart';
 import 'package:store_app/features/auth/presentation/views/login_view.dart';
 import 'package:store_app/features/auth/presentation/views/otp_view.dart';
+import 'package:store_app/routes/routes.dart';
 
 import '../../../../profile/presentation/views/complete_profile_view.dart';
 import 'login_event.dart';
@@ -25,8 +23,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> with Helpers {
   AppSettingsSharedPreferences appSettingsSharedPreferences = AppSettingsSharedPreferences();
 
   final LoginUseCase login;
-  final UpdateProfileUseCase updateProfile;
-  final LogoutUseCase logoutUseCase;
+
   Customer? customer;
 
   final TextEditingController controller = TextEditingController();
@@ -34,15 +31,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> with Helpers {
   PhoneNumber number = PhoneNumber(isoCode: Constance.loginInitialCountry);
 
   // final VerifyPhoneUseCase verifyPhone;
-  final RegisterProfileUseCase register;
   FirebaseAuth auth = FirebaseAuth.instance;
 
   LoginBloc({
     required this.login,
     // required this.verifyPhone,
-    required this.register,
-    required this.updateProfile,
-    required this.logoutUseCase,
   }) : super(LoginInitialState()) {
     on<LoginEvent>((event, emit) async {
       if (event is CheckCustomerAccountEvent) {
@@ -61,19 +54,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> with Helpers {
         );
       } else if (event is VerifyPhoneNumberEvent) {
         emit(LoginLoadingState());
-      } else if (event is RegisterNewCustomerEvent) {
-        emit(LoginLoadingState());
-        final verify = await register(event.customer);
-        verify.fold(
-          (failure) {
-            emit(RegisterAccountErrorState(
-                message: _mapFailureToMessage(failure)));
-          },
-          (cust) {
-            customer = cust;
-            emit(RegisterAccountSuccessState());
-          },
-        );
       }
     });
   }
@@ -205,14 +185,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> with Helpers {
           print('Registered: $phoneNumber');
           appSettingsSharedPreferences.setPhoneNumber(phoneNumber);
           Navigator.of(context).pop();
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CompleteProfileView(
-                phoneNumber: phoneNumber,
-              ),
-            ),
-          );
+          Navigator.pushReplacementNamed(context, Routes.completeProfileView, arguments: {
+            'phoneNumber': phoneNumber,
+          });
         }
         emit(VerifyPhoneNumberSuccessState());
       }).onError((error, stackTrace) {
@@ -231,109 +206,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> with Helpers {
       );
       emit(VerifyPhoneNumberErrorState(message: 'رمز التحقق خاطي'));
     }
-  }
-
-  void registerCustomer({
-    required int phoneNumber,
-    String? profileImage,
-    String? userName,
-    String? email,
-    int? idNumber,
-    String? dayOfBirth,
-    String? gender,
-  }) async {
-    Customer customer = Customer(
-      name: userName ?? '',
-      email: email ?? '',
-      phoneNumber: phoneNumber,
-      idNumber: idNumber ?? 0,
-      profileImage: profileImage ?? '',
-      dateOfBirth: dayOfBirth ?? '',
-      gender: gender ?? '',
-      lang: 'ar',
-      token: '',
-    );
-
-    emit(LoginLoadingState());
-    final verify = await register(customer);
-    verify.fold(
-      (failure) {
-        print('RegisterAccountErrorState');
-        print(failure);
-
-        emit(RegisterAccountErrorState(message: _mapFailureToMessage(failure)));
-      },
-      (customer) {
-        print('From Bloc: RegisterAccountSuccessState');
-        print('Registered: $phoneNumber');
-        appSettingsSharedPreferences.setPhoneNumber(phoneNumber);
-        emit(RegisterAccountSuccessState());
-      },
-    );
-  }
-
-  Future<bool> updateCustomer(
-    BuildContext context, {
-    required int phoneNumber,
-    String? profileImage,
-    String? userName,
-    String? email,
-    int? idNumber,
-    String? dayOfBirth,
-    String? gender,
-  }) async {
-    Customer customer = Customer(
-      name: userName ?? '',
-      email: email ?? '',
-      phoneNumber: phoneNumber,
-      idNumber: idNumber ?? 0,
-      profileImage: profileImage ?? '',
-      dateOfBirth: dayOfBirth ?? '',
-      gender: gender ?? '',
-      lang: 'ar',
-      token: '',
-    );
-
-    emit(LoginLoadingState());
-    final verify = await updateProfile(customer);
-    bool success = false;
-    verify.fold(
-      (failure) {
-        print(failure);
-        showSnackBar(
-          context: context,
-          message: ManagerStrings.completeProfileUpdateFailed,
-          error: true,
-        );
-        emit(UpdateAccountErrorState(message: _mapFailureToMessage(failure)));
-        success = false;
-      },
-      (cust) {
-        this.customer = cust;
-        appSettingsSharedPreferences.setPhoneNumber(phoneNumber);
-        appSettingsSharedPreferences.setLoggedIn();
-        showSnackBar(
-          context: context,
-          message: ManagerStrings.completeProfileUpdateFailed,
-          error: true,
-        );
-        emit(UpdateAccountSuccessState());
-        success = true;
-      },
-    );
-    return success;
-  }
-
-  void logout(BuildContext context) async {
-    print('Logout From Bloc');
-    final logout = await logoutUseCase();
-    print(logout);
-    logout.fold((l) {
-      print('failed');
-    }, (r) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginView()));
-      emit(AuthFailedState(message: 'تم تسجيل الخروج بنجاح'));
-    });
   }
 }

@@ -12,6 +12,7 @@
   "checkCustomerAccountError": "You don't have a previous account",
   "verifyPhoneNumberError": "Incorrect verification code",
   "login": "Login",
+  "logoutSuccess": "Logout Success",
   "loginButton": "Login",
   "phoneNumber": "Phone Number",
   "loginHintText": "05XXXXXXXXX",
@@ -79,5 +80,14 @@
   "emptyProducts": "No products available",
   "noQty": "Out of stock",
   "noSizes": "Sizes not available",
-  "noColors": "Colors not available"
+  "noColors": "Colors not available",
+  "settingsViewTitle": "Settings",
+  "accountInformation": "Account Information",
+  "settingsLanguage": "Language",
+  "changeLanguageSuccess": "Change language success",
+  "failedAddToFav": "Failed add product to favorites",
+  "failedAddToCart": "Failed add product to cart",
+  "notFoundRoute": "Page not found",
+  "sessionFinished": "sessionFinished",
+  "somethingWentWrong": "Something went wrong"
 }

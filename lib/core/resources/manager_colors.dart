@@ -15,6 +15,7 @@ class ManagerColors {
   static Color discountColor = const Color(0xFFCE2621);
   static Color newProductColor = const Color(0xFF00AE3B);
   static Color yellow = const Color(0xFFFFF500);
+  static const Color greyLight = Color(0xFFD5D5D5);
   static Color textButtonUnderLineColor = const Color(0xFFCDCDCD);
   static Color brown200 = Colors.brown.shade300;
   static Color transparent = Colors.transparent;

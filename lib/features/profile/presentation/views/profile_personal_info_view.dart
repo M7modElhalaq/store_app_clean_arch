@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:store_app/core/constance.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
@@ -10,65 +11,61 @@ import 'package:store_app/core/resources/manager_margin.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
-import 'package:store_app/features/profile/presentation/views/complete_profile_view.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 import 'package:store_app/core/widgets/profile_avatar_image_widget.dart';
 import 'package:store_app/core/widgets/profile_text_widget.dart';
-import 'package:store_app/features/auth/presentation/bloc/login/login_bloc.dart';
-import 'package:store_app/features/auth/presentation/bloc/login/login_state.dart';
-import 'package:store_app/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:store_app/features/profile/presentation/controller/profile_controller.dart';
 import 'package:store_app/features/profile/presentation/views/profile_view.dart';
+import 'package:store_app/routes/routes.dart';
 
 class ProfilePersonalInfoView extends StatelessWidget {
   const ProfilePersonalInfoView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: Constance.appBarElevation,
-        backgroundColor: ManagerColors.white,
-        leading: IconButton(
-          icon: HeroIcon(
-            HeroIcons.pencilSquare,
-            color: ManagerColors.primaryColor,
-          ),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CompleteProfileView(
-                  phoneNumber: 00972599187654,
-                  isUpdate: true,
-                ),
+    return GetBuilder<ProfileController>(
+      builder: (controller) {
+        return Scaffold(
+          appBar: AppBar(
+            elevation: Constance.appBarElevation,
+            backgroundColor: ManagerColors.white,
+            leading: IconButton(
+              icon: HeroIcon(
+                HeroIcons.pencilSquare,
+                color: ManagerColors.primaryColor,
               ),
-            );
-          },
-        ),
-        title: Center(
-          child: baseText(
-            name: ManagerStrings.profilePersonalInfoPageTitle,
-            fontWeight: ManagerFontWeight.bold,
-            fontSize: ManagerFontSizes.s24,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsetsDirectional.only(end: ManagerWidth.w20),
-            child: InkWell(
-              onTap: () => Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const ProfileView())),
-              child: const HeroIcon(
-                HeroIcons.arrowRight,
+              onPressed: () {
+                Navigator.pushReplacementNamed(
+                    context, Routes.completeProfileView,
+                    arguments: {
+                      'phoneNumber': controller.phoneNumber,
+                    });
+              },
+            ),
+            title: Center(
+              child: baseText(
+                name: ManagerStrings.profilePersonalInfoPageTitle,
+                fontWeight: ManagerFontWeight.bold,
+                fontSize: ManagerFontSizes.s24,
               ),
             ),
-          )
-        ],
-      ),
-      body: BlocBuilder<LoginBloc, LoginStates>(
-        builder: (context, state) {
-          var customer = BlocProvider.of<LoginBloc>(context).customer;
-          return SingleChildScrollView(
+            actions: [
+              Padding(
+                padding:
+                    EdgeInsetsDirectional.only(end: ManagerWidth.w20),
+                child: InkWell(
+                  onTap: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfileView())),
+                  child: const HeroIcon(
+                    HeroIcons.arrowRight,
+                  ),
+                ),
+              )
+            ],
+          ),
+          body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Container(
               margin: const EdgeInsets.symmetric(
@@ -81,10 +78,10 @@ class ProfilePersonalInfoView extends StatelessWidget {
                     Center(
                       child: ProfileAvatarImageWidget(
                         radius: ManagerRadius.r50,
-                        image: customer!.profileImage == '' ? null : customer.profileImage,
+                        image: controller.customer!.profileImage,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: ManagerHeights.h12,
                     ),
                     baseText(
@@ -93,10 +90,10 @@ class ProfilePersonalInfoView extends StatelessWidget {
                     ),
                     ProfileTextWidget(
                       icon: HeroIcons.user,
-                      text: customer.name,
+                      text: controller.customer!.name,
                       fontSize: ManagerFontSizes.s16,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: ManagerHeights.h12,
                     ),
                     baseText(
@@ -105,10 +102,10 @@ class ProfilePersonalInfoView extends StatelessWidget {
                     ),
                     ProfileTextWidget(
                       icon: HeroIcons.devicePhoneMobile,
-                      text: customer.phoneNumber.toString(),
+                      text: controller.customer!.phoneNumber.toString(),
                       fontSize: ManagerFontSizes.s16,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: ManagerHeights.h12,
                     ),
                     baseText(
@@ -117,10 +114,10 @@ class ProfilePersonalInfoView extends StatelessWidget {
                     ),
                     ProfileTextWidget(
                       icon: HeroIcons.envelope,
-                      text: customer.email,
+                      text: controller.customer!.email,
                       fontSize: ManagerFontSizes.s16,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: ManagerHeights.h12,
                     ),
                     baseText(
@@ -129,10 +126,12 @@ class ProfilePersonalInfoView extends StatelessWidget {
                     ),
                     ProfileTextWidget(
                       icon: HeroIcons.identification,
-                      text: customer.idNumber == 0 ? '' : customer.idNumber.toString(),
+                      text: controller.customer!.idNumber == 0
+                          ? ''
+                          : controller.customer!.idNumber.toString(),
                       fontSize: ManagerFontSizes.s16,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: ManagerHeights.h12,
                     ),
                     baseText(
@@ -141,10 +140,10 @@ class ProfilePersonalInfoView extends StatelessWidget {
                     ),
                     ProfileTextWidget(
                       icon: HeroIcons.calendarDays,
-                      text: customer.dateOfBirth,
+                      text: controller.customer!.dateOfBirth,
                       fontSize: ManagerFontSizes.s16,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: ManagerHeights.h12,
                     ),
                     baseText(
@@ -153,16 +152,19 @@ class ProfilePersonalInfoView extends StatelessWidget {
                     ),
                     ProfileTextWidget(
                       icon: HeroIcons.userPlus,
-                      text: customer.gender == 'Male' || customer.gender == 'male' ? 'ذكر' : 'إنثي',
+                      text:
+                      controller.customer!.gender == 'Male' || controller.customer!.gender == 'male'
+                              ? 'ذكر'
+                              : 'إنثي',
                       fontSize: ManagerFontSizes.s16,
                     ),
                   ],
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

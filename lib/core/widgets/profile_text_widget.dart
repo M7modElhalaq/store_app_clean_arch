@@ -18,8 +18,8 @@ class ProfileTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: ManagerHeights.h12),
-      margin: const EdgeInsets.symmetric(vertical: ManagerHeights.h12),
+      padding: EdgeInsets.symmetric(vertical: ManagerHeights.h12),
+      margin: EdgeInsets.symmetric(vertical: ManagerHeights.h12),
       decoration: UnderlineTabIndicator(
         borderSide: BorderSide(
           color: ManagerColors.textButtonUnderLineColor,
@@ -32,7 +32,7 @@ class ProfileTextWidget extends StatelessWidget {
             style: HeroIconStyle.solid,
             color: ManagerColors.primaryColor,
           ),
-          const SizedBox(width: ManagerWidth.w16,),
+          SizedBox(width: ManagerWidth.w16,),
           baseText(
               name: text == '' ? ManagerStrings.nullValue : text,
               fontWeight: ManagerFontWeight.bold,

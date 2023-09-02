@@ -27,6 +27,7 @@ class ManagerStrings {
   static String get phoneVerifiedSuccess => tr('phoneVerifiedSuccess');
   static String get wrongVerificationId => tr('wrongVerificationId');
   static String get checkPhoneNumber => tr('checkPhoneNumber');
+  static String get logoutSuccess => tr('logoutSuccess');
 
   static String get nullValue => tr('nullValue');
   static String get confirmLogoutDialogMessage => tr('confirmLogoutDialogMessage');
@@ -87,4 +88,44 @@ class ManagerStrings {
   static String get noQty => tr('noQty');
   static String get noSizes => tr('noSizes');
   static String get noColors => tr('noColors');
+
+  static String get settingsViewTitle => tr('settingsViewTitle');
+  static String get accountInformation => tr('accountInformation');
+  static String get settingsLanguage => tr('settingsLanguage');
+  static String get changeLanguageSuccess => tr('changeLanguageSuccess');
+
+  static String get failedAddToFav => tr('failedAddToFav');
+  static String get failedAddToCart => tr('failedAddToCart');
+  static String get notFoundRoute => tr('notFoundRoute');
+  static String get sessionFinished => tr('sessionFinished');
+
+  static String get SUCCESS => tr('SUCCESS');
+
+  static String get NO_CONTENT => tr('NO_CONTENT');
+
+  static String get BAD_REQUEST => tr('BAD_REQUEST');
+
+  static String get FORBIDDEN => tr('FORBIDDEN');
+
+  static String get UNAUTHORISED => tr('UNAUTHORISED');
+
+  static String get NOT_FOUND => tr('NOT_FOUND');
+
+  static String get INTERNAL_SERVER_ERROR => tr('INTERNAL_SERVER_ERROR');
+
+  static String get CONNECT_TIMEOUT => tr('CONNECT_TIMEOUT');
+
+  static String get CANCEL => tr('CANCEL');
+
+  static String get RECIEVE_TIMEOUT => tr('RECIEVE_TIMEOUT');
+
+  static String get SEND_TIMEOUT => tr('SEND_TIMEOUT');
+
+  static String get CACHE_ERROR => tr('CACHE_ERROR');
+
+  static String get NO_INTERNT_CONNECTION => tr('NO_INTERNT_CONNECTION');
+
+  static String get UNKNOWN => tr('UNKNOWN');
+
+  static String get somethingWentWrong => tr('somethingWentWrong');
 }

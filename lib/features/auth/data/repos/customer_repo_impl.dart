@@ -1,8 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:store_app/core/errors/exceptions.dart';
 import 'package:store_app/core/errors/failure.dart';
-import 'package:store_app/core/network/network_info.dart';
-import 'package:store_app/core/storage/local/database/shared_preferences/app_settings_shared_preferences.dart';
+import 'package:store_app/core/internet_checker/interent_checker.dart';
 import 'package:store_app/features/auth/domain/entities/customer.dart';
 import 'package:store_app/features/auth/domain/repos/customer_reps.dart';
 
@@ -12,8 +11,7 @@ import '../models/customer_model.dart';
 class CustomerRepoImpl implements CustomerRep {
   final RemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
-  AppSettingsSharedPreferences appSettingsSharedPreferences =
-  AppSettingsSharedPreferences();
+
 
   CustomerRepoImpl({
     required this.remoteDataSource,
@@ -25,7 +23,8 @@ class CustomerRepoImpl implements CustomerRep {
     if (await networkInfo.isConnected) {
       try {
         CustomerModel customer = await remoteDataSource.login(phoneNumber);
-        print(customer.phoneNumber);
+        // String smsVerifyCode = await remoteDataSource.sendSmsVerifyCode(phoneNumber);
+        // print('smsVerifyCode: $smsVerifyCode');
         return Right(customer);
       } on NotRegisteredException {
         print('NotRegisteredException');
@@ -50,74 +49,6 @@ class CustomerRepoImpl implements CustomerRep {
       }
     } else {
       return Left(OfflineFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, Customer>> register(Customer customer) async {
-    final CustomerModel customerModel = CustomerModel(
-      name: customer.name,
-      email: customer.email,
-      phoneNumber: customer.phoneNumber,
-      profileImage: customer.profileImage ?? '',
-      dateOfBirth: customer.dateOfBirth ?? '',
-      idNumber: customer.idNumber ?? 0,
-      gender: customer.gender ?? '',
-      lang: customer.lang ?? '',
-      token: customer.token ?? '',
-    );
-
-    if(await networkInfo.isConnected) {
-      try {
-        await remoteDataSource.register(customerModel);
-        appSettingsSharedPreferences.setPhoneNumber(customerModel.phoneNumber);
-        return Right(customerModel);
-      } on RegisterException {
-        return Left(RegisterFailure());
-      }
-    } else {
-      return Left(OfflineFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, Customer>> updateProfile(Customer customer) async {
-    // print('updateProfile From Remote');
-    // print(customer);
-    final CustomerModel customerModel = CustomerModel(
-      name: customer.name,
-      email: customer.email,
-      phoneNumber: customer.phoneNumber,
-      profileImage: customer.profileImage,
-      dateOfBirth: customer.dateOfBirth,
-      idNumber: customer.idNumber,
-      gender: customer.gender,
-      lang: customer.lang,
-      token: customer.token,
-    );
-
-    if(await networkInfo.isConnected) {
-      try {
-        await remoteDataSource.updateProfile(customerModel);
-        appSettingsSharedPreferences.setPhoneNumber(customerModel.phoneNumber);
-        return Right(customerModel);
-      } on UpdateProfileException {
-        return Left(UpdateProfileFailure());
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(OfflineFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, Unit>> logout() async {
-    try {
-      await appSettingsSharedPreferences.clear();
-      return Right(unit);
-    } on EmptyCacheException {
-      throw EmptyCacheFailure();
     }
   }
 }

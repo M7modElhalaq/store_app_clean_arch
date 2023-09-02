@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/custom_widget.dart';
 import 'package:store_app/core/widgets/text_button_widget.dart';
+import 'package:store_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:store_app/features/auth/presentation/widgets/custom_clip_path_widget.dart';
 import 'package:store_app/features/auth/presentation/widgets/rich_text_widget.dart';
-import '../bloc/login/login_bloc.dart';
-import '../bloc/login/login_state.dart';
 
-class LoginView extends StatefulWidget {
+class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
-  final _formKey = GlobalKey<FormState>();
-
-  @override
   Widget build(BuildContext context) {
-    String? phoneNumber;
     return Scaffold(
-      body: BlocBuilder<LoginBloc, LoginStates>(
-        builder: (context, state) {
-          var bloc = BlocProvider.of<LoginBloc>(context);
+      body: GetBuilder<AuthController>(
+        builder: (controller) {
           String? phoneNumber;
           return Stack(
             children: [
@@ -47,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     // Text form field
                     Form(
-                      key: _formKey,
+                      key: controller.formKey,
                       child: Column(
                         children: [
                           Column(
@@ -72,8 +62,8 @@ class _LoginViewState extends State<LoginView> {
                                 autoValidateMode: AutovalidateMode.disabled,
                                 selectorTextStyle:
                                 const TextStyle(color: Colors.black),
-                                initialValue: bloc.number,
-                                textFieldController: bloc.controller,
+                                initialValue: controller.number,
+                                textFieldController: controller.controller,
                                 formatInput: true,
                                 keyboardType:
                                 const TextInputType.numberWithOptions(
@@ -91,7 +81,7 @@ class _LoginViewState extends State<LoginView> {
                               text: ManagerStrings.loginButton,
                               onPressed: () {
                                 // print('Form Validate: ${controller.text}');
-                                bloc.signInWithPhone(
+                                controller.signInWithPhone(
                                   context,
                                   phoneNumber!,
                                 );

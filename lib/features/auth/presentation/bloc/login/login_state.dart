@@ -55,25 +55,3 @@ class VerifyPhoneNumberErrorState extends LoginStates {
   VerifyPhoneNumberErrorState({required this.message});
   List<Object?> get props => [message];
 }
-
-// Register new account for the customer
-
-class RegisterAccountState extends LoginStates {}
-
-class RegisterAccountSuccessState extends LoginStates {}
-
-class RegisterAccountErrorState extends LoginStates {
-  final String message;
-
-  RegisterAccountErrorState({required this.message});
-  List<Object?> get props => [message];
-}
-
-class UpdateAccountSuccessState extends LoginStates {}
-
-class UpdateAccountErrorState extends LoginStates {
-  final String message;
-
-  UpdateAccountErrorState({required this.message});
-  List<Object?> get props => [message];
-}

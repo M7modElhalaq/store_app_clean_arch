@@ -12,6 +12,7 @@
   "checkCustomerAccountError": "لا يوجد لديك حساب سابق",
   "verifyPhoneNumberError": "كود التحقق خاطئ",
   "login": "تسجيل دخول",
+  "logoutSuccess": "تم تسجيل الخروج بنجاح",
   "loginButton": "دخول",
   "phoneNumber": "رقم الهاتف",
   "loginHintText": "05XXXXXXXXX",
@@ -79,5 +80,13 @@
   "emptyProducts": "لا يوجد منتجات",
   "noQty": "نفذت الكمية",
   "noSizes": "المقاسات غير متوفرة",
-  "noColors": "الالوان غير متوفرة"
+  "noColors": "الالوان غير متوفرة",
+  "settingsViewTitle": "الإعدادات",
+  "accountInformation": "معلومات الحساب",
+  "settingsLanguage": "اللغة",
+  "changeLanguageSuccess": "تم تغيير اللغة بنجاح",
+  "failedAddToFav": "فشل اضافة المنتج الي المفضلة",
+  "failedAddToCart": "فشل اضافة المنتج الي السلة",
+  "notFoundRoute": "الصفحة غير موجودة",
+  "somethingWentWrong": "حصل خطا ما"
 }

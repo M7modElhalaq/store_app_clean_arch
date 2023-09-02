@@ -1,229 +1,234 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:store_app/core/constance.dart';
+import 'package:store_app/core/resources/manager_assets.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_height.dart';
-import 'package:store_app/core/resources/manager_icon_sizes.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
-import 'package:store_app/core/widgets/base_text_widget.dart';
-import 'package:store_app/core/widgets/loading_widget.dart';
+import 'package:store_app/core/widgets/error_container.dart';
 import 'package:store_app/core/widgets/product_widget.dart';
-import 'package:store_app/features/home/presentation/bloc/product/product_bloc.dart';
-import 'package:store_app/features/home/presentation/bloc/product/product_event.dart';
-import 'package:store_app/features/home/presentation/bloc/product/product_state.dart';
-import 'package:store_app/features/home/presentation/views/widgets/empty_products_widget.dart';
-import 'package:store_app/features/home/presentation/views/widgets/products_types_bar.dart';
-import 'package:store_app/features/home/presentation/views/widgets/search_text_field.dart';
-import '../../../../core/resources/manager_font_sizes.dart';
+import 'package:store_app/core/widgets/shimmer/shimmer_home_page.dart';
+import 'package:store_app/features/home/presentation/controller/home_controller.dart';
+import 'package:store_app/features/home/presentation/widgets/empty_products_widget.dart';
+import 'package:store_app/features/home/presentation/widgets/products_types_bar.dart';
+import 'package:store_app/features/home/presentation/widgets/search_text_field.dart';
 
-import 'widgets/slider_widget.dart';
-
-class HomeView extends StatefulWidget {
-  HomeView({super.key});
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  TextEditingController searchController = TextEditingController();
-  late PageController _pageController;
-  int _initialPage = 0;
-  int _productTypeIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController(initialPage: _initialPage);
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+class HomeView extends StatelessWidget {
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: Constance.appBarElevation,
-        backgroundColor: ManagerColors.white,
-        leading: Padding(
-          padding: const EdgeInsetsDirectional.only(start: ManagerWidth.w20),
-          child: IconButton(
-            icon: Stack(
-              children: [
-                const HeroIcon(
-                  HeroIcons.bellAlert,
-                ),
-                Positioned(
-                  // draw a red marble
-                  top: 0.0,
-                  right: 0.0,
-                  child: Container(
-                    height: ManagerHeights.h8,
-                    width: ManagerWidth.w8,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: ManagerColors.red,
-                      borderRadius: BorderRadius.circular(ManagerRadius.r12),
+    return GetBuilder<HomeController>(
+      builder: (controller) {
+        return Scaffold(
+              appBar: AppBar(
+                elevation: Constance.appBarElevation,
+                backgroundColor: ManagerColors.white,
+                leading: Padding(
+                  padding:
+                  EdgeInsetsDirectional.only(start: ManagerWidth.w20),
+                  child: InkWell(
+                    onTap: () => SimpleHiddenDrawerController.of(context).toggle(),
+                    child: Image.asset(
+                      ManagerAssets.hiddenDrawerIcon,
+                      color: ManagerColors.primaryColor,
                     ),
                   ),
                 ),
-              ],
-            ),
-            onPressed: () {},
-          ),
-        ),
-        title: Center(
-          child: Text(ManagerStrings.homePageTitle),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsetsDirectional.only(end: ManagerWidth.w20),
-            child: InkWell(
-              onTap: () => Scaffold.of(context).openDrawer(),
-              child: const HeroIcon(
-                HeroIcons.listBullet,
-              ),
-            ),
-          )
-        ],
-      ),
-      body: BlocBuilder<ProductBloc, ProductStates>(builder: (context, state) {
-        var block = BlocProvider.of<ProductBloc>(context);
-        var products = BlocProvider.of<ProductBloc>(context).products;
-        // var offer = BlocProvider.of<ProductBloc>(context).offerProducts;
-        // var topSelling = BlocProvider.of<ProductBloc>(context).topSellingProducts;
-        // var newProduct = BlocProvider.of<ProductBloc>(context).newProducts;
-        if (state is GetProductSuccessState) {
-          return RefreshIndicator(
-            onRefresh: () async {
-              print('Refresh');
-              BlocProvider.of<ProductBloc>(context).add(GetProductsEvent());
-            },
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: ManagerWidth.w20,
-                  vertical: ManagerHeights.h12,
+                title: Center(
+                  child: Text(ManagerStrings.homePageTitle),
                 ),
-                child: Column(
-                  children: [
-                    // Search Text Field
-                    SearchTextField(
-                      controller: searchController,
-                    ),
-                    const SizedBox(
-                      height: ManagerHeights.h24,
-                    ),
-                    // Slider
-                    Container(
-                      height: ManagerHeights.h150,
-                      child: PageView(
-                        scrollDirection: Axis.horizontal,
-                        controller: _pageController,
-                        children: const [
-                          SliderWidget(
-                            index: 0,
-                          ),
-                          SliderWidget(
-                            index: 1,
-                          ),
-                          SliderWidget(
-                            index: 2,
-                          ),
-                          SliderWidget(
-                            index: 3,
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Products App Bar
-                    const SizedBox(
-                      height: ManagerHeights.h24,
-                    ),
-                    Container(
-                      height: ManagerHeights.h50,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(ManagerRadius.r20),
-                        border: Border.all(
-                          color: ManagerColors.borderColor,
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                actions: [
+                  Padding(
+                    padding:
+                    EdgeInsetsDirectional.only(end: ManagerWidth.w20),
+                    child: IconButton(
+                      icon: Stack(
                         children: [
-                          ProductsTypeBar(
-                            isActive: block.productTypeIndex == 0 ? true : false,
-                            title: ManagerStrings.offers,
-                            onTap: () {
-                              setState(() {
-                                block.changeProductsBar(0);
-                              });
-                            },
+                          const HeroIcon(
+                            HeroIcons.bellAlert,
                           ),
-                          ProductsTypeBar(
-                            isActive: block.productTypeIndex == 1 ? true : false,
-                            title: ManagerStrings.topSelling,
-                            onTap: () {
-                              setState(() {
-                                block.changeProductsBar(1);
-                              });
-                            },
-                          ),
-                          ProductsTypeBar(
-                            isActive: block.productTypeIndex == 2 ? true : false,
-                            title: ManagerStrings.newProducts,
-                            onTap: () {
-                              setState(() {
-                                block.changeProductsBar(2);
-                              });
-                            },
+                          Positioned(
+                            // draw a red marble
+                            top: 0.0,
+                            right: 0.0,
+                            child: Container(
+                              height: ManagerHeights.h8,
+                              width: ManagerWidth.w8,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: ManagerColors.red,
+                                borderRadius:
+                                BorderRadius.circular(ManagerRadius.r12),
+                              ),
+                            ),
                           ),
                         ],
                       ),
+                      onPressed: () {},
                     ),
-                    // Products
-                    const SizedBox(
-                      height: ManagerHeights.h24,
-                    ),
-                    GridView.builder(
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: products!.isNotEmpty ? 2 : 1,
-                          mainAxisExtent: 222,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 5,
-                        ),
-                        itemCount: products.isNotEmpty ? products.length : 1,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          if(state is ChangeProductsLoadingState) {
-                            return const LoadingWidget();
-                          } else if(products.isEmpty) {
-                            return const EmptyProductsWidget();
-                          } else {
-                            return ProductWidget(product: products[index]);
-                          }
-                        }),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
-          );
-        } else {
-          return const LoadingWidget();
-        }
-      }),
+              body: RefreshIndicator(
+                onRefresh: () async {
+                  controller.getHomeData();
+                },
+                child: controller.isLoading == 2
+                    ? SingleChildScrollView(
+                  child: errorContainer(
+                    controller.errorMessage,
+                  ),
+                )
+                    : SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: ManagerWidth.w20,
+                      vertical: ManagerHeights.h12,
+                    ),
+                    child: Column(
+                      children: [
+                        // Search Text Field
+                        SearchTextField(
+                          controller: controller.searchController,
+                        ),
+                        SizedBox(
+                          height: ManagerHeights.h24,
+                        ),
+                        // Slider
+                        SizedBox(
+                          height: ManagerHeights.h150,
+                          child: Stack(
+                            children: [
+                              SizedBox(
+                                width: double.infinity,
+                                child: PageView(
+                                  controller: controller.pageController,
+                                  onPageChanged: (int index) => controller.changeSlider(index),
+                                  children: controller.slider(),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.bottomCenter,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                        bottom: ManagerHeights.h12,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: controller.sliderIndicator(),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: ManagerHeights.h24,
+                        ),
+                        Container(
+                          height: ManagerHeights.h50,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.circular(ManagerRadius.r20),
+                            border: Border.all(
+                              color: ManagerColors.borderColor,
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceAround,
+                            children: [
+                              ProductsTypeBar(
+                                isActive: controller.productTypeIndex == 0
+                                    ? true
+                                    : false,
+                                title: ManagerStrings.offers,
+                                onTap: () {
+                                  controller.changeProductsBar(
+                                      context, 0);
+                                },
+                              ),
+                              ProductsTypeBar(
+                                isActive: controller.productTypeIndex == 1
+                                    ? true
+                                    : false,
+                                title: ManagerStrings.topSelling,
+                                onTap: () {
+                                  controller.changeProductsBar(
+                                      context, 1);
+                                },
+                              ),
+                              ProductsTypeBar(
+                                isActive: controller.productTypeIndex == 2
+                                    ? true
+                                    : false,
+                                title: ManagerStrings.newProducts,
+                                onTap: () {
+                                  controller.changeProductsBar(
+                                      context, 2);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Products
+                        SizedBox(
+                          height: ManagerHeights.h24,
+                        ),
+                        GridView.builder(
+                            gridDelegate:
+                            SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: controller.products != null
+                                  ? (controller.products!.isNotEmpty
+                                  ? 2
+                                  : 1)
+                                  : 1,
+                              mainAxisExtent: 222,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 5,
+                            ),
+                            itemCount: controller.products != null
+                                ? (controller.products!.isNotEmpty
+                                ? controller.products!.length
+                                : 1)
+                                : 1,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder:
+                                (BuildContext context, int index) {
+                              if (controller.products!.isEmpty) {
+                                return const EmptyProductsWidget();
+                              } else {
+                                return ProductWidget(
+                                  product: controller.products![index],
+                                  addToFav: () => controller.addToFav(
+                                      context,
+                                      productIndex: index),
+                                  addToCart: () => controller.addToCart(
+                                      context,
+                                      productIndex: index),
+                                );
+                              }
+                            }),
+                      ],
+                    ),
+                  ),
+                )
+              ),
+            );
+      },
     );
   }
 }

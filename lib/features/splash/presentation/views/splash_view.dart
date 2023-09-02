@@ -1,71 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/core/constance.dart';
+import 'package:get/get.dart';
 import 'package:store_app/core/resources/manager_assets.dart';
-import 'package:store_app/core/storage/local/database/shared_preferences/app_settings_shared_preferences.dart';
-import 'package:store_app/routes/routes.dart';
+import 'package:store_app/features/splash/presentation/controller/splash_controller.dart';
 
-class SplashView extends StatefulWidget {
+class SplashView extends StatelessWidget {
   const SplashView({Key? key}) : super(key: key);
 
   @override
-  State<SplashView> createState() => _SplashViewState();
-}
-
-class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
-  AppSettingsSharedPreferences appSettingsSharedPreferences = AppSettingsSharedPreferences();
-
-  // double opacityLevel = .3;
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 2),
-    vsync: this,
-  )..repeat(reverse: true);
-  late final Animation<double> _animation = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeIn,
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: Constance.splashTime), () {
-      print(appSettingsSharedPreferences.loggedIn);
-      String route = appSettingsSharedPreferences.loggedIn
-          ? Routes.mainAppView
-          : Routes.loginView;
-      Navigator.pushReplacementNamed(context, route);
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FadeTransition(
-              opacity: _animation,
-              child: Container(
-                width: 150,
-                height: 150,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(ManagerAssets.splashImage),
-                    fit: BoxFit.cover,
+    return GetBuilder<SplashController>(
+      builder: (controller) {
+        return Scaffold(
+          body: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FadeTransition(
+                  opacity: controller.animation,
+                  child: Container(
+                    width: 150,
+                    height: 150,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(ManagerAssets.splashImage),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+                )
+              ],
+            ),
+          ),
+        );
+      }
     );
   }
 }

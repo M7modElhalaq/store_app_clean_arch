@@ -39,3 +39,30 @@ class UserDeleteAccountErrorState extends ProfileStates {
 
   List<Object?> get props => [message];
 }
+
+
+// Register new account for the customer
+
+class RegisterAccountState extends ProfileStates {}
+
+class RegisterAccountSuccessState extends ProfileStates {}
+
+class RegisterAccountErrorState extends ProfileStates {
+  final String message;
+
+  RegisterAccountErrorState({required this.message});
+  List<Object?> get props => [message];
+}
+
+class UpdateAccountSuccessState extends ProfileStates {}
+
+class UpdateAccountErrorState extends ProfileStates {
+  final String message;
+
+  UpdateAccountErrorState({required this.message});
+  List<Object?> get props => [message];
+}
+
+class picProfileImage extends ProfileStates {}
+
+class ChangeGenderState extends ProfileStates {}

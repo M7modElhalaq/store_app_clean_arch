@@ -10,7 +10,6 @@ import 'package:store_app/core/resources/manager_radius.dart';
 import 'package:store_app/core/resources/manager_width.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
-import 'package:store_app/features/profile/presentation/widgets/share_icon_widget.dart';
 import 'package:store_app/features/profile/presentation/widgets/support_icon_widget.dart';
 
 void supportAppBottomSheet(BuildContext context) {
@@ -25,7 +24,7 @@ void supportAppBottomSheet(BuildContext context) {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: ManagerColors.white,
-            borderRadius: const BorderRadius.only(
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(ManagerRadius.r12),
               topRight: Radius.circular(ManagerRadius.r12),
             ),
@@ -60,7 +59,7 @@ void supportAppBottomSheet(BuildContext context) {
                   ),
                 ],
               ),
-              const SizedBox(
+              SizedBox(
                 height: ManagerHeights.h16,
               ),
               Container(
@@ -75,7 +74,7 @@ void supportAppBottomSheet(BuildContext context) {
                   ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: ManagerHeights.h12,
               ),
               Divider(

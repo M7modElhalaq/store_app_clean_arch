@@ -23,7 +23,7 @@ void shareAppBottomSheet(BuildContext context) {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: ManagerColors.white,
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           topLeft: Radius.circular(ManagerRadius.r12),
           topRight: Radius.circular(ManagerRadius.r12),
         ),
@@ -58,7 +58,7 @@ void shareAppBottomSheet(BuildContext context) {
               ),
             ],
           ),
-          const SizedBox(
+          SizedBox(
             height: ManagerHeights.h16,
           ),
           Container(
@@ -73,7 +73,7 @@ void shareAppBottomSheet(BuildContext context) {
               ),
             ),
           ),
-          const SizedBox(
+          SizedBox(
             height: ManagerHeights.h12,
           ),
           Divider(

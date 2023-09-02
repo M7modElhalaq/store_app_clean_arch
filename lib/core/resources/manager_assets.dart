@@ -6,6 +6,8 @@ class ManagerAssets {
   static const String defaultProfileImage = 'assets/images/default_profile_image.jpg';
   static const String defaultProfileNetworkImage = 'https://s3.amazonaws.com/37assets/svn/765-default-avatar.png';
 
+  static const String otpImage = "assets/images/otp_image.png";
+
   static const String confirmLogoutDialogImage = 'assets/images/confirm_delete_dialog.png';
 
   static const String sliderImage1 = 'assets/images/slider/slider1.png';
@@ -24,6 +26,14 @@ class ManagerAssets {
   static const String twitter = 'assets/icons/twitter.png';
   static const String whatsapp = 'assets/icons/whatsapp.png';
   static const String telephone = 'assets/icons/telephone.png';
+
+  static const String galleryIconImage = 'assets/icons/gallary.png';
+  static const String cameraIconImage = 'assets/icons/camera.png';
+  static const String hiddenDrawerIcon = 'assets/icons/hidden_drawar.png';
+
+  static const String drawerImage = 'assets/icons/hidden_drawar.png';
+
+  static const String product = 'assets/images/products/product.png';
 }
 
 class ManagerPaths {

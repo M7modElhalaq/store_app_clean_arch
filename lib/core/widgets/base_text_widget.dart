@@ -26,7 +26,7 @@ Widget baseText(
       softWrap: false,
       style: TextStyle(
         fontSize: fontSize ?? ManagerFontSizes.s16,
-        color: color ?? ManagerColors.textColor,
+        color: color ?? ManagerColors.black,
         fontFamily: fontFamily ?? ManagerFont.appFont,
         fontWeight: fontWeight ?? ManagerFontWeight.w400,
         decoration: decoration ?? TextDecoration.none,

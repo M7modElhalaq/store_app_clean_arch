@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/core/constance.dart';
+import 'package:store_app/routes/routes.dart';
 
 import '../../features/main_app/presentation/views/main_app_view.dart';
 import '../resources/manager_assets.dart';
@@ -21,13 +22,8 @@ class _WelcomeBackWidgetState extends State<WelcomeBackWidget> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: Constance.welcomeMessageTime), () {
-      navigatePushWidget(
-        context,
-        materialPageRoute: MaterialPageRoute(
-          builder: (context) => MainAppView(),
-        ),
-      );
+    Future.delayed(const Duration(seconds: Constance.welcomeMessageTime), () {
+      Navigator.pushReplacementNamed(context, Routes.mainAppView);
     });
   }
   @override

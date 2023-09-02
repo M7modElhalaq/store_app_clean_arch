@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/config/dependancy_injection.dart';
+import 'package:store_app/core/resources/manager_strings.dart';
+import 'package:store_app/features/auth/presentation/views/login_view.dart';
 import 'package:store_app/features/product/presentation/view/product_view.dart';
 import 'package:store_app/features/cart/presentation/views/cart_view.dart';
 import 'package:store_app/features/favourites/presentation/views/favorites_view.dart';
 import 'package:store_app/features/home/presentation/views/home_view.dart';
 import 'package:store_app/features/main_app/presentation/views/main_app_view.dart';
-import 'package:store_app/features/profile/presentation/views/profile_view.dart';
+import 'package:store_app/features/profile/presentation/views/profile_personal_info_view.dart';
+import 'package:store_app/features/profile/presentation/views/settings_view.dart';
 import 'package:store_app/features/shopping_bag/presentation/views/shopping_bag_view.dart';
 
 import '../features/profile/presentation/views/complete_profile_view.dart';
-import '../features/auth/presentation/views/login_view.dart';
 import '../features/splash/presentation/views/splash_view.dart';
 
 class Routes {
@@ -22,20 +25,61 @@ class Routes {
   static const String cartView = '/cart_view';
   static const String shoppingBagView = '/shopping_bag_view';
   static const String profileView = '/profile_view';
+  static const String profilePersonalInfoView = '/profile_personal_info_view';
   static const String productView = '/product_view';
+  static const String settingsView = '/settings_view';
 }
 
-Map<String, Widget Function(BuildContext)> routes() {
-  return {
-    Routes.splashView: (context) => const SplashView(),
-    Routes.loginView: (context) => const LoginView(),
-    Routes.completeProfileView: (context) => CompleteProfileView(phoneNumber: 970599999999,),
-    Routes.mainAppView: (context) => const MainAppView(),
-    Routes.homeView: (context) => HomeView(),
-    Routes.favouritesView: (context) => const FavouritesView(),
-    Routes.cartView: (context) => const CartView(),
-    Routes.shoppingBagView: (context) => const ShoppingBagView(),
-    Routes.profileView: (context) => const ProfileView(),
-    Routes.productView: (context) => const ProductView(),
-  };
+class RouteGenerator {
+  static Route<dynamic> getRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case Routes.splashView:
+        initSplash();
+        return MaterialPageRoute(builder: (_) => const SplashView());
+      case Routes.loginView:
+        initAuth();
+        return MaterialPageRoute(builder: (_) => const LoginView());
+      case Routes.completeProfileView:
+        return MaterialPageRoute(builder: (_) => CompleteProfileView());
+      case Routes.mainAppView:
+        initHome();
+        return MaterialPageRoute(builder: (_) => const MainAppView());
+      case Routes.homeView:
+        initHome();
+        return MaterialPageRoute(builder: (_) => const HomeView());
+      case Routes.favouritesView:
+        return MaterialPageRoute(builder: (_) => const FavouritesView());
+      case Routes.cartView:
+        initCart();
+        return MaterialPageRoute(builder: (_) => const CartView());
+      case Routes.shoppingBagView:
+        return MaterialPageRoute(builder: (_) => const ShoppingBagView());
+      case Routes.profileView:
+        initProfile();
+        return MaterialPageRoute(builder: (_) => const ProductView());
+      case Routes.profilePersonalInfoView:
+        return MaterialPageRoute(
+            builder: (_) => const ProfilePersonalInfoView());
+      case Routes.productView:
+        initProduct();
+        return MaterialPageRoute(builder: (_) => const ProductView());
+      case Routes.settingsView:
+        initSettings();
+        return MaterialPageRoute(builder: (_) => const SettingsView());
+      default:
+        return unDefineRoute();
+    }
+  }
+
+  static Route<dynamic> unDefineRoute() {
+    return MaterialPageRoute(
+      builder: (_) =>
+          Scaffold(
+            appBar: AppBar(),
+            body: Center(
+              child: Text(ManagerStrings.notFoundRoute),
+            ),
+          ),
+    );
+  }
 }
