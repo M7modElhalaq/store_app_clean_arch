@@ -7,6 +7,8 @@ class LoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class CheckAuthEvent extends LoginEvent{}
+
 class CheckCustomerAccountEvent extends LoginEvent{
   final int phoneNumber;
 

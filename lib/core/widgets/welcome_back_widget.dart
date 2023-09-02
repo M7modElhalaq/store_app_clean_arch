@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/core/widgets/text_button_widget.dart';
+import 'package:store_app/core/constance.dart';
+import 'package:store_app/routes/routes.dart';
 
 import '../../features/main_app/presentation/views/main_app_view.dart';
 import '../resources/manager_assets.dart';
 import '../resources/manager_font_sizes.dart';
 import '../resources/manager_margin.dart';
-import '../strings/manager_strings.dart';
+import '../resources/manager_strings.dart';
 import 'base_text_widget.dart';
 import 'navigate_push.dart';
 
@@ -21,13 +22,8 @@ class _WelcomeBackWidgetState extends State<WelcomeBackWidget> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 5), () {
-      navigatePushWidget(
-        context,
-        materialPageRoute: MaterialPageRoute(
-          builder: (context) => MainAppView(),
-        ),
-      );
+    Future.delayed(const Duration(seconds: Constance.welcomeMessageTime), () {
+      Navigator.pushReplacementNamed(context, Routes.mainAppView);
     });
   }
   @override

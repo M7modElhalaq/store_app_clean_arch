@@ -8,21 +8,25 @@ Widget textButtonWidget({
   double textSize = 20,
   Color textColor = textColorWhite,
   Color bgColor = defaultAppColor,
+  bool isVisible = true,
   required void Function()? onPressed,
   required String text,
 }) {
-  return Container(
-    width: buttonWidth,
-    height: buttonHeight,
-    child: TextButton(
-      style: TextButton.styleFrom(
-        foregroundColor: textColorWhite,
-        backgroundColor: bgColor,
-        padding: const EdgeInsets.all(16.0),
-        textStyle: TextStyle(fontSize: textSize),
+  return Visibility(
+    visible: isVisible,
+    child: SizedBox(
+      width: buttonWidth,
+      height: buttonHeight,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          foregroundColor: textColorWhite,
+          backgroundColor: bgColor,
+          padding: const EdgeInsets.all(16.0),
+          textStyle: TextStyle(fontSize: textSize),
+        ),
+        onPressed: onPressed,
+        child: Text(text),
       ),
-      onPressed: onPressed,
-      child: Text(text),
     ),
   );
 }

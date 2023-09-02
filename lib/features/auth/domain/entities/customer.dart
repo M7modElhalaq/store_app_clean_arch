@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Customer extends Equatable {
+  final int id;
   final String name;
   final String email;
   final int phoneNumber;
@@ -8,10 +9,9 @@ class Customer extends Equatable {
   final int idNumber;
   final String dateOfBirth;
   final String gender;
-  final String lang;
-  final String token;
 
   Customer({
+    required this.id,
     required this.name,
     required this.email,
     required this.phoneNumber,
@@ -19,12 +19,11 @@ class Customer extends Equatable {
     required this.profileImage,
     required this.dateOfBirth,
     required this.gender,
-    required this.lang,
-    required this.token,
   });
 
   @override
   List<Object?> get props => [
+        id,
         name,
         email,
         phoneNumber,
@@ -32,24 +31,5 @@ class Customer extends Equatable {
         idNumber,
         dateOfBirth,
         gender,
-        lang,
-        token,
       ];
 }
-
-/*
-*
-* {
-    "name": "Mhmod Elhalaq",
-    "email": "mahmoudvee23@gmail.com",
-    "phone_number": 972599187654,
-    "id_number": 402850441,
-    "profile_image": null,
-    "date_of_birth": "1997-05-23",
-    "gender": "male",
-    "token": "",
-    "lang": "ar"
-}
-*
-*
-* */
