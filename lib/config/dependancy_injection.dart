@@ -14,6 +14,7 @@ import 'package:store_app/features/cart/data/data_source/remote_cart_get_data_so
 import 'package:store_app/features/cart/data/respository_impl/cart_get_data_repository_impl.dart';
 import 'package:store_app/features/cart/domain/repository/cart_get_data_repository.dart';
 import 'package:store_app/features/cart/presentation/controller/cart_controller.dart';
+import 'package:store_app/features/edit_profile/presentation/controller/edit_profile_controller.dart';
 import 'package:store_app/features/favourites/data/data_source/remote_product_details_data_source.dart';
 import 'package:store_app/features/favourites/domain/usecase/get_favorites_data_usecase.dart';
 import 'package:store_app/features/favourites/presentation/controller/favorites_controller.dart';
@@ -28,7 +29,7 @@ import 'package:store_app/features/product_details/presentation/controller/produ
 import 'package:store_app/features/profile/domain/repos/profile_reps.dart';
 import 'package:store_app/features/profile/domain/use_cases/register_profile.dart';
 import 'package:store_app/features/profile/presentation/controller/profile_controller.dart';
-import 'package:store_app/features/profile/presentation/controller/settings_controller.dart';
+import 'package:store_app/features/settings/presentation/controller/settings_controller.dart';
 import 'package:store_app/features/shopping_bag/data/data_source/remote_shopping_bag_data_source.dart';
 import 'package:store_app/features/shopping_bag/domain/use_cases/get_shopping_bag_data_use_case.dart';
 import 'package:store_app/features/splash/presentation/controller/splash_controller.dart';
@@ -468,7 +469,30 @@ disposeProfile() {
   Get.delete<ProfileController>();
 }
 
+initEditProfile() {
+  disposeHome();
+  disposeCart();
+  disposeFav();
+  disposeProfile();
+  disposeProduct();
+  disposeShoppingBag();
+
+  Get.put<EditProfileController>(EditProfileController());
+}
+
+disposeEditProfile() {
+  Get.delete<EditProfileController>();
+}
+
 initSettings() {
+  disposeHome();
+  disposeCart();
+  disposeFav();
+  disposeProfile();
+  disposeProduct();
+  disposeShoppingBag();
+  disposeEditProfile();
+
   Get.put<SettingsController>(SettingsController());
 }
 

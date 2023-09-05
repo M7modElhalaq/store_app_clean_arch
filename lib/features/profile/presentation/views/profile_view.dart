@@ -111,13 +111,7 @@ class ProfileView extends StatelessWidget {
                             alignment: Alignment.center,
                             child: IconButton(
                               onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  Routes.profilePersonalInfoView,
-                                  arguments: {
-                                    Constance.customerData: controller.customer,
-                                  },
-                                );
+                                Navigator.pushReplacementNamed(context, Routes.editProfileView);
                               },
                               icon: HeroIcon(
                                 HeroIcons.pencilSquare,

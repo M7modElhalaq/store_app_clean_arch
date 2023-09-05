@@ -13,9 +13,6 @@ import 'package:store_app/features/auth/domain/entities/customer.dart';
 import 'package:store_app/features/auth/domain/use_cases/login.dart';
 import 'package:store_app/features/auth/presentation/views/login_view.dart';
 import 'package:store_app/features/auth/presentation/views/otp_view.dart';
-import 'package:store_app/routes/routes.dart';
-
-import '../../../../profile/presentation/views/complete_profile_view.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
@@ -185,9 +182,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> with Helpers {
           print('Registered: $phoneNumber');
           appSettingsSharedPreferences.setPhoneNumber(phoneNumber);
           Navigator.of(context).pop();
-          Navigator.pushReplacementNamed(context, Routes.completeProfileView, arguments: {
-            'phoneNumber': phoneNumber,
-          });
+          // Navigator.pushReplacementNamed(context, Routes.completeProfileView, arguments: {
+          //   'phoneNumber': phoneNumber,
+          // });
         }
         emit(VerifyPhoneNumberSuccessState());
       }).onError((error, stackTrace) {
