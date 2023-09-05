@@ -11,7 +11,7 @@ class SubCategoryDataResponse {
   @JsonKey(name: 'brand')
   String? brand;
   @JsonKey(name: 'product_qty')
-  String? productQty;
+  int? productQty;
   @JsonKey(name: 'selling_price')
   int? sellingPrice;
   @JsonKey(name: 'discount_price')
