@@ -59,6 +59,7 @@ dependencies:
   internet_connection_checker_plus: ^2.0.0
   flutter_screenutil: ^5.9.0
   hidden_drawer_menu: ^3.0.1
+  share_plus: ^6.3.4
 
 dev_dependencies:
   flutter_test:
