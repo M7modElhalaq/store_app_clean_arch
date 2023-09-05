@@ -15,6 +15,7 @@ class ShoppingBagController extends GetxController with Helpers, StateMixin {
   late ShoppingBagModel products;
   late List<ShoppingBagDataOrdersModel> orders;
   int isLoading = 0;
+  int pageIndex = 0;
   String errorMessage = ManagerStrings.somethingWentWrong;
 
   @override
@@ -35,7 +36,7 @@ class ShoppingBagController extends GetxController with Helpers, StateMixin {
     update();
     BuildContext context = Get.context as BuildContext;
     (await _useCase.execute()).fold(
-          (l) {
+      (l) {
         errorMessage = l.message.toString();
         isLoading = 2;
         showDialog(
@@ -51,11 +52,28 @@ class ShoppingBagController extends GetxController with Helpers, StateMixin {
           },
         );
       },
-          (r) {
+      (r) {
         products = r;
         orders = products.data.onProgress;
       },
     );
+    update();
+  }
+
+  void changePageIndex(int index) {
+    pageIndex = index;
+    switch (index) {
+      case 0:
+        orders = products.data.onProgress;
+      case 1:
+        orders = products.data.onDeliver;
+      case 2:
+        orders = products.data.done;
+      case 3:
+        orders = products.data.canceled;
+      default:
+        orders = products.data.onProgress;
+    }
     update();
   }
 }
