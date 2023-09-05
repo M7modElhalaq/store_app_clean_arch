@@ -11,27 +11,30 @@ class ShimmerShoppingBagPageList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ShimmerContainer(
-            height: ManagerHeights.h60,
-          ),
-          GridView.builder(
-            itemCount: Constance.shimmerShoppingBagItemCounts,
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return ShimmerContainer();
-            }, gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisExtent: 180,
-            mainAxisSpacing: 0,
-            crossAxisSpacing: 0,
-          ),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: ManagerHeights.h30,
+            ),
+            ShimmerContainer(
+              height: ManagerHeights.h80,
+            ),
+            ShimmerContainer(
+              height: ManagerHeights.h100,
+            ),
+            ListView.builder(
+              itemCount: Constance.shimmerShoppingBagItemCounts,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return ShimmerContainer(
+                  height: ManagerHeights.h100,
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

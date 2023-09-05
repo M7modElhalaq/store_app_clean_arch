@@ -94,5 +94,6 @@
   "favTitle": "Favorites",
   "cartTitle": "Cart",
   "productSize": "Size",
-  "productColor": "Color"
+  "productColor": "Color",
+  "shoppingBagTitle": "Shopping Bag"
 }
