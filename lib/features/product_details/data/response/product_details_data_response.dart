@@ -8,35 +8,35 @@ part 'product_details_data_response.g.dart';
 class ProductDetailsDataResponse {
   @JsonKey(name: 'id')
   int? id;
-  @JsonKey(name: 'productNameEn')
+  @JsonKey(name: 'product_name_en')
   String? productNameEn;
-  @JsonKey(name: 'productNameAr')
+  @JsonKey(name: 'product_name_ar')
   String? productNameAr;
-  @JsonKey(name: 'brandEn')
+  @JsonKey(name: 'brand_en')
   String? brandEn;
-  @JsonKey(name: 'brandAr')
+  @JsonKey(name: 'brand_ar')
   String? brandAr;
-  @JsonKey(name: 'productQty')
+  @JsonKey(name: 'product_qty')
   int? productQty;
-  @JsonKey(name: 'productSize')
+  @JsonKey(name: 'product_size')
   String? productSize;
-  @JsonKey(name: 'basePrice')
+  @JsonKey(name: 'base_price')
   int? basePrice;
-  @JsonKey(name: 'sellingPrice')
+  @JsonKey(name: 'selling_price')
   int? sellingPrice;
-  @JsonKey(name: 'discountPrice')
+  @JsonKey(name: 'discount_price')
   int? discountPrice;
   @JsonKey(name: 'discount')
   int? discount;
-  @JsonKey(name: 'descriptionEn')
+  @JsonKey(name: 'description_en')
   String? descriptionEn;
-  @JsonKey(name: 'descriptionAr')
+  @JsonKey(name: 'description_ar')
   String? descriptionAr;
-  @JsonKey(name: 'productThumbnail')
+  @JsonKey(name: 'product_thumbnail')
   String? productThumbnail;
   @JsonKey(name: 'colors')
   List<String>? colors;
-  @JsonKey(name: 'multiImg')
+  @JsonKey(name: 'multi_img')
   List<String>? multiImg;
   @JsonKey(name: 'ratings')
   List<ProductDetailsRatingsResponse>? ratings;
