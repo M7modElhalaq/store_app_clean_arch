@@ -50,10 +50,10 @@ class RouteGenerator {
         initHome();
         return MaterialPageRoute(builder: (_) => const HomeView());
       case Routes.favouritesView:
-        return MaterialPageRoute(builder: (_) => const FavouritesView());
+        return MaterialPageRoute(builder: (_) => FavouritesView());
       case Routes.cartView:
         initCart();
-        return MaterialPageRoute(builder: (_) => const CartView());
+        return MaterialPageRoute(builder: (_) => CartView());
       case Routes.shoppingBagView:
         return MaterialPageRoute(builder: (_) => const ShoppingBagView());
       case Routes.profileView:

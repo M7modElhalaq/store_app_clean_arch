@@ -227,7 +227,7 @@ class HomeView extends StatelessWidget {
                                       productIndex: index),
                                   addToCart: () => controller.addToCart(
                                       context,
-                                      productIndex: index),
+                                      productIndex: item.id),
                                 );
                               }
                             }),

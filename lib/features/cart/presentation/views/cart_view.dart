@@ -12,15 +12,16 @@ import 'package:store_app/core/resources/manager_width.dart';
 import '../../../../core/resources/manager_radius.dart';
 import '../../../../core/widgets/base_text_widget.dart';
 import '../../../../core/widgets/shimmer/shimmer_favorites_page.dart';
+import '../../../home/presentation/controller/home_controller.dart';
 import '../controller/cart_controller.dart';
 
 class CartView extends StatelessWidget {
-  const CartView({super.key});
+  CartView({super.key});
+  var homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CartController>(builder: (controller) {
-      controller.getCartData();
       return controller.isLoading == 1
           ? const ShimmerFavoritesPageList()
           : controller.isLoading == 0
@@ -83,7 +84,7 @@ class CartView extends StatelessWidget {
                                         child: Row(
                                           children: [
                                             IconButton(
-                                              onPressed: () => controller.addToCart(context, productIndex: index),
+                                              onPressed: () => homeController.addToCart(context, productIndex: item.productId),
                                               icon: HeroIcon(
                                                 HeroIcons.trash,
                                                 color: ManagerColors.red,

@@ -13,13 +13,14 @@ import 'package:store_app/core/resources/manager_width.dart';
 import 'package:store_app/core/storage/remote/data_source/app_remote_data_source.dart';
 import 'package:store_app/core/widgets/helpers.dart';
 import 'package:store_app/core/widgets/page_view_indicator.dart';
+import 'package:store_app/features/favourites/presentation/controller/favorites_controller.dart';
 import 'package:store_app/features/home/domain/use_cases/get_home_data_usecase.dart';
-import 'package:store_app/features/main_app/presentation/views/main_app_view.dart';
 import 'package:store_app/routes/routes.dart';
 
 import '../../../../core/cache/cache.dart';
 import '../../../../core/resources/manager_font_weight.dart';
 import '../../../../core/widgets/base_text_widget.dart';
+import '../../../cart/presentation/controller/cart_controller.dart';
 import '../../domain/model/home_model.dart';
 import '../../domain/model/products_model.dart';
 import '../../domain/model/sub_category_model.dart';
@@ -27,6 +28,8 @@ import '../../domain/model/sub_category_model.dart';
 class HomeController extends GetxController with Helpers, StateMixin {
   final GetHomeDataUseCase _useCase = sl<GetHomeDataUseCase>();
   CacheData cacheData = CacheData();
+  var favoritesController = Get.find<FavoritesController>();
+  var cartController = Get.find<CartController>();
   List<ProductsModel>? products;
   late int productTypeIndex;
   late AppRemoteDataSource appRemoteDataSource = AppRemoteDataSource();
@@ -108,6 +111,7 @@ class HomeController extends GetxController with Helpers, StateMixin {
           !(products![productIndex].inFavorites);
       bool val = await appRemoteDataSource.addOrRemoveFavorite(context,
           productId: products![productIndex].id);
+      favoritesController.getFavoritesDetails();
       if (!val) {
         products?[productIndex].inFavorites = false;
       }
@@ -122,9 +126,10 @@ class HomeController extends GetxController with Helpers, StateMixin {
 
   void addToCart(BuildContext context, {required int productIndex}) async {
     try {
-      products?[productIndex].inCart = !(products![productIndex].inCart);
       bool val = await appRemoteDataSource.addOrRemoveCart(context,
-          productId: products![productIndex].id);
+          productId: productIndex);
+      cartController.getCartData();
+      update();
       if (!val) {
         products?[productIndex].inCart = false;
       }

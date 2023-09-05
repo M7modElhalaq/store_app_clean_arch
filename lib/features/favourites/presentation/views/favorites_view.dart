@@ -11,9 +11,11 @@ import 'package:store_app/features/favourites/presentation/controller/favorites_
 import '../../../../core/widgets/base_text_widget.dart';
 import '../../../../core/widgets/product_widget.dart';
 import '../../../../core/widgets/shimmer/shimmer_favorites_page.dart';
+import '../../../home/presentation/controller/home_controller.dart';
 
 class FavouritesView extends StatelessWidget {
-  const FavouritesView({super.key});
+  FavouritesView({super.key});
+  var homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class FavouritesView extends StatelessWidget {
       return controller.isLoading == 1
           ? const ShimmerFavoritesPageList()
           : controller.isLoading == 0
-              ? controller.product.data.length > 0 ?
+              ? controller.product.data.isNotEmpty ?
       Scaffold(
         appBar: AppBar(
           elevation: Constance.appBarElevation,
@@ -86,10 +88,10 @@ class FavouritesView extends StatelessWidget {
                           newProduct: item.newProduct,
                           discountPrice: item.discountPrice,
                           sellingPrice: item.sellingPrice,
-                          addToFav: () => controller.addToFav(
+                          addToFav: () => homeController.addToFav(
                               context,
                               productIndex: index),
-                          addToCart: () => controller.addToCart(
+                          addToCart: () => homeController.addToCart(
                               context,
                               productIndex: index),
                         );

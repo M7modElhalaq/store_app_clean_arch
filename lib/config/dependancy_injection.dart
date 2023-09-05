@@ -122,6 +122,8 @@ initHome() {
   disposeAuth();
   disposeProduct();
   disposeSubCategory();
+  initCart();
+  initFav();
 
   if (!GetIt.I.isRegistered<RemoteHomeDataSource>()) {
     sl.registerLazySingleton<RemoteHomeDataSource>(
@@ -143,8 +145,6 @@ initHome() {
   }
 
   Get.put<HomeController>(HomeController());
-  initCart();
-  initFav();
   initProfile();
 }
 
