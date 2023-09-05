@@ -5,6 +5,7 @@ class Constance {
   static const int splashTime = 3;
   static const int shimmerItemCounts = 4;
   static const int shimmerFavoritesItemCounts = 6;
+  static const int shimmerShoppingBagItemCounts = 4;
   static const int welcomeMessageTime = 3;
   static const int sendTimeOutDuration = 60;
   static const int receiveTimeOutDuration = 120;
