@@ -211,8 +211,17 @@ class HomeView extends StatelessWidget {
                               if (controller.products!.isEmpty) {
                                 return const EmptyProductsWidget();
                               } else {
+                                var item = controller.products![index];
                                 return ProductWidget(
-                                  product: controller.products![index],
+                                  image: item.productThumbnail,
+                                  productName: item.productName,
+                                  brand: item.brand,
+                                  inFavorites: item.inFavorites,
+                                  inCart: item.inCart,
+                                  isTrend: item.trend,
+                                  newProduct: item.newProduct,
+                                  discountPrice: item.discountPrice,
+                                  sellingPrice: item.sellingPrice,
                                   addToFav: () => controller.addToFav(
                                       context,
                                       productIndex: index),

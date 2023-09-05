@@ -4,7 +4,6 @@ import 'package:heroicons/heroicons.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:hidden_drawer_menu/model/screen_hidden_drawer.dart';
 import 'package:store_app/config/dependancy_injection.dart';
-import 'package:store_app/core/base_model/home_model.dart';
 import 'package:store_app/core/errors/failure.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_font_sizes.dart';
@@ -16,14 +15,19 @@ import 'package:store_app/core/widgets/helpers.dart';
 import 'package:store_app/core/widgets/page_view_indicator.dart';
 import 'package:store_app/features/home/domain/use_cases/get_home_data_usecase.dart';
 import 'package:store_app/features/main_app/presentation/views/main_app_view.dart';
+import 'package:store_app/routes/routes.dart';
 
+import '../../../../core/cache/cache.dart';
 import '../../../../core/resources/manager_font_weight.dart';
 import '../../../../core/widgets/base_text_widget.dart';
+import '../../domain/model/home_model.dart';
+import '../../domain/model/products_model.dart';
+import '../../domain/model/sub_category_model.dart';
 
 class HomeController extends GetxController with Helpers, StateMixin {
   final GetHomeDataUseCase _useCase = sl<GetHomeDataUseCase>();
-
-  List<Products>? products;
+  CacheData cacheData = CacheData();
+  List<ProductsModel>? products;
   late int productTypeIndex;
   late AppRemoteDataSource appRemoteDataSource = AppRemoteDataSource();
   late TextEditingController searchController =
@@ -50,6 +54,7 @@ class HomeController extends GetxController with Helpers, StateMixin {
   @override
   void onClose() {
     productTypeIndex = 0;
+    isLoading = 0;
     pageController.dispose();
     print('Close Home');
     super.onClose();
@@ -202,7 +207,8 @@ class HomeController extends GetxController with Helpers, StateMixin {
     return children;
   }
 
-  List<Widget> addSubCategory(List<SubCategory> subCategory) {
+  List<Widget> addSubCategory(List<SubCategoryModel> subCategory) {
+    BuildContext context = Get.context!;
     List<Widget> children = <Widget>[];
     for (int j = 0; j < subCategory.length; j++) {
       Widget widget = ListTile(
@@ -212,7 +218,8 @@ class HomeController extends GetxController with Helpers, StateMixin {
           fontSize: ManagerFontSizes.s14,
         ),
         onTap: () {
-          //action on press
+          cacheData.setSubCategoryId(subCategory[j].id);
+          Navigator.pushReplacementNamed(context, Routes.subCategoryView);
         },
       );
       children.add(widget);

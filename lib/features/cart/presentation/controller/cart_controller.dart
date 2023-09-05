@@ -1,34 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:store_app/core/errors/failure.dart';
-import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/storage/remote/data_source/app_remote_data_source.dart';
 import 'package:store_app/core/widgets/helpers.dart';
-import 'package:store_app/features/cart/domain/entities/cart_model.dart';
-import 'package:store_app/features/cart/domain/use_cases/get_cart_data.dart';
+
+import '../../../../config/dependancy_injection.dart';
+import '../../domain/models/cart_data_model.dart';
+import '../../domain/models/cart_model.dart';
+import '../../domain/usecase/get_cart_data_usecase.dart';
 
 class CartController extends GetxController with Helpers {
   AppRemoteDataSource appRemoteDataSource = AppRemoteDataSource();
-  final GetCartUseCase getProducts;
-  CartModel? products;
-
-  CartController({required this.getProducts});
+  GetCartDataUseCase getCartDataUseCase = sl<GetCartDataUseCase>();
+  late CartModel products;
+  int isLoading = 0;
 
   @override
   void onInit() async {
     super.onInit();
-    print('ProductLoadingState');
-    final cart = await getProducts();
-    cart.fold(
-          (failure) {
-        products = null;
-      },
-          (r) {
-        products = r;
-      },
-    );
+
+    isLoading = 1;
     update();
+
+    getCartData();
   }
 
   @override
@@ -37,28 +32,35 @@ class CartController extends GetxController with Helpers {
     super.onClose();
   }
 
-  void addToFav(BuildContext context, {required int productIndex}) async {
-    try {
-      products!.data[productIndex].product!.inFavorites = !(products!.data[productIndex].product!.inFavorites);
-      bool val = await appRemoteDataSource.addOrRemoveFavorite(context, productId: products!.data[productIndex].id);
-      if(!val) {
-        products!.data[productIndex].product!.inFavorites = false;
-      }
-    } on AddToFavFailure {
-      showSnackBar(context: context, message: ManagerStrings.failedAddToFav, error: true);
-    }
+  void getCartData() async {
+    (await getCartDataUseCase.execute()).fold((l) {
+      isLoading = 2;
+      print(l);
+    }, (r) {
+      isLoading = 0;
+      products = r;
+    });
     update();
   }
 
   void addToCart(BuildContext context, {required int productIndex}) async {
     try {
-      products!.data[productIndex].product!.inCart = !(products!.data[productIndex].product!.inCart);
-      bool val = await appRemoteDataSource.addOrRemoveCart(context, productId: products!.data[productIndex].id);
-      if(!val) {
-        products!.data[productIndex].product!.inCart = false;
-      }
+      bool val = await appRemoteDataSource.addOrRemoveCart(context, productId: products.data[productIndex].productId);
+      products.data.remove(products.data[productIndex]);
     } on AddToCartFailure {
       showSnackBar(context: context, message: ManagerStrings.failedAddToCart, error: true);
+    }
+    update();
+  }
+
+  void increaseQty(CartDataModel item) {
+    item.productQty++;
+    update();
+  }
+
+  void decreaseQty(CartDataModel item) {
+    if (item.productQty > 1) {
+      item.productQty--;
     }
     update();
   }

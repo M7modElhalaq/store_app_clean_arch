@@ -6,6 +6,13 @@ extension IntNotNull on int? {
       return this!;
     }
   }
+  int onQtyNull() {
+    if (this == null) {
+      return 1;
+    } else {
+      return this!;
+    }
+  }
 }
 
 extension NonNullDouble on double? {

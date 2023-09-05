@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:store_app/config/dependancy_injection.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/features/auth/presentation/views/login_view.dart';
-import 'package:store_app/features/product/presentation/view/product_view.dart';
+import 'package:store_app/features/product_details/presentation/view/product_view.dart';
 import 'package:store_app/features/cart/presentation/views/cart_view.dart';
 import 'package:store_app/features/favourites/presentation/views/favorites_view.dart';
 import 'package:store_app/features/home/presentation/views/home_view.dart';
@@ -10,6 +10,7 @@ import 'package:store_app/features/main_app/presentation/views/main_app_view.dar
 import 'package:store_app/features/profile/presentation/views/profile_personal_info_view.dart';
 import 'package:store_app/features/profile/presentation/views/settings_view.dart';
 import 'package:store_app/features/shopping_bag/presentation/views/shopping_bag_view.dart';
+import 'package:store_app/features/sub_category_products/presentation/views/sub_category_view.dart';
 
 import '../features/profile/presentation/views/complete_profile_view.dart';
 import '../features/splash/presentation/views/splash_view.dart';
@@ -28,6 +29,7 @@ class Routes {
   static const String profilePersonalInfoView = '/profile_personal_info_view';
   static const String productView = '/product_view';
   static const String settingsView = '/settings_view';
+  static const String subCategoryView = '/sub_category_view';
 }
 
 class RouteGenerator {
@@ -66,6 +68,9 @@ class RouteGenerator {
       case Routes.settingsView:
         initSettings();
         return MaterialPageRoute(builder: (_) => const SettingsView());
+      case Routes.subCategoryView:
+        initSubCategory();
+        return MaterialPageRoute(builder: (_) => const SubCategoryView());
       default:
         return unDefineRoute();
     }

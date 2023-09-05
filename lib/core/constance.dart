@@ -4,6 +4,7 @@ class Constance {
   static const int sessionFinishedDuration = 2;
   static const int splashTime = 3;
   static const int shimmerItemCounts = 4;
+  static const int shimmerFavoritesItemCounts = 6;
   static const int welcomeMessageTime = 3;
   static const int sendTimeOutDuration = 60;
   static const int receiveTimeOutDuration = 120;
@@ -35,6 +36,8 @@ class KeyConstants {
   static const String token = 'token';
   static const String phoneNumber = 'phoneNumber';
   static const String loggedIn = 'logged_in';
+  static const String productId = 'product_id';
+  static const String subCategoryId = 'sub_category_id';
   static const String cart = 'cart';
   static const String user = 'user_';
   static const String userId = '${user}id';
@@ -59,6 +62,10 @@ class ApiRequest {
 
   static const String apiHome = '$api/home';
   static const String apiGetHome = '$apiHome/get_home';
+
+  static const String apiProduct = '$api/products';
+  static const String apiProductsDetails = '$apiProduct/get_product/{id}';
+  static const String apiSubCategoryProducts = '$apiProduct/get_product_by_subcategory/{id}';
 
   static const String apiProducts = '$api/products';
   static const String apiGetProducts = '$apiProducts/get_products/';

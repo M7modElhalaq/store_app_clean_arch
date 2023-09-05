@@ -89,5 +89,10 @@
   "failedAddToCart": "Failed add product to cart",
   "notFoundRoute": "Page not found",
   "sessionFinished": "sessionFinished",
-  "somethingWentWrong": "Something went wrong"
+  "somethingWentWrong": "Something went wrong",
+  "favProducts": "Products",
+  "favTitle": "Favorites",
+  "cartTitle": "Cart",
+  "productSize": "Size",
+  "productColor": "Color"
 }

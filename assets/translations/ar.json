@@ -88,5 +88,10 @@
   "failedAddToFav": "فشل اضافة المنتج الي المفضلة",
   "failedAddToCart": "فشل اضافة المنتج الي السلة",
   "notFoundRoute": "الصفحة غير موجودة",
-  "somethingWentWrong": "حصل خطا ما"
+  "somethingWentWrong": "حصل خطا ما",
+  "favProducts": "منتجات",
+  "favTitle": "المفضلة",
+  "cartTitle": "السلة",
+  "productSize": "المقاس",
+  "productColor": "اللون"
 }

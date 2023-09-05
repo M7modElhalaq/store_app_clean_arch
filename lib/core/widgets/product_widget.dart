@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:store_app/core/base_model/home_model.dart';
 import 'package:store_app/core/resources/manager_assets.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_font_sizes.dart';
 import 'package:store_app/core/resources/manager_height.dart';
-import 'package:store_app/core/resources/manager_icon_sizes.dart';
 import 'package:store_app/core/resources/manager_margin.dart';
 import 'package:store_app/core/resources/manager_font_weight.dart';
 import 'package:store_app/core/resources/manager_radius.dart';
@@ -13,28 +12,49 @@ import 'package:store_app/core/resources/manager_width.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/base_text_widget.dart';
 import 'package:store_app/core/widgets/product_offers.dart';
+import 'package:store_app/features/home/domain/model/products_model.dart';
 
 import '../../routes/routes.dart';
 
 class ProductWidget extends StatelessWidget {
-  final Products product;
   void Function() addToFav;
   void Function()? addToCart;
+  String image;
+  String productName;
+  String brand;
+  bool inFavorites;
+  bool inCart;
+  int isTrend;
+  int newProduct;
+  int discountPrice;
+  int sellingPrice;
 
   ProductWidget({
     Key? key,
-    required this.product,
     required this.addToFav,
     required this.addToCart,
+    required this.image,
+    required this.productName,
+    required this.brand,
+    required this.inFavorites,
+    required this.inCart,
+    required this.isTrend,
+    required this.newProduct,
+    required this.discountPrice,
+    required this.sellingPrice,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.productView, arguments: {
-          'product': product,
-        });
+        Get.offAllNamed(
+          Routes.productView,
+          arguments: {'arg1': 'val1', 'arg2': 'val2'},
+        );
+        // Navigator.pushNamed(context, Routes.productView, arguments: {
+        //   'productId': product.id,
+        // });
       },
       child: Container(
         decoration: BoxDecoration(
@@ -60,7 +80,7 @@ class ProductWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.center,
                     child: Image.network(
-                      product.productThumbnail.toString(),
+                      image,
                       width: ManagerWidth.w100,
                       height: ManagerHeights.h86,
                     ),
@@ -84,14 +104,18 @@ class ProductWidget extends StatelessWidget {
                               child: IconButton(
                                 icon: HeroIcon(
                                   HeroIcons.heart,
-                                  style: product.inFavorites ? HeroIconStyle.solid : HeroIconStyle.outline,
-                                  color: product!.inFavorites ? ManagerColors.red : ManagerColors.primaryColor,
+                                  style: inFavorites!
+                                      ? HeroIconStyle.solid
+                                      : HeroIconStyle.outline,
+                                  color: inFavorites!
+                                      ? ManagerColors.red
+                                      : ManagerColors.primaryColor,
                                 ),
                                 onPressed: addToFav,
                               ),
                             ),
                             ProductOffers(
-                              isVisible: product.trend == 1 ? true : false,
+                              isVisible: isTrend == 1 ? true : false,
                               bgColor: ManagerColors.yellow,
                               text: ManagerStrings.trend,
                               fontSize: ManagerFontSizes.s10,
@@ -105,10 +129,11 @@ class ProductWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             ProductOffers(
-                              isVisible: product.discountPrice != 0 ? true : false,
+                              isVisible:
+                              discountPrice! != 0 ? true : false,
                               bgColor:
                                   ManagerColors.discountColor.withOpacity(.7),
-                              text: '%${product.discountPrice}',
+                              text: '%$discountPrice',
                               fontSize: ManagerFontSizes.s12,
                               textColor: ManagerColors.white,
                             ),
@@ -116,7 +141,7 @@ class ProductWidget extends StatelessWidget {
                               height: ManagerHeights.h8,
                             ),
                             ProductOffers(
-                              isVisible: product.newProduct == 1 ? true : false,
+                              isVisible: newProduct! == 1 ? true : false,
                               bgColor: ManagerColors.newProductColor,
                               text: ManagerStrings.newProduct,
                               fontSize: ManagerFontSizes.s10,
@@ -150,14 +175,14 @@ class ProductWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         baseText(
-                          name: product.productName,
+                          name: productName!,
                           fontSize: ManagerFontSizes.s14,
                         ),
                         SizedBox(
                           height: ManagerHeights.h8,
                         ),
                         baseText(
-                          name: product.brand,
+                          name: brand!,
                           fontSize: ManagerFontSizes.s14,
                           color: ManagerColors.black,
                         ),
@@ -174,18 +199,19 @@ class ProductWidget extends StatelessWidget {
                         child: Row(
                           children: [
                             baseText(
-                              name: '\$${product.sellingPrice}',
+                              name: '\$${sellingPrice}',
                               decoration: TextDecoration.lineThrough,
                               color: ManagerColors.grey,
-                              visible: product.discountPrice != 0 ? true : false,
+                              visible:
+                              discountPrice != 0 ? true : false,
                             ),
                             const SizedBox(
                               width: 4,
                             ),
                             baseText(
-                              name: product.discountPrice != 0
-                                  ? "\$${(product.sellingPrice - (product.sellingPrice * product.discountPrice) / 100).round()}"
-                                  : "\$${product.sellingPrice}",
+                              name: discountPrice != 0
+                                  ? "\$${(sellingPrice! - (sellingPrice! * discountPrice!) / 100).round()}"
+                                  : "\$$sellingPrice",
                               fontSize: ManagerFontSizes.s18,
                               color: ManagerColors.primaryColor,
                             ),
