@@ -27,7 +27,7 @@ import 'package:store_app/features/product_details/data/data_source/remote_produ
 import 'package:store_app/features/product_details/domain/usecase/product_details_usecase.dart';
 import 'package:store_app/features/product_details/presentation/controller/product_controller.dart';
 import 'package:store_app/features/profile/domain/repos/profile_reps.dart';
-import 'package:store_app/features/profile/domain/use_cases/register_profile.dart';
+import 'package:store_app/features/auth/domain/use_cases/register_profile.dart';
 import 'package:store_app/features/profile/presentation/controller/profile_controller.dart';
 import 'package:store_app/features/settings/presentation/controller/settings_controller.dart';
 import 'package:store_app/features/shopping_bag/data/data_source/remote_shopping_bag_data_source.dart';
@@ -110,13 +110,28 @@ initAuth() {
 
   // Usecases
 
-  sl.registerLazySingleton(() => LoginUseCase(sl()));
+  if (!GetIt.I.isRegistered<LoginUseCase>()) {
+    sl.registerLazySingleton(() => LoginUseCase(sl()));
+  }
+  if (!GetIt.I.isRegistered<RegisterProfileUseCase>()) {
+    sl.registerLazySingleton(() => RegisterProfileUseCase(sl()));
+  }
+  // sl.registerLazySingleton(() => LoginUseCase(sl()));
+  // sl.registerLazySingleton(() => RegisterProfileUseCase(sl()));
+
+  if (!GetIt.I.isRegistered<CustomerRep>()) {
+    sl.registerLazySingleton<CustomerRep>(
+          () => CustomerRepoImpl(remoteDataSource: sl(), networkInfo: sl(),),
+    );
+  }
 
   // Datasources
 
-  sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl());
+  if (!GetIt.I.isRegistered<RemoteDataSource>()) {
+    sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl());
+  }
 
-  Get.put<AuthController>(AuthController(login: sl()));
+  Get.put<AuthController>(AuthController(login: sl(), register: sl()));
 }
 
 disposeAuth() {
@@ -420,14 +435,6 @@ initProfile() {
   if (!GetIt.I.isRegistered<LogoutUseCase>()) {
     sl.registerFactory<LogoutUseCase>(
           () => LogoutUseCase(
-        sl<ProfileRep>(),
-      ),
-    );
-  }
-
-  if (!GetIt.I.isRegistered<RegisterProfileUseCase>()) {
-    sl.registerFactory<RegisterProfileUseCase>(
-          () => RegisterProfileUseCase(
         sl<ProfileRep>(),
       ),
     );

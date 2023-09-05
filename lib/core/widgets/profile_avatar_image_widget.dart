@@ -23,8 +23,8 @@ class ProfileAvatarImageWidget extends StatelessWidget {
       radius: radius ?? ManagerRadius.r64,
       backgroundColor: ManagerColors.white,
       backgroundImage: NetworkImage((image == null && imagePicker == null)
-          ? ManagerAssets.defaultProfileNetworkImage
-          :  '${Constance.baseUrl}/${image!}'),
+          ? ManagerAssets.defaultProfileImage
+          :  '$image'),
       child: imagePicker != null
           ? Image.file(
             imagePicker,

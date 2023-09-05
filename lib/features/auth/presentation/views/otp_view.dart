@@ -13,14 +13,12 @@ class OtpView extends StatelessWidget {
   final String phoneNumber;
   final bool isRegistered;
   final String verificationId;
-  String? otpCode;
 
   OtpView({
     Key? key,
     required this.phoneNumber,
     required this.isRegistered,
     required this.verificationId,
-    this.otpCode,
   }) : super(key: key);
 
   @override
@@ -83,18 +81,19 @@ class OtpView extends StatelessWidget {
                   enabledBorderColor: defaultAppColor,
                   filled: true,
                   onSubmit: (code) {
-                    otpCode = code;
+                    controller.otpCode = code;
                   },
                 ),
                 SizedBoxWidget(higth: 48),
                 textButtonWidget(
                   buttonWidth: double.infinity,
                   onPressed: () {
-                    if(otpCode != null) {
+                    print(controller.otpCode);
+                    if(controller.otpCode != null) {
                       controller.codeVerify(
                         context,
                         verificationId: verificationId,
-                        smsCode: otpCode!,
+                        smsCode: controller.otpCode!,
                         isRegistered: isRegistered,
                         phoneNumber: int.parse(phoneNumber),
                       );

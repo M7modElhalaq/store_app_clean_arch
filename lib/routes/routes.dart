@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:store_app/config/dependancy_injection.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/features/auth/presentation/views/login_view.dart';
+import 'package:store_app/features/auth/presentation/views/register_view.dart';
 import 'package:store_app/features/product_details/presentation/view/product_view.dart';
 import 'package:store_app/features/cart/presentation/views/cart_view.dart';
 import 'package:store_app/features/favourites/presentation/views/favorites_view.dart';
@@ -18,6 +19,7 @@ class Routes {
   static const String splashView = '/splash_view';
   static const String loginView = '/login_view';
   static const String otpView = '/otp_view';
+  static const String registerView = '/register_view';
   static const String mainAppView = '/main_app_view';
   static const String homeView = '/home_view';
   static const String favouritesView = '/favourites_view';
@@ -39,6 +41,8 @@ class RouteGenerator {
       case Routes.loginView:
         initAuth();
         return MaterialPageRoute(builder: (_) => const LoginView());
+      case Routes.registerView:
+        return MaterialPageRoute(builder: (_) => const RegisterView());
       case Routes.mainAppView:
         initHome();
         return MaterialPageRoute(builder: (_) => const MainAppView());

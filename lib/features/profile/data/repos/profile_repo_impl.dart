@@ -74,33 +74,6 @@ class ProfileRepoImpl implements ProfileRep {
   }
 
   @override
-  Future<Either<Failure, Customer>> register(Customer customer) async {
-    final CustomerModel customerModel = CustomerModel(
-      name: customer.name,
-      email: customer.email,
-      phoneNumber: customer.phoneNumber,
-      profileImage: customer.profileImage ?? '',
-      dateOfBirth: customer.dateOfBirth ?? '',
-      idNumber: customer.idNumber ?? 0,
-      gender: customer.gender ?? '',
-      lang: customer.lang ?? '',
-      token: customer.token ?? '',
-    );
-
-    if(await networkInfo.isConnected) {
-      try {
-        await remoteDataSource.register(customerModel);
-        appSettingsSharedPreferences.setPhoneNumber(customerModel.phoneNumber);
-        return Right(customerModel);
-      } on RegisterException {
-        return Left(RegisterFailure());
-      }
-    } else {
-      return Left(OfflineFailure());
-    }
-  }
-
-  @override
   Future<Either<Failure, Unit>> logout() async {
     try {
       await appSettingsSharedPreferences.clear();

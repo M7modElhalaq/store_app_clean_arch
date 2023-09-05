@@ -13,8 +13,6 @@ import 'package:store_app/features/profile/data/models/customer_model.dart';
 abstract class ProfileRemoteDataSource {
   Future<CustomerModel> getCustomerData(int phoneNumber);
 
-  Future<Unit> register(CustomerModel customer);
-
   Future<bool> updateProfile(CustomerModel customer, File image);
 }
 
@@ -42,41 +40,6 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       return customerModel;
     } else {
       throw UserNotFoundException();
-    }
-  }
-
-  @override
-  Future<Unit> register(CustomerModel customer) async {
-    final body = {
-      "name": customer.name,
-      "email": customer.email,
-      "phone_number": customer.phoneNumber,
-      "id_number": '',
-      "profile_image": customer.profileImage,
-      "date_of_birth": customer.dateOfBirth,
-      "gender": customer.gender,
-    };
-
-    final response = await dio.request(
-      "${Constance.baseUrl}/api/customers/register",
-      data: body,
-      options: Options(
-        headers: {"Content-Type": "application/json"},
-        method: 'POST',
-      ),
-    );
-
-    print(response);
-
-    if (response.data['success'] == true) {
-      final CustomerModel customerModel = CustomerModel.fromJson(response.data['data']);
-      appSettingsSharedPreferences.setToken(response.data[ApiConstants.token]);
-      appSettingsSharedPreferences.setLoggedIn();
-      return Future.value(unit);
-    } else if (response.data['success'] == false) {
-      throw RegisterException();
-    } else {
-      throw ServerException();
     }
   }
 

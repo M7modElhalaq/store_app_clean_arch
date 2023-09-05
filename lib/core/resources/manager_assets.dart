@@ -3,8 +3,7 @@ class ManagerAssets {
   static const String splashImage = "assets/images/RRR-SPLASH.png";
   static const String celebrationImage = 'assets/images/celebration.png';
 
-  static const String defaultProfileImage = 'assets/images/default_profile_image.jpg';
-  static const String defaultProfileNetworkImage = 'https://s3.amazonaws.com/37assets/svn/765-default-avatar.png';
+  static const String defaultProfileImage = 'https://rmd81.site/admin/assets/images/avatar.jpg';
 
   static const String otpImage = "assets/images/otp_image.png";
 

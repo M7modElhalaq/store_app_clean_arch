@@ -99,5 +99,6 @@
   "shoppingBagOrdersOnDeliver": "قيد التوصيل",
   "shoppingBagOrdersDone": "مكتملة",
   "shoppingBagOrdersCanceled": "ملغية",
-  "noData": "لا يوجد بيانات"
+  "noData": "لا يوجد بيانات",
+  "registerSuccess": "نجحت عملية التسجيل"
 }

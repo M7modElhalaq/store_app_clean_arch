@@ -139,4 +139,5 @@ class ManagerStrings {
   static String get shoppingBagOrdersDone => tr('shoppingBagOrdersDone');
   static String get shoppingBagOrdersCanceled => tr('shoppingBagOrdersCanceled');
   static String get noData => tr('noData');
+  static String get registerSuccess => tr('registerSuccess');
 }

@@ -155,8 +155,7 @@ class ProfileView extends StatelessWidget {
                             image: ManagerAssets.confirmLogoutDialogImage,
                             text: ManagerStrings.confirmLogoutDialogMessage,
                             onPressedConfirm: () {
-                              BlocProvider.of<ProfileBloc>(context)
-                                  .logout(context);
+                              controller.logout(context);
                             },
                           );
                         },

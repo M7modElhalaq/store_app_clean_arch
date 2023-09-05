@@ -25,7 +25,7 @@ void confirmDialog(
           content: Directionality(
             textDirection: TextDirection.rtl,
             child: Container(
-              height: ManagerHeights.h280,
+              height: ManagerHeights.h300,
               decoration: BoxDecoration(
                 color: ManagerColors.white,
                 borderRadius: BorderRadius.circular(ManagerRadius.r8),

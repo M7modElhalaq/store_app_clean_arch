@@ -12,7 +12,7 @@ import 'package:store_app/features/auth/presentation/views/login_view.dart';
 import 'package:store_app/features/profile/domain/entities/customer.dart';
 import 'package:store_app/features/profile/domain/use_cases/get_customer_data.dart';
 import 'package:store_app/features/profile/domain/use_cases/logout.dart';
-import 'package:store_app/features/profile/domain/use_cases/register_profile.dart';
+import 'package:store_app/features/auth/domain/use_cases/register_profile.dart';
 import 'package:store_app/features/profile/domain/use_cases/update_profile.dart';
 import 'package:store_app/features/profile/presentation/bloc/profile/profile_event.dart';
 import 'package:store_app/features/profile/presentation/bloc/profile/profile_state.dart';
@@ -68,45 +68,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileStates> with Helpers {
       },
       (r) {
         customer = r;
-      },
-    );
-  }
-
-  void registerCustomer({
-    required int phoneNumber,
-    String? profileImage,
-    String? userName,
-    String? email,
-    int? idNumber,
-    String? dayOfBirth,
-    String? gender,
-  }) async {
-    Customer customer = Customer(
-      name: userName ?? '',
-      email: email ?? '',
-      phoneNumber: phoneNumber,
-      idNumber: idNumber ?? 0,
-      profileImage: profileImage ?? '',
-      dateOfBirth: dayOfBirth ?? '',
-      gender: gender ?? '',
-      lang: 'ar',
-      token: '',
-    );
-
-    emit(ProfileLoadingState());
-    final verify = await register(customer);
-    verify.fold(
-      (failure) {
-        print('RegisterAccountErrorState');
-        print(failure);
-
-        emit(RegisterAccountErrorState(message: _mapFailureToMessage(failure)));
-      },
-      (customer) {
-        print('From Bloc: RegisterAccountSuccessState');
-        print('Registered: $phoneNumber');
-        appSettingsSharedPreferences.setPhoneNumber(phoneNumber);
-        emit(RegisterAccountSuccessState());
       },
     );
   }

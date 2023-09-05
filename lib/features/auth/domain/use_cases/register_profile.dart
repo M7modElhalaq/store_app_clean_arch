@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:store_app/core/errors/failure.dart';
-import 'package:store_app/features/profile/domain/entities/customer.dart';
-import 'package:store_app/features/profile/domain/repos/profile_reps.dart';
+
+import '../entities/customer.dart';
+import '../repos/customer_reps.dart';
 
 
 class RegisterProfileUseCase {
-  final ProfileRep repo;
+  final CustomerRep repo;
 
   RegisterProfileUseCase(this.repo);
 

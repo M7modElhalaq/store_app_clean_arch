@@ -12,7 +12,7 @@ import 'package:store_app/core/widgets/helpers.dart';
 import 'package:store_app/features/profile/domain/entities/customer.dart';
 import 'package:store_app/features/profile/domain/use_cases/get_customer_data.dart';
 import 'package:store_app/features/profile/domain/use_cases/logout.dart';
-import 'package:store_app/features/profile/domain/use_cases/register_profile.dart';
+import 'package:store_app/features/auth/domain/use_cases/register_profile.dart';
 import 'package:store_app/features/profile/domain/use_cases/update_profile.dart';
 import 'package:store_app/routes/routes.dart';
 
@@ -101,51 +101,6 @@ class ProfileController extends GetxController with Helpers {
     );
   }
 
-  void registerCustomer(BuildContext context, {
-    required int phoneNumber,
-    String? profileImage,
-    String? userName,
-    String? email,
-    int? idNumber,
-    String? dayOfBirth,
-    String? gender,
-  }) async {
-    Customer customer = Customer(
-      name: userName ?? '',
-      email: email ?? '',
-      phoneNumber: phoneNumber,
-      idNumber: idNumber ?? 0,
-      profileImage: profileImage ?? '',
-      dateOfBirth: dayOfBirth ?? '',
-      gender: gender ?? '',
-      lang: 'ar',
-      token: '',
-    );
-
-    showDialog(
-      context: context,
-      builder: (context) => Center(
-        child: CircularProgressIndicator(
-          color: ManagerColors.primaryColor,
-        ),
-      ),
-    );
-    final verify = await register(customer);
-    verify.fold(
-          (failure) {
-        print('RegisterAccountErrorState');
-        print(failure);
-
-      },
-          (customer) {
-        print('From Bloc: RegisterAccountSuccessState');
-        print('Registered: $phoneNumber');
-        appSettingsSharedPreferences.setPhoneNumber(phoneNumber);
-      },
-    );
-    update();
-  }
-
   Future<bool> updateCustomer(BuildContext context,
       {required int phoneNumber,
         String? profileImage,
@@ -207,7 +162,6 @@ class ProfileController extends GetxController with Helpers {
   }
 
   void logout(BuildContext context) async {
-    print('Logout From Bloc');
     final logout = await logoutUseCase();
     print(logout);
     logout.fold((l) {
@@ -217,7 +171,7 @@ class ProfileController extends GetxController with Helpers {
         context: context,
         message: ManagerStrings.logoutSuccess,
       );
-      Get.offAllNamed(Routes.loginView);
+      Navigator.pushReplacementNamed(context, Routes.loginView);
     });
   }
 

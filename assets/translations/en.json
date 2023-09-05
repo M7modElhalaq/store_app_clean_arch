@@ -100,5 +100,6 @@
   "shoppingBagOrdersOnDeliver": "On Deliver",
   "shoppingBagOrdersDone": "Done",
   "shoppingBagOrdersCanceled": "Canceled",
-  "noData": "No Data"
+  "noData": "No Data",
+  "registerSuccess": "Registered Success"
 }
