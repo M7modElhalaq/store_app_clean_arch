@@ -25,6 +25,7 @@ class Constance {
   static const String message = 'message';
   static const String errors = 'errors';
   static const String error = 'error';
+  static const String github = 'https://github.com/M7modElhalaq';
 }
 
 class KeyConstants {

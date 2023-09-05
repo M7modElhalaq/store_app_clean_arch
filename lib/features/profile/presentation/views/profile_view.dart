@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:store_app/core/constance.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_font_sizes.dart';
@@ -16,7 +17,6 @@ import 'package:store_app/core/widgets/confirm_dialog.dart';
 import 'package:store_app/core/widgets/profile_avatar_image_widget.dart';
 import 'package:store_app/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:store_app/features/profile/presentation/controller/profile_controller.dart';
-import 'package:store_app/features/profile/presentation/widgets/share_app_bottom_sheet.dart';
 import 'package:store_app/features/profile/presentation/widgets/support_app_bottom_sheet.dart';
 import 'package:store_app/features/profile/presentation/widgets/text_button_widget.dart';
 import 'package:store_app/routes/routes.dart';
@@ -111,13 +111,7 @@ class ProfileView extends StatelessWidget {
                             alignment: Alignment.center,
                             child: IconButton(
                               onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  Routes.profilePersonalInfoView,
-                                  arguments: {
-                                    Constance.customerData: controller.customer,
-                                  },
-                                );
+                                Navigator.pushReplacementNamed(context, Routes.editProfileView);
                               },
                               icon: HeroIcon(
                                 HeroIcons.pencilSquare,
@@ -134,7 +128,9 @@ class ProfileView extends StatelessWidget {
                         icon: HeroIcons.share,
                         text: ManagerStrings.profileShareApp,
                         lastIcon: HeroIcons.chevronLeft,
-                        onTap: () => shareAppBottomSheet(context),
+                        onTap: () async {
+                          await Share.share('check out my github ${Constance.github}');
+                        },
                       ),
                       TextButtonWidget(
                         icon: HeroIcons.chatBubbleLeft,

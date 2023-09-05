@@ -12,8 +12,6 @@ import 'package:store_app/features/auth/domain/entities/customer.dart';
 import 'package:store_app/features/auth/domain/use_cases/login.dart';
 import 'package:store_app/features/auth/presentation/views/login_view.dart';
 import 'package:store_app/features/auth/presentation/views/otp_view.dart';
-import 'package:store_app/features/profile/presentation/views/complete_profile_view.dart';
-import 'package:store_app/routes/routes.dart';
 
 class AuthController extends GetxController with Helpers {
   late AppSettingsSharedPreferences appSettingsSharedPreferences;
@@ -150,9 +148,9 @@ class AuthController extends GetxController with Helpers {
           print('Registered: $phoneNumber');
           appSettingsSharedPreferences.setPhoneNumber(phoneNumber);
           Navigator.of(context).pop();
-          Navigator.pushReplacementNamed(context, Routes.completeProfileView, arguments: {
-            'phoneNumber': phoneNumber,
-          });
+          // Navigator.pushReplacementNamed(context, Routes.completeProfileView, arguments: {
+          //   'phoneNumber': phoneNumber,
+          // });
         }
         update();
       }).onError((error, stackTrace) {

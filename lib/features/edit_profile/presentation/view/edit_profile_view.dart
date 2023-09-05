@@ -1,57 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:store_app/core/layouts/style.dart';
-import 'package:store_app/core/resources/manager_font_sizes.dart';
-import 'package:store_app/core/resources/manager_font_weight.dart';
-import 'package:store_app/core/resources/manager_height.dart';
-import 'package:store_app/core/resources/manager_icon_sizes.dart';
-import 'package:store_app/core/resources/manager_margin.dart';
-import 'package:store_app/core/resources/manager_width.dart';
-import 'package:store_app/core/resources/manager_strings.dart';
-import 'package:store_app/core/widgets/base_text_widget.dart';
-import 'package:store_app/core/widgets/helpers.dart';
-import 'package:store_app/core/widgets/loading_widget.dart';
-import 'package:store_app/core/widgets/profile_avatar_image_widget.dart';
-import 'package:store_app/core/widgets/profile_text_form_field_widget.dart';
-import 'package:store_app/core/widgets/radio_button_widget.dart';
-import 'package:store_app/core/widgets/success_widget.dart';
-import 'package:store_app/features/profile/presentation/bloc/profile/profile_bloc.dart';
-import 'package:store_app/features/profile/presentation/bloc/profile/profile_state.dart';
-import 'package:store_app/features/profile/presentation/controller/profile_controller.dart';
-import 'package:store_app/features/profile/presentation/views/profile_personal_info_view.dart';
-import 'package:store_app/features/profile/presentation/widgets/profile_image_bottom_sheet.dart';
-import 'package:store_app/routes/routes.dart';
-
+import 'package:store_app/core/resources/manager_assets.dart';
+import '../../../../core/layouts/style.dart';
 import '../../../../core/resources/manager_colors.dart';
+import '../../../../core/resources/manager_font_sizes.dart';
+import '../../../../core/resources/manager_font_weight.dart';
 import '../../../../core/resources/manager_fonts.dart';
+import '../../../../core/resources/manager_height.dart';
+import '../../../../core/resources/manager_icon_sizes.dart';
+import '../../../../core/resources/manager_margin.dart';
 import '../../../../core/resources/manager_radius.dart';
+import '../../../../core/resources/manager_strings.dart';
+import '../../../../core/resources/manager_width.dart';
+import '../../../../core/widgets/base_text_widget.dart';
+import '../../../../core/widgets/profile_avatar_image_widget.dart';
+import '../../../../core/widgets/profile_text_form_field_widget.dart';
+import '../../../../core/widgets/radio_button_widget.dart';
 import '../../../../core/widgets/text_button_widget.dart';
 import '../../../../core/widgets/vertical_divider_widget.dart';
-import '../../../auth/presentation/bloc/login/login_state.dart';
+import '../../../../routes/routes.dart';
+import '../../../profile/presentation/widgets/profile_image_bottom_sheet.dart';
+import '../controller/edit_profile_controller.dart';
 
-class CompleteProfileView extends StatelessWidget with Helpers {
-  bool? isUpdate;
-  int? phoneNumber;
-
-  CompleteProfileView({
-    super.key,
-    this.isUpdate = false,
-  });
+class EditProfileView extends StatelessWidget {
+  const EditProfileView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ModalRoute modalRoute = ModalRoute.of(context)!;
-    if (modalRoute != null &&
-        modalRoute.settings != null &&
-        modalRoute.settings.arguments != null) {
-      Map<String, dynamic> args =
-      modalRoute.settings.arguments as Map<String, dynamic>;
-      phoneNumber = args['phoneNumber'];
-    }
-
-    return GetBuilder<ProfileController>(builder: (controller) {
+    return GetBuilder<EditProfileController>(builder: (controller) {
       return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -65,9 +42,8 @@ class CompleteProfileView extends StatelessWidget with Helpers {
           actions: [
             IconButton(
               onPressed: () {
-                controller.image = null;
                 Navigator.pushReplacementNamed(
-                    context, Routes.profilePersonalInfoView);
+                    context, Routes.mainAppView);
               },
               icon: const Icon(Icons.close),
             ),
@@ -89,8 +65,8 @@ class CompleteProfileView extends StatelessWidget with Helpers {
                   Stack(
                     children: [
                       ProfileAvatarImageWidget(
-                        imagePicker: isUpdate! ? controller.image : null,
-                        image: isUpdate! ? controller.customer!.profileImage : null,
+                        imagePicker: controller.image,
+                        image: ManagerAssets.defaultProfileImage,
                       ),
                       Positioned(
                         bottom: 0,
@@ -246,39 +222,39 @@ class CompleteProfileView extends StatelessWidget with Helpers {
                           buttonWidth: double.infinity,
                           text: ManagerStrings.save,
                           onPressed: () async {
-                            if (controller.formKey.currentState!.validate()) {
-                              bool update = await controller.updateCustomer(
-                                context,
-                                phoneNumber: controller.customer!.phoneNumber,
-                                profileImage: controller.image.toString(),
-                                userName: controller.userNameController.text,
-                                email: controller.emailController.text,
-                                idNumber: controller.idController.text != ''
-                                    ? int.parse(controller.idController.text)
-                                    : 0,
-                                dayOfBirth: controller.dayOfBirthController.text,
-                                gender: controller.selectedGender,
-                              );
-
-                              if (update) {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  Routes.profilePersonalInfoView,
-                                );
-                                showSnackBar(
-                                    context: context,
-                                    message: ManagerStrings
-                                        .completeProfileUpdateSuccess);
-                              } else {
-                                showSnackBar(
-                                    context: context,
-                                    message: ManagerStrings
-                                        .completeProfileUpdateFailed,
-                                    error: true);
-                              }
-                            }
-                          }
-                          ),
+                            // if (controller.formKey.currentState!.validate()) {
+                            //   bool update = await controller.updateCustomer(
+                            //     context,
+                            //     phoneNumber: controller.customer!.phoneNumber,
+                            //     profileImage: controller.image.toString(),
+                            //     userName: controller.userNameController.text,
+                            //     email: controller.emailController.text,
+                            //     idNumber: controller.idController.text != ''
+                            //         ? int.parse(controller.idController.text)
+                            //         : 0,
+                            //     dayOfBirth:
+                            //         controller.dayOfBirthController.text,
+                            //     gender: controller.selectedGender,
+                            //   );
+                            //
+                            //   if (update) {
+                            //     Navigator.pushReplacementNamed(
+                            //       context,
+                            //       Routes.profilePersonalInfoView,
+                            //     );
+                            //     showSnackBar(
+                            //         context: context,
+                            //         message: ManagerStrings
+                            //             .completeProfileUpdateSuccess);
+                            //   } else {
+                            //     showSnackBar(
+                            //         context: context,
+                            //         message: ManagerStrings
+                            //             .completeProfileUpdateFailed,
+                            //         error: true);
+                            //   }
+                            // }
+                          }),
                     ],
                   ),
                 ],
