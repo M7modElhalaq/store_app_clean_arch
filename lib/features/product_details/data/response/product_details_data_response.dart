@@ -40,6 +40,10 @@ class ProductDetailsDataResponse {
   List<String>? multiImg;
   @JsonKey(name: 'ratings')
   List<ProductDetailsRatingsResponse>? ratings;
+  @JsonKey(name: 'in_favorites')
+  bool? inFavorites;
+  @JsonKey(name: 'in_cart')
+  bool? inCart;
 
   ProductDetailsDataResponse(
       {this.id,
@@ -58,7 +62,10 @@ class ProductDetailsDataResponse {
         this.productThumbnail,
         this.colors,
         this.multiImg,
-        this.ratings});
+        this.ratings,
+        this.inFavorites,
+        this.inCart,
+      });
 
   factory ProductDetailsDataResponse.fromJson(Map<String, dynamic> json) =>
       _$ProductDetailsDataResponseFromJson(json);

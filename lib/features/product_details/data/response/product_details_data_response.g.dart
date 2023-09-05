@@ -32,6 +32,8 @@ ProductDetailsDataResponse _$ProductDetailsDataResponseFromJson(
           ?.map((e) =>
               ProductDetailsRatingsResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
+      inFavorites: json['in_favorites'] as bool?,
+      inCart: json['in_cart'] as bool?,
     );
 
 Map<String, dynamic> _$ProductDetailsDataResponseToJson(
@@ -54,4 +56,6 @@ Map<String, dynamic> _$ProductDetailsDataResponseToJson(
       'colors': instance.colors,
       'multiImg': instance.multiImg,
       'ratings': instance.ratings,
+      'in_favorites': instance.inFavorites,
+      'in_cart': instance.inCart,
     };
