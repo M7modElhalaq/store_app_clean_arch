@@ -94,5 +94,11 @@
   "favTitle": "Favorites",
   "cartTitle": "Cart",
   "productSize": "Size",
-  "productColor": "Color"
+  "productColor": "Color",
+  "shoppingBagTitle": "Shopping Bag",
+  "shoppingBagOrdersOnProcess": "On Process",
+  "shoppingBagOrdersOnDeliver": "On Deliver",
+  "shoppingBagOrdersDone": "Done",
+  "shoppingBagOrdersCanceled": "Canceled",
+  "noData": "No Data"
 }

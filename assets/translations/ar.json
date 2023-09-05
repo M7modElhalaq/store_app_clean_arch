@@ -93,5 +93,11 @@
   "favTitle": "المفضلة",
   "cartTitle": "السلة",
   "productSize": "المقاس",
-  "productColor": "اللون"
+  "productColor": "اللون",
+  "shoppingBagTitle": "طلباتي",
+  "shoppingBagOrdersOnProcess": "قيد التجهيز",
+  "shoppingBagOrdersOnDeliver": "قيد التوصيل",
+  "shoppingBagOrdersDone": "مكتملة",
+  "shoppingBagOrdersCanceled": "ملغية",
+  "noData": "لا يوجد بيانات"
 }

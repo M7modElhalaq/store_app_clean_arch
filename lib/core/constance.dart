@@ -5,6 +5,7 @@ class Constance {
   static const int splashTime = 3;
   static const int shimmerItemCounts = 4;
   static const int shimmerFavoritesItemCounts = 6;
+  static const int shimmerShoppingBagItemCounts = 4;
   static const int welcomeMessageTime = 3;
   static const int sendTimeOutDuration = 60;
   static const int receiveTimeOutDuration = 120;
@@ -77,6 +78,9 @@ class ApiRequest {
   static const String apiCart = '$api/cart';
   static const String addOrDeleteCart = '$apiCart/addOrDeleteCart';
   static const String getCart = '$apiCart/';
+
+  static const String apiShoppingBag = '$api/orders';
+  static const String getShoppingBagData = '$apiShoppingBag/get_all_orders';
 }
 
 class ApiConstants {

@@ -29,6 +29,8 @@ import 'package:store_app/features/profile/domain/repos/profile_reps.dart';
 import 'package:store_app/features/profile/domain/use_cases/register_profile.dart';
 import 'package:store_app/features/profile/presentation/controller/profile_controller.dart';
 import 'package:store_app/features/profile/presentation/controller/settings_controller.dart';
+import 'package:store_app/features/shopping_bag/data/data_source/remote_shopping_bag_data_source.dart';
+import 'package:store_app/features/shopping_bag/domain/use_cases/get_shopping_bag_data_use_case.dart';
 import 'package:store_app/features/splash/presentation/controller/splash_controller.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,6 +48,9 @@ import '../features/favourites/data/respository_impl/favorites_repository_impl.d
 import '../features/favourites/domain/repository/favorites_get_data_repository.dart';
 import '../features/product_details/data/respository_impl/product_details_repository_impl.dart';
 import '../features/product_details/domain/repository/product_details_repository.dart';
+import '../features/shopping_bag/data/repository_impl/shopping_bag_repository_impl.dart';
+import '../features/shopping_bag/domain/repository/shopping_bag_repository.dart';
+import '../features/shopping_bag/presentation/controller/shopping_bag_controller.dart';
 import '../features/sub_category_products/data/respository_impl/get_sub_category_products_repository_impl.dart';
 import '../features/sub_category_products/domain/usecase/get_sub_category_products_usecase.dart';
 import '../features/sub_category_products/presentation/controller/sub_category_controller.dart';
@@ -124,6 +129,7 @@ initHome() {
   disposeSubCategory();
   initCart();
   initFav();
+  initShoppingBag();
 
   if (!GetIt.I.isRegistered<RemoteHomeDataSource>()) {
     sl.registerLazySingleton<RemoteHomeDataSource>(
@@ -204,6 +210,46 @@ disposeCart() {
   }
 }
 
+initShoppingBag() {
+
+  if (!GetIt.I.isRegistered<RemoteShoppingBagDataSource>()) {
+    sl.registerLazySingleton<RemoteShoppingBagDataSource>(
+            () => RemoteShoppingBagDataSourceImpl(sl()));
+  }
+
+  if (!GetIt.I.isRegistered<ShoppingBagRepository>()) {
+    sl.registerLazySingleton<ShoppingBagRepository>(
+          () => ShoppingBagRepositoryImpl(sl(), sl()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<GetShoppingBagDataUseCase>()) {
+    sl.registerFactory<GetShoppingBagDataUseCase>(
+          () => GetShoppingBagDataUseCase(
+        sl<ShoppingBagRepository>(),
+      ),
+    );
+  }
+
+  Get.put<ShoppingBagController>(ShoppingBagController());
+}
+
+disposeShoppingBag() {
+  Get.delete<ShoppingBagController>();
+
+  if (GetIt.I.isRegistered<RemoteShoppingBagDataSource>()) {
+    sl.unregister<RemoteShoppingBagDataSource>();
+  }
+
+  if (GetIt.I.isRegistered<ShoppingBagRepository>()) {
+    sl.unregister<ShoppingBagRepository>();
+  }
+
+  if (GetIt.I.isRegistered<GetShoppingBagDataUseCase>()) {
+    sl.unregister<GetShoppingBagDataUseCase>();
+  }
+}
+
 initFav() {
 
   if (!GetIt.I.isRegistered<RemoteFavoritesDataSource>()) {
@@ -250,6 +296,7 @@ initProduct() {
   disposeFav();
   disposeProfile();
   disposeSubCategory();
+  disposeShoppingBag();
 
   if (!GetIt.I.isRegistered<RemoteProductDetailsDataSource>()) {
     sl.registerLazySingleton<RemoteProductDetailsDataSource>(
@@ -295,6 +342,7 @@ initSubCategory() {
   disposeFav();
   disposeProfile();
   disposeProduct();
+  disposeShoppingBag();
 
   if (!GetIt.I.isRegistered<RemoteGetSubProductsDataDataSource>()) {
     sl.registerLazySingleton<RemoteGetSubProductsDataDataSource>(

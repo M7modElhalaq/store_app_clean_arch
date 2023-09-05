@@ -133,4 +133,10 @@ class ManagerStrings {
   static String get cartTitle => tr('cartTitle');
   static String get productSize => tr('productSize');
   static String get productColor => tr('productColor');
+  static String get shoppingBagTitle => tr('shoppingBagTitle');
+  static String get shoppingBagOrdersOnProcess => tr('shoppingBagOrdersOnProcess');
+  static String get shoppingBagOrdersOnDeliver => tr('shoppingBagOrdersOnDeliver');
+  static String get shoppingBagOrdersDone => tr('shoppingBagOrdersDone');
+  static String get shoppingBagOrdersCanceled => tr('shoppingBagOrdersCanceled');
+  static String get noData => tr('noData');
 }
