@@ -2,7 +2,7 @@ class FavoritesDataModel {
   int id;
   String productName;
   String brand;
-  String productQty;
+  int productQty;
   int sellingPrice;
   int discountPrice;
   String productThumbnail;

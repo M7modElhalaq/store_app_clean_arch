@@ -6,7 +6,7 @@ class ProductDetailsDataModel {
   String productNameAr;
   String brandEn;
   String brandAr;
-  String productQty;
+  int productQty;
   String productSize;
   int basePrice;
   int sellingPrice;
@@ -18,6 +18,8 @@ class ProductDetailsDataModel {
   List<String> colors;
   List<String> multiImg;
   List<ProductDetailsRatingsModel> ratings;
+  bool inFavorites;
+  bool inCart;
 
   ProductDetailsDataModel(
       {required this.id,
@@ -36,5 +38,8 @@ class ProductDetailsDataModel {
         required this.productThumbnail,
         required this.colors,
         required this.multiImg,
-        required this.ratings,});
+        required this.ratings,
+        required this.inFavorites,
+        required this.inCart,
+      });
 }

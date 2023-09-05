@@ -226,4 +226,9 @@ class HomeController extends GetxController with Helpers, StateMixin {
     }
     return children;
   }
+
+  void productDetails(context, int productId) {
+    cacheData.setProductId(productId);
+    Navigator.pushReplacementNamed(context, Routes.productView);
+  }
 }

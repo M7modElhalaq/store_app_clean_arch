@@ -12,7 +12,7 @@ SubCategoryDataResponse _$SubCategoryDataResponseFromJson(
       id: json['id'] as int?,
       productName: json['product_name'] as String?,
       brand: json['brand'] as String?,
-      productQty: json['product_qty'] as String?,
+      productQty: json['product_qty'] as int?,
       sellingPrice: json['selling_price'] as int?,
       discountPrice: json['discount_price'] as int?,
       productThumbnail: json['product_thumbnail'] as String?,

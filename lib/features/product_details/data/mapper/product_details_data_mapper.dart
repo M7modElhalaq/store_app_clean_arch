@@ -24,6 +24,8 @@ extension ProductDetailsDataMapper on ProductDetailsDataResponse {
       colors: colors.onNull(),
       multiImg: multiImg.onNull(),
       ratings: ratings!.map((e) => e.toDomain()).toList(),
+      inFavorites: inFavorites.onNull(),
+      inCart: inCart.onNull(),
     );
   }
 }

@@ -10,6 +10,7 @@ import '../../../../core/resources/manager_height.dart';
 import '../../../../core/resources/manager_strings.dart';
 import '../../../../core/resources/manager_width.dart';
 import '../../../../core/storage/remote/data_source/app_remote_data_source.dart';
+import '../../../../routes/routes.dart';
 import '../../domain/model/sub_category_products_model.dart';
 
 class SubCategoryController extends GetxController with Helpers {
@@ -80,5 +81,10 @@ class SubCategoryController extends GetxController with Helpers {
       showSnackBar(context: context, message: ManagerStrings.failedAddToCart, error: true);
     }
     update();
+  }
+
+  void productDetails(context, int productId) {
+    cacheData.setProductId(productId);
+    Navigator.pushReplacementNamed(context, Routes.productView);
   }
 }
