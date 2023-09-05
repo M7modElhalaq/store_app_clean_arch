@@ -17,6 +17,7 @@ import 'package:store_app/core/widgets/product_size_widget.dart';
 import 'package:store_app/core/widgets/text_button_widget.dart';
 import 'package:store_app/routes/routes.dart';
 
+import '../../../../core/widgets/shimmer/shimmer_product_details_page.dart';
 import '../controller/product_controller.dart';
 
 class ProductView extends StatelessWidget {
@@ -24,45 +25,42 @@ class ProductView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final args = ModalRoute.of(context)!.settings.arguments;
-    // print(args);
-    // final args = Get.arguments;
-    // print(args);
     return GetBuilder<ProductController>(
       builder: (controller) {
-        return Scaffold(
+        return controller.isLoading == 2 ?
+          Scaffold(
           appBar: AppBar(
             elevation: Constance.appBarElevation,
             backgroundColor: ManagerColors.white,
             leading: IconButton(
-              icon: HeroIcon(HeroIcons.arrowLeft),
+              icon: const HeroIcon(HeroIcons.chevronRight),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, Routes.mainAppView);
               },
             ),
             actions: [
-              // IconButton(
-              //   icon: HeroIcon(
-              //     HeroIcons.heart,
-              //     style: controller.product.data.inFavorites ? HeroIconStyle.solid : HeroIconStyle.outline,
-              //     color: controller.product.data.inFavorites ? ManagerColors.red : ManagerColors.primaryColor,
-              //   ),
-              //   onPressed: () {
-              //     setState(() {
-              //       controller.addToFav(context, productIndex: controller.product.data.id);
-              //       controller.product.data.inFavorites = !controller.product.data.inFavorites;
-              //     });
-              //   },
-              // ),
-              // IconButton(
-              //   icon: const HeroIcon(HeroIcons.shoppingBag),
-              //   onPressed: () {
-              //     controller.addToCart(context, productIndex: controller.product.data.id);
-              //   },
-              // ),
+              IconButton(
+                icon: HeroIcon(
+                  HeroIcons.heart,
+                  style: controller.product.data.inFavorites ? HeroIconStyle.solid : HeroIconStyle.outline,
+                  color: controller.product.data.inFavorites ? ManagerColors.red : ManagerColors.primaryColor,
+                ),
+                onPressed: () {
+                  // setState(() {
+                  //   controller.addToFav(context, productIndex: controller.product.data.id);
+                  //   controller.product.data.inFavorites = !controller.product.data.inFavorites;
+                  // });
+                },
+              ),
+              IconButton(
+                icon: const HeroIcon(HeroIcons.shoppingBag),
+                onPressed: () {
+                  controller.addToCart(context, productIndex: controller.product.data.id);
+                },
+              ),
             ],
           ),
-          body: controller.isLoading == 2 ?
+          body:
           SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(
@@ -362,12 +360,7 @@ class ProductView extends StatelessWidget {
               ],
             ),
           )
-              : Center(
-            child: CircularProgressIndicator(
-              color: ManagerColors.primaryColor,
-            ),
-          ),
-        );
+        ) : const ShimmerProductDetailsPageList();
       },
     );
   }
