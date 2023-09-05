@@ -6,7 +6,7 @@ class ProductDetailsDataModel {
   String productNameAr;
   String brandEn;
   String brandAr;
-  String productQty;
+  int productQty;
   String productSize;
   int basePrice;
   int sellingPrice;

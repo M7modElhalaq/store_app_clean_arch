@@ -14,7 +14,7 @@ ProductDetailsDataResponse _$ProductDetailsDataResponseFromJson(
       productNameAr: json['productNameAr'] as String?,
       brandEn: json['brandEn'] as String?,
       brandAr: json['brandAr'] as String?,
-      productQty: json['productQty'] as String?,
+      productQty: json['productQty'] as int?,
       productSize: json['productSize'] as String?,
       basePrice: json['basePrice'] as int?,
       sellingPrice: json['sellingPrice'] as int?,

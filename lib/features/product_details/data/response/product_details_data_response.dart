@@ -17,7 +17,7 @@ class ProductDetailsDataResponse {
   @JsonKey(name: 'brandAr')
   String? brandAr;
   @JsonKey(name: 'productQty')
-  String? productQty;
+  int? productQty;
   @JsonKey(name: 'productSize')
   String? productSize;
   @JsonKey(name: 'basePrice')
