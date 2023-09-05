@@ -77,6 +77,9 @@ class ApiRequest {
   static const String apiCart = '$api/cart';
   static const String addOrDeleteCart = '$apiCart/addOrDeleteCart';
   static const String getCart = '$apiCart/';
+
+  static const String apiShoppingBag = '$api/orders';
+  static const String getShoppingBagData = '$apiShoppingBag/get_all_orders';
 }
 
 class ApiConstants {
