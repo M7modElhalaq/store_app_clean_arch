@@ -76,6 +76,7 @@ class FavouritesView extends StatelessWidget {
                           (BuildContext context, int index) {
                         var item = controller.product.data[index];
                         return ProductWidget(
+                          onTap: () => controller.productDetails(context, item.id),
                           image: item.productThumbnail,
                           productName: item.productName,
                           brand: item.brand,

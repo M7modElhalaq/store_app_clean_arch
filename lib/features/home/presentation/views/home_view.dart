@@ -11,7 +11,6 @@ import 'package:store_app/core/resources/manager_width.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/widgets/error_container.dart';
 import 'package:store_app/core/widgets/product_widget.dart';
-import 'package:store_app/core/widgets/shimmer/shimmer_home_page.dart';
 import 'package:store_app/features/home/presentation/controller/home_controller.dart';
 import 'package:store_app/features/home/presentation/widgets/empty_products_widget.dart';
 import 'package:store_app/features/home/presentation/widgets/products_types_bar.dart';
@@ -213,6 +212,7 @@ class HomeView extends StatelessWidget {
                               } else {
                                 var item = controller.products![index];
                                 return ProductWidget(
+                                  onTap: () => controller.productDetails(context, item.id),
                                   image: item.productThumbnail,
                                   productName: item.productName,
                                   brand: item.brand,

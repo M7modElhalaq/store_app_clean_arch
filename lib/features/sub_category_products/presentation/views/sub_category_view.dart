@@ -84,6 +84,7 @@ class SubCategoryView extends StatelessWidget {
                                         var item = controller
                                             .subCategoryModel.data[index];
                                         return ProductWidget(
+                                          onTap: () => controller.productDetails(context, item.id),
                                           image: item.productThumbnail,
                                           productName: item.productName,
                                           brand: item.brand,
