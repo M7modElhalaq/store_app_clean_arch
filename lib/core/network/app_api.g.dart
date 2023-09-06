@@ -21,6 +21,33 @@ class _AppService implements AppService {
   String? baseUrl;
 
   @override
+  Future<LoginResponse> login(String phoneNumber) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'phone_number': phoneNumber};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<LoginResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'https://rmd81.site/api/customers/login',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = LoginResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<HomeResponse> homeData() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
