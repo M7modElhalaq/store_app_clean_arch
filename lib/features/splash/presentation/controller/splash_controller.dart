@@ -16,6 +16,7 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
   void onInit() {
     super.onInit();
     Future.delayed(const Duration(seconds: Constance.splashTime), () {
+      // appSettingsSharedPreferences.clear();
       String route = appSettingsSharedPreferences.loggedIn
           ? Routes.mainAppView
           : Routes.loginView;

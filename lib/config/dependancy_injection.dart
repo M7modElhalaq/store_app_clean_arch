@@ -410,12 +410,6 @@ initProfile() {
     );
   }
 
-  if (!GetIt.I.isRegistered<CustomerRep>()) {
-    sl.registerLazySingleton<CustomerRep>(
-          () => CustomerRepoImpl(remoteDataSource: sl(), networkInfo: sl()),
-    );
-  }
-
   if (!GetIt.I.isRegistered<UpdateProfileUseCase>()) {
     sl.registerFactory<UpdateProfileUseCase>(
           () => UpdateProfileUseCase(
@@ -440,7 +434,7 @@ initProfile() {
     );
   }
 
-  Get.put<ProfileController>(ProfileController(getData: sl(), updateProfile: sl(), logoutUseCase: sl(), register: sl()));
+  Get.put<ProfileController>(ProfileController(getData: sl(), updateProfile: sl(), logoutUseCase: sl()));
 
 }
 

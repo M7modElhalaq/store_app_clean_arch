@@ -20,7 +20,6 @@ class ProfileController extends GetxController with Helpers {
   final GetCustomerDataUseCase getData;
   final UpdateProfileUseCase updateProfile;
   final LogoutUseCase logoutUseCase;
-  final RegisterProfileUseCase register;
   late int phoneNumber;
 
   final formKey = GlobalKey<FormState>();
@@ -42,7 +41,6 @@ class ProfileController extends GetxController with Helpers {
     required this.getData,
     required this.updateProfile,
     required this.logoutUseCase,
-    required this.register,
   });
 
   @override

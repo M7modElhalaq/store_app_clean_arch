@@ -90,7 +90,7 @@ class FavouritesView extends StatelessWidget {
                           sellingPrice: item.sellingPrice,
                           addToFav: () => homeController.addToFav(
                               context,
-                              productIndex: index),
+                              productIndex: item.id),
                           addToCart: () => homeController.addToCart(
                               context,
                               productIndex: index),
