@@ -18,7 +18,6 @@ class LoginRepoImplement implements LoginRepository {
   @override
   Future<Either<Failure, LoginModel>> login(LoginRequest loginRequest) async {
     if (await _networkInfo.isConnected) {
-      /// Its connected
       try {
         final response = await _remoteLoginDataSource.login(loginRequest);
         return Right(response.toDomain());
