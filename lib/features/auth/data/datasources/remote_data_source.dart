@@ -4,7 +4,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:store_app/core/constance.dart';
 import 'package:store_app/core/errors/exceptions.dart';
 import 'package:store_app/core/storage/local/database/shared_preferences/app_settings_shared_preferences.dart';
+import '../../../../core/network/app_api.dart';
 import '../models/customer_model.dart';
+import '../request/login_request.dart';
+import '../response/login_response.dart';
+
+abstract class RemoteLoginDataSource {
+  Future<LoginResponse> login(LoginRequest loginRequest);
+}
+
+class RemoteLoginDateSourceImplement implements RemoteLoginDataSource {
+  AppService _appService;
+
+  RemoteLoginDateSourceImplement(this._appService);
+
+  @override
+  Future<LoginResponse> login(LoginRequest loginRequest) async {
+    return await _appService.login(loginRequest.phoneNumber);
+  }
+}
 
 abstract class RemoteDataSource {
   Future<CustomerModel> login(int phoneNumber);

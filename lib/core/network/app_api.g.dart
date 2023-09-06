@@ -21,7 +21,7 @@ class _AppService implements AppService {
   String? baseUrl;
 
   @override
-  Future<LoginResponse> login(String phoneNumber) async {
+  Future<LoginResponse> login(int phoneNumber) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

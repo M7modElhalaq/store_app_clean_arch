@@ -17,7 +17,7 @@ abstract class AppService {
   factory AppService(Dio dio, {String baseUrl}) = _AppService;
 
   @POST(ApiRequest.apiAuthLogin)
-  Future<LoginResponse> login(@Field(ApiConstants.phoneNumber) String phoneNumber);
+  Future<LoginResponse> login(@Field(ApiConstants.phoneNumber) int phoneNumber);
 
   @GET(ApiRequest.apiGetHome)
   Future<HomeResponse> homeData();
