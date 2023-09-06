@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:store_app/core/errors/failure.dart';
-import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/storage/remote/data_source/app_remote_data_source.dart';
 import 'package:store_app/core/widgets/helpers.dart';
-import 'package:store_app/features/home/presentation/controller/home_controller.dart';
 
 import '../../../../config/dependancy_injection.dart';
 import '../../domain/models/cart_data_model.dart';

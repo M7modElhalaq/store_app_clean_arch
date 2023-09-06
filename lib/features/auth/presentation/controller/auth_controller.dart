@@ -6,24 +6,28 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:store_app/core/constance.dart';
+import 'package:store_app/core/extensions/extensions.dart';
 import 'package:store_app/core/resources/manager_colors.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/core/storage/local/database/shared_preferences/app_settings_shared_preferences.dart';
 import 'package:store_app/core/widgets/helpers.dart';
 import 'package:get/get.dart';
 import 'package:store_app/core/widgets/navigate_push.dart';
-import 'package:store_app/features/auth/domain/use_cases/login.dart';
 import 'package:store_app/features/auth/presentation/views/login_view.dart';
-import 'package:store_app/features/auth/presentation/views/otp_view.dart';
 
+import '../../../../config/dependancy_injection.dart';
+import '../../../../core/cache/cache.dart';
 import '../../../../routes/routes.dart';
+import '../../domain/use_cases/login_usecase.dart';
 import '../../domain/use_cases/register_profile.dart';
 import '../../domain/entities/customer.dart';
 
 class AuthController extends GetxController with Helpers {
   late AppSettingsSharedPreferences appSettingsSharedPreferences;
+  CacheData cache = CacheData();
 
-  final LoginUseCase login;
+  LoginUseCase loginUseCase = sl<LoginUseCase>();
+
   final RegisterProfileUseCase register;
 
   Customer? customer;
@@ -37,13 +41,13 @@ class AuthController extends GetxController with Helpers {
   late String initialCountry;
   late PhoneNumber number;
   late FirebaseAuth auth;
-  final formKey = GlobalKey<FormState>();
-  final registerFormKey = GlobalKey<FormState>();
   File? image;
-  String? otpCode;
+  late String otpCode;
+  late String verificationId;
+  late int phoneNumber;
   int numberPh = 0;
 
-  AuthController({required this.login, required this.register});
+  AuthController(this.loginUseCase, {required this.register});
 
   @override
   void onInit() {
@@ -67,7 +71,8 @@ class AuthController extends GetxController with Helpers {
     super.onClose();
   }
 
-  void signInWithPhone(BuildContext context, String phoneNumber) async {
+  void signInWithPhone() async {
+    BuildContext context = Get.context!;
     showDialog(
       context: context,
       builder: (context) => Center(
@@ -76,11 +81,31 @@ class AuthController extends GetxController with Helpers {
         ),
       ),
     );
-    final checkAccount = await login(int.parse(phoneNumber));
+    appSettingsSharedPreferences.setPhoneNumber(phoneNumber);
+    (await loginUseCase
+        .execute(LoginUseCaseInput(phoneNumber: phoneNumber)))
+        .fold(
+          (l) {
+        showSnackBar(
+          context: context,
+          message: ManagerStrings.notRegisteredFailureMessage,
+          error: true,
+        );
+      },
+          (r) async {
+        cache.setIsRegistered();
+        showSnackBar(
+          context: context,
+          message: ManagerStrings.logoutSuccess,
+        );
+        appSettingsSharedPreferences.setToken(r.token.onNull());
+      },
+    );
     await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
+      phoneNumber: "+${phoneNumber.toString()}",
       verificationCompleted: (PhoneAuthCredential credential) {},
       verificationFailed: (e) {
+        print(e);
         Navigator.of(context).pop();
         showSnackBar(
           context: context,
@@ -96,53 +121,17 @@ class AuthController extends GetxController with Helpers {
         update();
       },
       codeSent: (String verificationId, int? resendToken) async {
-        // emit(CheckCustomerAccountErrorState(message: 'Not Registered'));
-        checkAccount.fold((failure) {
-          Navigator.of(context).pop();
-          showSnackBar(
-            context: context,
-            message: ManagerStrings.checkPhoneNumber,
-          );
-          navigatePushWidget(
-            context,
-            materialPageRoute: MaterialPageRoute(
-              builder: (context) => OtpView(
-                phoneNumber: phoneNumber,
-                isRegistered: false,
-                verificationId: verificationId,
-              ),
-            ),
-          );
-        }, (cust) {
-          customer = cust;
-          Navigator.of(context).pop();
-          showSnackBar(
-            context: context,
-            message: ManagerStrings.phoneVerifiedSuccess,
-          );
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OtpView(
-                  phoneNumber: phoneNumber,
-                  isRegistered: true,
-                  verificationId: verificationId,
-                ),
-              ));
-          update();
-        });
+        print(verificationId);
+        this.verificationId = verificationId;
+        cache.setVerificationId(verificationId);
+        Navigator.pushReplacementNamed(context, Routes.otpView);
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
 
-  void codeVerify(
-      BuildContext context, {
-        required String verificationId,
-        required String smsCode,
-        required int phoneNumber,
-        bool isRegistered = false,
-      }) async {
+  void codeVerify() async {
+    BuildContext context = Get.context!;
     showDialog(
       context: context,
       builder: (context) => Center(
@@ -151,14 +140,14 @@ class AuthController extends GetxController with Helpers {
         ),
       ),
     );
-    print('Code Verify: $verificationId');
     // Create a PhoneAuthCredential with the code
+    print("smsCode: $otpCode");
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId, smsCode: smsCode);
+        verificationId: cache.getVerificationId(), smsCode: otpCode);
 
     try {
       await auth.signInWithCredential(credential).then((value) {
-        if (isRegistered) {
+        if (cache.getIsRegistered()) {
           appSettingsSharedPreferences.setPhoneNumber(phoneNumber);
           appSettingsSharedPreferences.setLoggedIn();
           Navigator.of(context).pop();
@@ -194,7 +183,8 @@ class AuthController extends GetxController with Helpers {
     }
   }
 
-  void registerCustomer(BuildContext context, {
+  void registerCustomer(
+    BuildContext context, {
     required int phoneNumber,
     String? profileImage,
     String? userName,
@@ -224,18 +214,17 @@ class AuthController extends GetxController with Helpers {
     );
     final verify = await register(customer);
     verify.fold(
-          (failure) {
-            showSnackBar(
-                context: context,
-                message: ManagerStrings
-                    .completeProfileUpdateFailed,
-                error: true);
+      (failure) {
+        showSnackBar(
+            context: context,
+            message: ManagerStrings.completeProfileUpdateFailed,
+            error: true);
       },
-          (customer) {
-            showSnackBar(
-                context: context,
-                message: ManagerStrings
-                    .registerSuccess,);
+      (customer) {
+        showSnackBar(
+          context: context,
+          message: ManagerStrings.registerSuccess,
+        );
         appSettingsSharedPreferences.setPhoneNumber(phoneNumber);
         Navigator.pushReplacementNamed(context, Routes.mainAppView);
       },

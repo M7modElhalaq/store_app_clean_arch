@@ -6,18 +6,19 @@ class CacheData {
   static int productId = 0;
   static int categoryId = 0;
   static int subCategoryId = 0;
-  static int resourceId = 0;
+  static bool isRegistered = false;
+  static String verificationId = '';
   static int reservationId = -1;
   static int subscriptionId = -1;
 
   static bool hasPayments = false;
 
-  void setResourceId(int id) {
-    resourceId = id;
+  void setIsRegistered() {
+    isRegistered = true;
   }
 
-  int getResourceId() {
-    return resourceId;
+  bool getIsRegistered() {
+    return isRegistered;
   }
 
   void setReservationId(int id) {
@@ -42,6 +43,14 @@ class CacheData {
 
   String getEmail() {
     return email;
+  }
+
+  void setVerificationId(String value) {
+    CacheData.verificationId = value;
+  }
+
+  String getVerificationId() {
+    return verificationId;
   }
 
   void setUsername(String value) {

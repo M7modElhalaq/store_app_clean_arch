@@ -10,15 +10,9 @@ import '../../../../core/widgets/text_button_widget.dart';
 import '../widgets/rich_text_widget.dart';
 
 class OtpView extends StatelessWidget {
-  final String phoneNumber;
-  final bool isRegistered;
-  final String verificationId;
 
-  OtpView({
+  const OtpView({
     Key? key,
-    required this.phoneNumber,
-    required this.isRegistered,
-    required this.verificationId,
   }) : super(key: key);
 
   @override
@@ -58,7 +52,7 @@ class OtpView extends StatelessWidget {
                   text: ManagerStrings.otpText1,
                   textChildren: <TextSpan>[
                     TextSpan(
-                      text: phoneNumber,
+                      text: controller.phoneNumber.toString(),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: textColorBlack,
@@ -88,15 +82,8 @@ class OtpView extends StatelessWidget {
                 textButtonWidget(
                   buttonWidth: double.infinity,
                   onPressed: () {
-                    print(controller.otpCode);
                     if(controller.otpCode != null) {
-                      controller.codeVerify(
-                        context,
-                        verificationId: verificationId,
-                        smsCode: controller.otpCode!,
-                        isRegistered: isRegistered,
-                        phoneNumber: int.parse(phoneNumber),
-                      );
+                      controller.codeVerify();
                     }
                   },
                   text: ManagerStrings.otpButtonText,

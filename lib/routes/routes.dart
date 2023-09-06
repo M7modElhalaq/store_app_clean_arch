@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:store_app/config/dependancy_injection.dart';
 import 'package:store_app/core/resources/manager_strings.dart';
 import 'package:store_app/features/auth/presentation/views/login_view.dart';
+import 'package:store_app/features/auth/presentation/views/otp_view.dart';
 import 'package:store_app/features/auth/presentation/views/register_view.dart';
 import 'package:store_app/features/product_details/presentation/view/product_view.dart';
 import 'package:store_app/features/cart/presentation/views/cart_view.dart';
@@ -41,6 +42,8 @@ class RouteGenerator {
       case Routes.loginView:
         initAuth();
         return MaterialPageRoute(builder: (_) => const LoginView());
+    case Routes.otpView:
+        return MaterialPageRoute(builder: (_) => const OtpView());
       case Routes.registerView:
         return MaterialPageRoute(builder: (_) => const RegisterView());
       case Routes.mainAppView:

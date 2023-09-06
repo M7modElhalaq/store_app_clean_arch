@@ -75,6 +75,7 @@ class HomeView extends StatelessWidget {
               ),
               body: RefreshIndicator(
                 onRefresh: () async {
+                  controller.isLoading = 0;
                   controller.getHomeData();
                 },
                 child: controller.isLoading == 2
@@ -224,7 +225,7 @@ class HomeView extends StatelessWidget {
                                   sellingPrice: item.sellingPrice,
                                   addToFav: () => controller.addToFav(
                                       context,
-                                      productIndex: index),
+                                      productIndex: item.id),
                                   addToCart: () => controller.addToCart(
                                       context,
                                       productIndex: item.id),

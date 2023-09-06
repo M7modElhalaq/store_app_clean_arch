@@ -25,9 +25,9 @@ import '../controller/auth_controller.dart';
 
 class RegisterView extends StatelessWidget with Helpers {
   const RegisterView({super.key});
-
   @override
   Widget build(BuildContext context) {
+    final _registerFormKey = GlobalKey<FormState>();
     return GetBuilder<AuthController>(builder: (controller) {
       return Scaffold(
         appBar: AppBar(
@@ -49,7 +49,7 @@ class RegisterView extends StatelessWidget with Helpers {
               vertical: ManagerHeights.h12,
             ),
             child: Form(
-              key: controller.registerFormKey,
+              key: _registerFormKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -215,7 +215,7 @@ class RegisterView extends StatelessWidget with Helpers {
                           buttonWidth: double.infinity,
                           text: ManagerStrings.save,
                           onPressed: () async {
-                            if (controller.registerFormKey.currentState!.validate()) {
+                            if (_registerFormKey.currentState!.validate()) {
                               controller.registerCustomer(
                                 context,
                                 phoneNumber: controller.numberPh,

@@ -20,27 +20,6 @@ class CustomerRepoImpl implements CustomerRep {
     required this.remoteDataSource,
     required this.networkInfo,
   });
-
-  @override
-  Future<Either<Failure, Customer>> login(int phoneNumber) async {
-    if (await networkInfo.isConnected) {
-      try {
-        CustomerModel customer = await remoteDataSource.login(phoneNumber);
-        // String smsVerifyCode = await remoteDataSource.sendSmsVerifyCode(phoneNumber);
-        // print('smsVerifyCode: $smsVerifyCode');
-        return Right(customer);
-      } on NotRegisteredException {
-        print('NotRegisteredException');
-        // String verifiyId = await remoteDataSource.verifyPhone(phoneNumber);
-        return Left(NotRegisteredFailure());
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(OfflineFailure());
-    }
-  }
-
   @override
   Future<Either<Failure, String>> verifyPhone(int phoneNumber) async {
     if (await networkInfo.isConnected) {

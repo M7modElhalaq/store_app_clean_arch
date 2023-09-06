@@ -8,7 +8,8 @@ import 'package:store_app/core/network/dio_factory.dart';
 import 'package:store_app/core/storage/local/database/shared_preferences/app_settings_shared_preferences.dart';
 import 'package:store_app/features/auth/data/datasources/remote_data_source.dart';
 import 'package:store_app/features/auth/domain/repos/customer_reps.dart';
-import 'package:store_app/features/auth/domain/use_cases/login.dart';
+import 'package:store_app/features/auth/domain/repository/login_repository.dart';
+import 'package:store_app/features/auth/domain/use_cases/login_usecase.dart';
 import 'package:store_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:store_app/features/cart/data/data_source/remote_cart_get_data_source.dart';
 import 'package:store_app/features/cart/data/respository_impl/cart_get_data_repository_impl.dart';
@@ -44,6 +45,7 @@ import 'package:store_app/features/profile/domain/use_cases/get_customer_data.da
 import 'package:store_app/features/sub_category_products/data/data_source/remote_get_sub_products_data_source.dart';
 import 'package:store_app/features/sub_category_products/domain/repository/get_sub_category_products_repository.dart';
 
+import '../features/auth/data/repository_impl/login_repository_impl.dart';
 import '../features/cart/domain/usecase/get_cart_data_usecase.dart';
 import '../features/favourites/data/respository_impl/favorites_repository_impl.dart';
 import '../features/favourites/domain/repository/favorites_get_data_repository.dart';
@@ -116,12 +118,17 @@ initAuth() {
   if (!GetIt.I.isRegistered<RegisterProfileUseCase>()) {
     sl.registerLazySingleton(() => RegisterProfileUseCase(sl()));
   }
-  // sl.registerLazySingleton(() => LoginUseCase(sl()));
   // sl.registerLazySingleton(() => RegisterProfileUseCase(sl()));
 
   if (!GetIt.I.isRegistered<CustomerRep>()) {
     sl.registerLazySingleton<CustomerRep>(
           () => CustomerRepoImpl(remoteDataSource: sl(), networkInfo: sl(),),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<LoginRepository>()) {
+    sl.registerLazySingleton<LoginRepository>(
+          () => LoginRepoImplement(sl(), sl()),
     );
   }
 
@@ -131,11 +138,39 @@ initAuth() {
     sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl());
   }
 
-  Get.put<AuthController>(AuthController(login: sl(), register: sl()));
+  if (!GetIt.I.isRegistered<RemoteLoginDataSource>()) {
+    sl.registerLazySingleton<RemoteLoginDataSource>(() => RemoteLoginDateSourceImplement(sl()));
+  }
+
+  Get.put<AuthController>(AuthController(sl() ,register: sl()));
 }
 
 disposeAuth() {
   Get.delete<AuthController>();
+
+  if (GetIt.I.isRegistered<LoginUseCase>()) {
+    sl.unregister<LoginUseCase>();
+  }
+
+  if (GetIt.I.isRegistered<RegisterProfileUseCase>()) {
+    sl.unregister<RegisterProfileUseCase>();
+  }
+
+  if (GetIt.I.isRegistered<CustomerRep>()) {
+    sl.unregister<CustomerRep>();
+  }
+
+  if (GetIt.I.isRegistered<LoginRepository>()) {
+    sl.unregister<LoginRepository>();
+  }
+
+  if (GetIt.I.isRegistered<RemoteDataSource>()) {
+    sl.unregister<RemoteDataSource>();
+  }
+
+  if (GetIt.I.isRegistered<RemoteLoginDataSource>()) {
+    sl.unregister<RemoteLoginDataSource>();
+  }
 }
 
 initHome() {

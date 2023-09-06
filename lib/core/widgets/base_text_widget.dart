@@ -30,7 +30,7 @@ Widget baseText(
         fontFamily: fontFamily ?? ManagerFont.appFont,
         fontWeight: fontWeight ?? ManagerFontWeight.w400,
         decoration: decoration ?? TextDecoration.none,
-        overflow: TextOverflow.ellipsis,
+        overflow: TextOverflow.fade,
       ),
     ),
   );

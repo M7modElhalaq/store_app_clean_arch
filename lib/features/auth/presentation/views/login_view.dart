@@ -14,10 +14,10 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _loginFormKey = GlobalKey<FormState>();
     return Scaffold(
       body: GetBuilder<AuthController>(
         builder: (controller) {
-          String? phoneNumber;
           return Stack(
             children: [
               const CustomClipPathWidget(),
@@ -37,7 +37,7 @@ class LoginView extends StatelessWidget {
                     ),
                     // Text form field
                     Form(
-                      key: controller.formKey,
+                      key: _loginFormKey,
                       child: Column(
                         children: [
                           Column(
@@ -48,8 +48,7 @@ class LoginView extends StatelessWidget {
                                 textAlign: TextAlign.end,
                                 hintText: ManagerStrings.loginHintText,
                                 onInputChanged: (PhoneNumber number) {
-                                  print(number.isoCode);
-                                  phoneNumber = number.phoneNumber;
+                                  controller.phoneNumber = int.parse(number.phoneNumber!);
                                 },
                                 onInputValidated: (bool value) {
                                   // print(value);
@@ -80,11 +79,7 @@ class LoginView extends StatelessWidget {
                               buttonWidth: double.infinity,
                               text: ManagerStrings.loginButton,
                               onPressed: () {
-                                // print('Form Validate: ${controller.text}');
-                                controller.signInWithPhone(
-                                  context,
-                                  phoneNumber!,
-                                );
+                                controller.signInWithPhone();
                               }),
                         ],
                       ),

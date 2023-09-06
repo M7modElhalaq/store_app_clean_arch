@@ -51,7 +51,10 @@ class HomeController extends GetxController with Helpers, StateMixin {
     productTypeIndex = 0;
     sliderIndex = 0;
 
+    isLoading = 0;
+    update();
     await getHomeData();
+
   }
 
   @override
@@ -64,7 +67,6 @@ class HomeController extends GetxController with Helpers, StateMixin {
   }
 
   Future<void> getHomeData() async {
-    isLoading = 0;
     update();
     BuildContext context = Get.context as BuildContext;
     (await _useCase.execute()).fold(
@@ -88,9 +90,9 @@ class HomeController extends GetxController with Helpers, StateMixin {
         homeModel = r;
         products = homeModel.data.products.offerProducts;
         isLoading = 1;
+        update();
       },
     );
-    update();
   }
 
   void changeProductsBar(BuildContext context, int index) {
@@ -107,11 +109,10 @@ class HomeController extends GetxController with Helpers, StateMixin {
 
   void addToFav(BuildContext context, {required int productIndex}) async {
     try {
-      products![productIndex].inFavorites =
-          !(products![productIndex].inFavorites);
       bool val = await appRemoteDataSource.addOrRemoveFavorite(context,
-          productId: products![productIndex].id);
+          productId: productIndex);
       favoritesController.getFavoritesDetails();
+      getHomeData();
       if (!val) {
         products?[productIndex].inFavorites = false;
       }
@@ -121,7 +122,6 @@ class HomeController extends GetxController with Helpers, StateMixin {
           message: ManagerStrings.failedAddToFav,
           error: true);
     }
-    update();
   }
 
   void addToCart(BuildContext context, {required int productIndex}) async {

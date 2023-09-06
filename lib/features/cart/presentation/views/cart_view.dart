@@ -108,7 +108,7 @@ class CartView extends StatelessWidget {
                                             ),
                                             Padding(
                                               padding: EdgeInsets.symmetric(
-                                                horizontal: ManagerWidth.w20,
+                                                horizontal: ManagerWidth.w10,
                                                 vertical: ManagerHeights.h30,
                                               ),
                                               child: Column(
